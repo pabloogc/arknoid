@@ -1,7 +1,7 @@
 Arknoid
 =======
 
-Pablo: ESTOY EN LA RAMA PR1 HACIENDO MIERDA
+PABLO: ESTOY EN MI RAMA HACIENDO MIERDA
 
 -> Instalar git<br>
 http://lmgtfy.com/?q=instalar+git
