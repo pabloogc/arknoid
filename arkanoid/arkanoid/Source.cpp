@@ -92,7 +92,6 @@ void keyboard ( unsigned char key, int x, int y )
 //	glutPostRedisplay();
 //}
 
-
 /* Función que se ejecuta cuando no hay eventos */
 void idle(void)
 {
