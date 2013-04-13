@@ -9,9 +9,12 @@
 #else
 #include <GL/freeglut.h>
 #endif
+
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
+#include <Game.h>
+#include "Brick.h"
 
 using namespace std;
 
@@ -20,6 +23,7 @@ int ancho, alto;
 /* Función para inicializar algunos parámetros de OpenGL */
 void init(void)
 {
+
 	glClearColor(0.0,0.0,0.0,0.0);
 	glEnable(GL_DEPTH_TEST);
 	ancho = glutGet(GLUT_SCREEN_WIDTH);
@@ -29,46 +33,26 @@ void init(void)
 /* Función que se llamará cada vez que se dibuje en pantalla */
 void display ( void )
 {
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 	// Aquí pondríamos la función gluLookAt si el observador se mueve
 
+
 	// Aquí se definen los objetos y se colocan en la escena
-
-
-	int l = 1;
-
-	glPushMatrix();
-	glLoadIdentity();
-	for (int i = 0; i < 31; i++)
-	{
-		glBegin(GL_QUADS);
-		glColor3ub((191 * (i+6))%255, (137 * i)%255, (37 * (i + 1))%255);
-		glVertex2i(0, 0);
-		glVertex2i(l, 0);
-		glVertex2i(l, l);
-		glColor3ub((191 * i)%255, (191 * i)%255, (137 * (i + 1))%255);
-		glVertex2i(0, l);
-		glEnd();
-
-		glTranslatef(l,0,0);
-	}
-	glPopMatrix();
-
+	Game::getInstance()->draw();
+		
 	glutSwapBuffers();
 }
 
 /* Función que se llamará cada vez que se redimensione la ventana */
 void reshape(int w, int h)
 {
-	float ratio = 1.333333333f;
-	glViewport(0, 0, (float)w, (float)h);
+	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	//gluOrtho2D(0, w / 32.0, 0, h / 32.0);
-	gluOrtho2D(0, 32.0, 0, 32.0);
+	gluOrtho2D(0, 32, 0, 32);
 }
 
 /* Función que controla los eventos de teclado */
@@ -82,7 +66,7 @@ void keyboard ( unsigned char key, int x, int y )
 	case 'F': glutFullScreen();
 		break;
 	case 'w':
-	case 'W': glutReshapeWindow(ancho/2, alto/2);
+	case 'W': glutReshapeWindow(16*60, 9*60);
 		break;
 	}
 
@@ -110,6 +94,7 @@ void keyboard ( unsigned char key, int x, int y )
 /* Función que se ejecuta cuando no hay eventos */
 void idle(void)
 {
+	Game::getInstance()->tick();
 	glutPostRedisplay();
 }
 
@@ -118,17 +103,25 @@ int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(350, 350);
+	glutInitWindowSize(16*60, 9*60);
 	glutInitWindowPosition(450, 200);
 	glutCreateWindow("Hola Mundo OpenGL");
 
-	init();
+	init();	
+	
 
+	Game::init();
+
+	Brick* b = new Brick(b2Vec2(16.0,30.0),2,1);
+
+	Game::getInstance()->addGameObject(b);
+
+	
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
 	glutIdleFunc(idle);
-
+	
 	glutMainLoop();
 
 	return 0;
