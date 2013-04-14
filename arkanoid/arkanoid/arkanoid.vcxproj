@@ -73,8 +73,9 @@
     <ClCompile Include="Meta\ContactListener.cpp" />
     <ClCompile Include="Meta\Game.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="GameObjects\Main.cpp" />
     <ClCompile Include="GameObjects\Wall.cpp" />
+    <ClCompile Include="GameObjects\Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\Brick.h" />
@@ -83,6 +84,7 @@
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="Meta\Object.h" />
     <ClInclude Include="GameObjects\Wall.h" />
+    <ClInclude Include="GameObjects\Paddle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

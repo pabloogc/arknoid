@@ -11,8 +11,11 @@ Game* Game::m_game = nullptr;
 
 Game::Game(void)
 {
-	m_world = new b2World(b2Vec2(0,-10.0));
-	//m_world->SetContactListener();
+	//Mundo sin gravedad
+	m_world = new b2World(b2Vec2(0.0, -10.0));
+	m_world->SetAllowSleeping(false);
+	m_world->SetGravity(b2Vec2(0.0, 0.0));
+	
 }
 
 
@@ -37,6 +40,10 @@ Game* Game::getInstance(){
 	return m_game;
 }
 
+b2World* Game::getWorld(){
+	return m_world;
+}
+
 //La logica del juego va aqui
 void Game::tick(){
 
@@ -47,7 +54,7 @@ void Game::tick(){
 	//Cuando haya pasado el tiempo suficiente se hace step del mundo
 	//Esta forma de calcular el tiempo es muy poco precisa, por eso el 0.7
 	//así se ve más fluido.
-	
+
 	if(diff >= TIME_STEP * 0.7f){
 		t1 = t2;
 		m_world->Step(TIME_STEP, 6, 2);	

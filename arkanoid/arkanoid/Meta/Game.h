@@ -34,7 +34,7 @@ public:
 	void draw();
 	
 	//El mundo box2D
-	b2World* getWorld() { return m_world;};
+	b2World* getWorld();
 	
 	//Anyade un objeto al la lista de actualizacion
 	//Hay que crearlo en el mundo tambien!
