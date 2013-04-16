@@ -70,15 +70,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameObjects\Brick.cpp" />
+    <ClCompile Include="Meta\Input.cpp" />
     <ClCompile Include="Meta\ContactListener.cpp" />
     <ClCompile Include="Meta\Game.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
-    <ClCompile Include="GameObjects\Main.cpp" />
+    <ClCompile Include="Meta\Main.cpp" />
     <ClCompile Include="GameObjects\Wall.cpp" />
     <ClCompile Include="GameObjects\Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\Brick.h" />
+    <ClInclude Include="Meta\Input.h" />
     <ClInclude Include="Meta\ContactListener.h" />
     <ClInclude Include="Meta\Game.h" />
     <ClInclude Include="GameObjects\GameObject.h" />

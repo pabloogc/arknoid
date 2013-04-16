@@ -36,6 +36,9 @@
     <ClInclude Include="GameObjects\Paddle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Meta\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjects\Brick.cpp">
@@ -56,7 +59,10 @@
     <ClCompile Include="GameObjects\Paddle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\Main.cpp">
+    <ClCompile Include="Meta\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

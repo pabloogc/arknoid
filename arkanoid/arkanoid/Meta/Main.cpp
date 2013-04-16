@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "Meta\Game.h"
+#include "Meta\Input.h"
 #include "GameObjects\Brick.h"
 #include "GameObjects\Wall.h"
 #include "GameObjects\GameObject.h"
@@ -57,32 +58,15 @@ void reshape(int w, int h)
 }
 
 /* Función que controla los eventos de teclado */
-void keyboard ( unsigned char key, int x, int y )
+void keyboardDown(unsigned char key, int x, int y)
 {
-	switch ( key )
-	{
-	case 27:  exit(0); /* tecla escape*/
-		break;
-	case 'f':
-	case 'F': glutFullScreen();
-		break;
-	case 'w':
-	case 'W': glutReshapeWindow(16*60, 9*60);
-		break;
+	Input::keyboardDown(key, x, y);
+	glutPostRedisplay();
+}
 
-	case 'i':
-	case 'I':
-		Game::getInstance()->getWorld()->SetGravity(b2Vec2(0,10));
-		break;
-
-	case 'k':
-	case 'K':
-		Game::getInstance()->getWorld()->SetGravity(b2Vec2(0,-10));
-		break;
-	}
-
-//	b2World* world = Game::getInstance()->getWorld();
-
+void keyboardUp(unsigned char key, int x, int y)
+{
+	Input::keyboardUp(key, x, y);
 	glutPostRedisplay();
 }
 
@@ -104,7 +88,6 @@ int main(int argc, char** argv)
 
 	init();	
 
-
 	Game::init();
 
 	//CODIGO DE TEST
@@ -120,27 +103,15 @@ int main(int argc, char** argv)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-		g->addGameObject(new Brick(b2Vec2(2 * i + 4, 29 - j), 1.9,0.9));
+			g->addGameObject(new Brick(b2Vec2(2 * i + 4, 29 - j), 1.9,0.9));
 		}
 	}
-	
-	////Comenta esto para aun efecto mas realista
-	//for (int i = 0; i < TILES_X / 2 - 3; i++)
-	//{
-	//	for (int j = 0; j < 8; j++)
-	//	{
-	//	g->addGameObject(new Brick(b2Vec2(19, 20), 2, 1));
-	//	}
-	//}
-	//
-	//g->addGameObject(new Brick(b2Vec2(16.9, 9.3), 7,6));
-	////fin codigo a comentar
-
-	////CODIGO DE TEST
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
-	glutKeyboardFunc(keyboard);
+	glutKeyboardFunc(keyboardDown);
+	glutKeyboardUpFunc(keyboardUp);
+	
 	glutIdleFunc(idle);
 
 	glutMainLoop();
