@@ -106,7 +106,7 @@ int main(int argc, char** argv)
 			g->addGameObject(new Brick(b2Vec2(2 * i + 4, 29 - j), 1.9,0.9));
 		}
 	}
-
+	glutIgnoreKeyRepeat(1);
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboardDown);
