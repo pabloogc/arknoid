@@ -34,8 +34,6 @@ Brick::Brick(b2Vec2 pos, float _w, float _h):
 	// Add the shape to the body.
 	m_body->CreateFixture(&fixtureDef);
 
-	//m_body->ApplyForce(b2Vec2(5,-55),b2Vec2(w,h));
-
 	// Set the user data
 	m_body->SetUserData(this);
 }

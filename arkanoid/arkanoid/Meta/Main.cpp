@@ -32,14 +32,11 @@ void init(void)
 void display ( void )
 {	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glMatrixMode(GL_MODELVIEW);
 
 	// Aquí se definen los objetos y se colocan en la escena
 	glLoadIdentity();
-
-	//glTranslatef((ancho - 800) / 2.0f, 0, 0);
-
+	
 	Game::getInstance()->draw();
 
 	glutSwapBuffers();
@@ -48,7 +45,10 @@ void display ( void )
 /* Función que se llamará cada vez que se redimensione la ventana */
 void reshape(int w, int h)
 {
-	glViewport(0, 0, w, h);
+	float x = min(w,h);
+	ancho = w;
+	alto = h;
+	glViewport((w-x) / 2, 0, x, x);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, TILES_X, 0, TILES_Y);
