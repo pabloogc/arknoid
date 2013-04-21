@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObjects\Ball.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="Meta\Input.cpp" />
     <ClCompile Include="Meta\ContactListener.cpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="GameObjects\Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObjects\ball.h" />
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="Meta\Input.h" />
     <ClInclude Include="Meta\ContactListener.h" />

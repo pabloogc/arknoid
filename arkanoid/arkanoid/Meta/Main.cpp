@@ -13,6 +13,7 @@
 #include "GameObjects\Wall.h"
 #include "GameObjects\GameObject.h"
 #include "GameObjects\Paddle.h"
+#include "GameObjects\Ball.h"
 
 using namespace std;
 
@@ -98,6 +99,7 @@ int main(int argc, char** argv)
 	g->addGameObject(new Wall(Side::LEFT));
 	g->addGameObject(new Wall(Side::RIGT));
 	g->addGameObject(new Paddle());
+	g->addGameObject(new Ball(b2Vec2(16, 16)));
 
 	for (int i = 0; i < TILES_X / 2 - 3; i++)
 	{
@@ -106,6 +108,7 @@ int main(int argc, char** argv)
 			g->addGameObject(new Brick(b2Vec2(2 * i + 4, 29 - j), 1.9,0.9));
 		}
 	}
+
 	glutIgnoreKeyRepeat(1);
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);

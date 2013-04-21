@@ -12,9 +12,9 @@ Game* Game::m_game = nullptr;
 Game::Game(void)
 {
 	//Mundo sin gravedad
-	m_world = new b2World(b2Vec2(0.0, -10.0));
+	m_world = new b2World(b2Vec2(0.0, 0.0));
 	m_world->SetAllowSleeping(false);
-	m_world->SetGravity(b2Vec2(0.0, 0.0));
+	//m_world->SetGravity(b2Vec2(0.0, 0.0));
 	
 }
 

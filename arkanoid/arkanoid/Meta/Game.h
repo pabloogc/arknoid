@@ -15,6 +15,7 @@ using namespace std;
 #define TIME_STEP 0.0166666666667f
 #define TILES_X 32
 #define TILES_Y 32
+#define TO_DEGREE 57.2957795131 
 
 
 //Clase singleton responsable de actualizar la simulacion
