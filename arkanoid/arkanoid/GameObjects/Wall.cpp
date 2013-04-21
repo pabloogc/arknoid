@@ -82,7 +82,7 @@ void Wall::draw(){
 	glRotatef(angle,0,0,1);
 	glBegin(GL_QUADS);
 
-	glColor3f(1,1,1);
+	glColor3f(0,0,0);
 
 	glVertex2f(-w/2, -h/2);
 	glVertex2f(+w/2, -h/2);

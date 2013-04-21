@@ -22,7 +22,7 @@ int ancho, alto;
 void init(void)
 {
 
-	glClearColor(0.0,0.0,0.0,0.0);
+	glClearColor(1.0,1.0,1.0,1.0);
 	glEnable(GL_DEPTH_TEST);
 	ancho = glutGet(GLUT_SCREEN_WIDTH);
 	alto  = glutGet(GLUT_SCREEN_HEIGHT);
@@ -51,7 +51,7 @@ void reshape(int w, int h)
 	glViewport((w-x) / 2, 0, x, x);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, TILES_X, 0, TILES_Y);
+	gluOrtho2D(0, ABSOLUTE_TILES_X, 0, ABSOLUTE_TILES_Y);
 
 	ancho = glutGet(GLUT_SCREEN_WIDTH);
 	alto  = glutGet(GLUT_SCREEN_HEIGHT);
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			g->addGameObject(new Brick(b2Vec2(2 * i + 4, 29 - j), 1.9,0.9));
+			g->addGameObject(new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.9,0.9));
 		}
 	}
 	glutIgnoreKeyRepeat(1);

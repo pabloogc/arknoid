@@ -13,8 +13,10 @@ using namespace std;
 
 //Constantes
 #define TIME_STEP 0.0166666666667f
+#define ABSOLUTE_TILES_X 32
+#define ABSOLUTE_TILES_Y 32
 #define TILES_X 32
-#define TILES_Y 32
+#define TILES_Y 28
 
 
 //Clase singleton responsable de actualizar la simulacion
