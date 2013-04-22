@@ -4,6 +4,7 @@
 #define _BRICK_H_
 
 #include "GameObject.h"
+#include "Meta\Constants.h"
 
 class Brick :
 	public GameObject
@@ -14,6 +15,10 @@ public:
 
 	virtual void draw();
 	virtual void tick();
+
+	virtual void startContact(GameObject*, b2Contact*);
+	virtual void onContactStarted(Ball*, b2Contact*);
+
 
 private:
 	float w, h;

@@ -2,6 +2,7 @@
 #include "GL\freeglut.h"
 #include "Meta\Game.h"
 #include <iostream>
+#include "Ball.h"
 
 Brick::Brick(b2Vec2 pos, float _w, float _h):
 	GameObject(),
@@ -26,10 +27,13 @@ Brick::Brick(b2Vec2 pos, float _w, float _h):
 	fixtureDef.shape = &dynamicBox;
 
 	// Set the box density to be non-zero, so it will be dynamic.
-	fixtureDef.density = 1.0f;
+	fixtureDef.density = 100.0f;
 
 	// Override the default friction.
 	fixtureDef.friction = 0.3f;
+
+	fixtureDef.filter.categoryBits = BRICK_FILTER;
+	fixtureDef.filter.maskBits = WALL_FILTER | BALL_FILTER;
 
 	// Add the shape to the body.
 	m_body->CreateFixture(&fixtureDef);
@@ -48,14 +52,14 @@ void Brick::tick(){
 
 void Brick::draw(){
 	b2Vec2 pos = m_body->GetPosition();
-	float angle = m_body->GetAngle() * 57.2957795131;
+	float angle = m_body->GetAngle() * TO_DEGREE;
 
 	glPushMatrix();
 	
 	glTranslatef(pos.x, pos.y, 0);
 	glRotatef(angle,0,0,1);
-	glBegin(GL_QUADS);
 
+	glBegin(GL_QUADS);
 	glColor3f(1,0,0);
 	glVertex2f(-w/2, -h/2);
 	glColor3f(0,0,1);
@@ -66,4 +70,15 @@ void Brick::draw(){
 
 	glEnd();
 	glPopMatrix();	
+}
+
+void Brick::startContact(GameObject* g, b2Contact* c){
+	g->onContactStarted(this, c);
+}
+
+
+void Brick::onContactStarted(Ball* b, b2Contact* c){
+	b2Filter f = m_body->GetFixtureList()->GetFilterData();
+	f.maskBits = WALL_FILTER | BRICK_FILTER;
+	m_body->GetFixtureList()->SetFilterData(f);
 }

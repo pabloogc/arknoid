@@ -13,6 +13,8 @@
 #include "GameObjects\Wall.h"
 #include "GameObjects\GameObject.h"
 #include "GameObjects\Paddle.h"
+#include "GameObjects\Ball.h"
+#include "Constants.h"
 
 using namespace std;
 
@@ -21,8 +23,7 @@ int ancho, alto;
 /* Función para inicializar algunos parámetros de OpenGL */
 void init(void)
 {
-
-	glClearColor(1.0,1.0,1.0,1.0);
+	glClearColor(0.0,0.0,0.0,1.0);
 	glEnable(GL_DEPTH_TEST);
 	ancho = glutGet(GLUT_SCREEN_WIDTH);
 	alto  = glutGet(GLUT_SCREEN_HEIGHT);
@@ -45,10 +46,10 @@ void display ( void )
 /* Función que se llamará cada vez que se redimensione la ventana */
 void reshape(int w, int h)
 {
-	float x = min(w,h);
+	int x = min(w,h);
 	ancho = w;
 	alto = h;
-	glViewport((w-x) / 2, 0, x, x);
+	glViewport((w-x) / 2.0, 0, x, x);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, ABSOLUTE_TILES_X, 0, ABSOLUTE_TILES_Y);
@@ -98,14 +99,16 @@ int main(int argc, char** argv)
 	g->addGameObject(new Wall(Side::LEFT));
 	g->addGameObject(new Wall(Side::RIGT));
 	g->addGameObject(new Paddle());
+	g->addGameObject(new Ball(b2Vec2(16, 16)));
 
 	for (int i = 0; i < TILES_X / 2 - 3; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			g->addGameObject(new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.9,0.9));
+			g->addGameObject(new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 2, 1));
 		}
 	}
+
 	glutIgnoreKeyRepeat(1);
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);

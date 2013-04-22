@@ -8,8 +8,10 @@ Wall::Wall(int side)
 	b2World* world = Game::getInstance()->getWorld();
 
 	// Define the ground body.
-	b2BodyDef groundBodyDef;
-	b2PolygonShape groundBox;
+	b2BodyDef bodyDef;
+	b2PolygonShape dynamicBox;
+
+
 
 	const float tx = TILES_X / 2.0f;
 	const float ty = TILES_Y / 2.0f;
@@ -18,22 +20,22 @@ Wall::Wall(int side)
 	switch (side)
 	{
 	case TOP:
-		groundBodyDef.position.Set(tx, TILES_Y - dx);
+		bodyDef.position.Set(tx, TILES_Y - dx);
 		w = tx;
 		h = dx;
 		break;
 	case LEFT:
-		groundBodyDef.position.Set(dx, ty);
+		bodyDef.position.Set(dx, ty);
 		w = dx;
 		h = ty;
 		break;
 	case RIGT:
-		groundBodyDef.position.Set(TILES_X - dx, ty);
+		bodyDef.position.Set(TILES_X - dx, ty);
 		w = dx;
 		h = ty;
 		break;
 	case BOTTOM:
-		groundBodyDef.position.Set(tx, dx);
+		bodyDef.position.Set(tx, dx);
 		w = tx;
 		h = dx;
 		break;	
@@ -41,23 +43,24 @@ Wall::Wall(int side)
 		break;
 	}
 
-	groundBox.SetAsBox(w, h);
+	dynamicBox.SetAsBox(w, h);
 
 	w *= 2.0f;
 	h *= 2.0f;
 
-	// Call the body factory which allocates memory for the ground body
-	// from a pool and creates the ground box shape (also from a pool).
-	// The body is also added to the world.
-	m_body = world->CreateBody(&groundBodyDef);
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
 
-	// Define the ground box shape.
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 0.5f;
+	fixtureDef.filter.categoryBits = WALL_FILTER;
+	fixtureDef.filter.maskBits = BALL_FILTER | BRICK_FILTER;
 
-	// The extents are the half-widths of the box.
 
-	// Add the ground fixture to the ground body.
-	m_body->CreateFixture(&groundBox, 0.0f);
-
+	m_body = world->CreateBody(&bodyDef);
+	m_body->SetType(b2_kinematicBody);
+	m_body->CreateFixture(&fixtureDef);
 
 	m_body->SetUserData(this);
 }
@@ -82,7 +85,7 @@ void Wall::draw(){
 	glRotatef(angle,0,0,1);
 	glBegin(GL_QUADS);
 
-	glColor3f(0,0,0);
+	glColor3b(115,115,115);
 
 	glVertex2f(-w/2, -h/2);
 	glVertex2f(+w/2, -h/2);
@@ -91,4 +94,8 @@ void Wall::draw(){
 
 	glEnd();
 	glPopMatrix();	
+}
+
+void Wall::startContact(GameObject* g, b2Contact* c){
+	g->onContactStarted(this, c);
 }

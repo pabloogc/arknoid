@@ -2,12 +2,12 @@
 #include "Meta\Game.h"
 #include "Meta\Input.h"
 #include "GL\freeglut.h"
+#include <iostream>
 
 Paddle::Paddle(void):
 	w(3),
 	h(1)
 {
-
 
 
 	b2World* world = Game::getInstance()->getWorld();
@@ -16,25 +16,22 @@ Paddle::Paddle(void):
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
+	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set(TILES_X / 2, 2.5);
 	m_body = world->CreateBody(&bodyDef);
 
 	// Define another box shape for our dynamic body.
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(w/2, h/2);
+	dynamicBox.SetAsBox(w/2.0, h/2.0);
 
-	// Define the dynamic body fixture.
+
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
-
-	// Set the box density to be non-zero, so it will be dynamic.
 	fixtureDef.density = 1.0f;
-
-	// Override the default friction.
 	fixtureDef.friction = 0.3f;
+	fixtureDef.filter.categoryBits = PADDLE_FILTER;
+	fixtureDef.filter.maskBits = BALL_FILTER | WALL_FILTER;
 
-	// Add the shape to the body.
 	m_body->CreateFixture(&fixtureDef);
 
 	// Set the user data
@@ -70,32 +67,38 @@ Paddle::~Paddle(void)
 }
 
 void Paddle::tick(){
-	
-	b2Vec2 f(1000,0);
+
+	float max = 1200 * TIME_STEP;
 
 	bool left, right;
 
 	left = Input::isKeyDown('a');
 	right = Input::isKeyDown('d');
 
-	if (right){
-		m_body->ApplyForceToCenter(f);
-	}
+	b2Vec2 speed(max, 0);
 
-	if (left){
-		m_body->ApplyForceToCenter(-f);
-	}
+	if (right)
+		m_body->SetLinearVelocity(speed);
 
-	float max = 8;
+	if (left)
+		m_body->SetLinearVelocity(-speed);
+
 	b2Vec2 vel = m_body->GetLinearVelocity();
 
-	if(vel.Length() > max){
-		vel.x = vel.x * ((1/vel.Length()) * max);
-		m_body->SetLinearVelocity(vel);
-	}
+	//Seguir al raton!!!
+
+	b2Vec2 pos = m_body->GetPosition();
+
+	if(pos.x - w/2< 1)
+		pos.x = 1 + w/2;
+
+	if(pos.x + w/2 > TILES_X - 1)
+		pos.x = TILES_X - w/2 - 1;
+
+	m_body->SetTransform(pos, 0);
 
 	if(!left && !right){
-		vel *= 0.7f;
+		vel *= 0.9f;
 		m_body->SetLinearVelocity(vel);
 	}
 
@@ -110,24 +113,27 @@ void Paddle::draw(){
 
 	glTranslatef(pos.x, pos.y, 0);
 	glRotatef(angle,0,0,1);
-	
+
+	glColor3f(1,0.3,0);
 	glBegin(GL_QUADS);
-	glColor4f(1,0,0,0);
 	glVertex2f(-w/2, -h/2);
 	glVertex2f(+w/2, -h/2);
 	glVertex2f(+w/2, +h/2);
 	glVertex2f(-w/2, +h/2);
 	glEnd();
 
-	float skin = 0.03f;
+	//float skin = 0.03f;
 
-	glBegin(GL_LINE_LOOP);
-	glColor3f(1,1,1);
-	glVertex2f(-w/2 - skin, -h/2 - skin);
-	glVertex2f(+w/2 + skin, -h/2 - skin);
-	glVertex2f(+w/2 + skin, +h/2 + skin);
-	glVertex2f(-w/2 - skin, +h/2 + skin);
-	glEnd();
+	//glBegin(GL_LINE_LOOP);
+	//glVertex2f(-w/2 - skin, -h/2 - skin);
+	//glVertex2f(+w/2 + skin, -h/2 - skin);
+	//glVertex2f(+w/2 + skin, +h/2 + skin);
+	//glVertex2f(-w/2 - skin, +h/2 + skin);
+	//glEnd();
 
 	glPopMatrix();	
+}
+
+void Paddle::startContact(GameObject* g, b2Contact* c){
+	g->onContactStarted(this, c);
 }

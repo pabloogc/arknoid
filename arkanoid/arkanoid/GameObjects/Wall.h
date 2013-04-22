@@ -11,8 +11,11 @@ class Wall :
 public:
 	Wall(int side);
 	virtual ~Wall(void);
+
 	virtual void tick();
 	virtual void draw();
+
+	virtual void startContact(GameObject*, b2Contact*);
 
 private:
 	float w, h;

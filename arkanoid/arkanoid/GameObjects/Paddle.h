@@ -17,6 +17,8 @@ public:
 	virtual void draw();
 	virtual void tick();
 
+	virtual void startContact(GameObject*, b2Contact* c);
+
 private:
 	float w, h;
 
