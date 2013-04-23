@@ -71,6 +71,10 @@ void keyboardUp(unsigned char key, int x, int y)
 	glutPostRedisplay();
 }
 
+void mouse(int x, int y, int s, int t){
+	Input::mouseMoved(x, y);
+}
+
 /* Función que se ejecuta cuando no hay eventos */
 void idle(void)
 {
@@ -114,6 +118,7 @@ int main(int argc, char** argv)
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboardDown);
 	glutKeyboardUpFunc(keyboardUp);
+	glutMouseFunc(mouse);
 	
 	glutIdleFunc(idle);
 

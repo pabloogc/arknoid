@@ -18,7 +18,11 @@ public:
 	virtual void tick();
 
 	virtual void startContact(GameObject*, b2Contact*);
+	virtual void endContact(GameObject*, b2Contact*);
+	
 	virtual void onContactStarted(Brick*, b2Contact*);
+
+	void limitVelocity();
 
 private:
 	float m_radius;

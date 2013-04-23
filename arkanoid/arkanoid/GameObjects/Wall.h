@@ -16,6 +16,7 @@ public:
 	virtual void draw();
 
 	virtual void startContact(GameObject*, b2Contact*);
+	virtual void endContact(GameObject*, b2Contact*);
 
 private:
 	float w, h;

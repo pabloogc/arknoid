@@ -8,7 +8,7 @@
 
 Ball::Ball(b2Vec2 pos):
 	GameObject(),
-	m_radius(1),
+	m_radius(0.4),
 	m_color(255,255,255)
 {
 	
@@ -22,10 +22,16 @@ Ball::Ball(b2Vec2 pos):
 
 	m_body->SetBullet(true);
 
-	// Define another box shape for our dynamic body.
+	// La pelota en version circular
+	/*
 	b2CircleShape dynamicBox;
 	dynamicBox.m_radius = m_radius;
+	*/
 
+	// La pelota en version cuadrada
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(m_radius /2, m_radius /2);
+	m_body->SetFixedRotation(true);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
@@ -49,24 +55,6 @@ void Ball::tick(){
 		<< m_body->GetLinearVelocity().Length() << "\t"
 		<< m_body->GetLinearVelocity().x << "\t" 
 		<< m_body->GetLinearVelocity().y << std::endl;*/
-	
-	float limit = 40;
-	b2Vec2 v = m_body->GetLinearVelocity();
-
-	float velocity = v.Length();
-
-	if(velocity < limit){
-		std::cout << "Incrementando " << velocity << endl;
-		v *= TIME_STEP *  8 * limit / velocity;
-		m_body->ApplyLinearImpulse(v, m_body->GetLocalCenter());
-	}
-	if(velocity > limit){
-		std::cout << "Limitando " << velocity << endl;
-		v *= limit / velocity;
-		m_body->SetLinearVelocity(v);
-	}
-
-
 }
 
 Ball::~Ball(void)
@@ -98,13 +86,23 @@ void Ball::draw(){
 	glPopMatrix();	
 }
 
-
 void Ball::startContact(GameObject* g, b2Contact* c){
-
 	g->onContactStarted(this, c);
+	
+	//limitVelocity();
+
 }
 
+void Ball::endContact(GameObject* g, b2Contact* c){
+	g->onContactEnded(this, c);
+	
+	limitVelocity();
+}
+
+
+
 void Ball::onContactStarted(Brick* b, b2Contact* c){
+
 	b2Vec2 v = m_body->GetLinearVelocity();
 	
 	b2Vec2 v1 = m_body->GetPosition();
@@ -113,13 +111,27 @@ void Ball::onContactStarted(Brick* b, b2Contact* c){
 
 	b2Vec2 normal = c->GetManifold()->localNormal;
 
-
 	v.x *= normal.x;
 	v.y *= normal.y;
-
-	//b->getBody()->ApplyForceToCenter(-v);
-
-	//m_body->SetLinearVelocity(v);
-	
 }
+
+void Ball::limitVelocity(){	
+	const float limit = 25;
+	b2Vec2 v = m_body->GetLinearVelocity();
+
+	float velocity = v.Length();
+
+	if(velocity < limit){
+		v *= limit / velocity;
+		m_body->SetLinearVelocity(v);
+		std::cout << "Incrementando " << velocity << "  " << v.Length() << endl;
+	}
+	if(velocity > limit){
+		v *= limit / velocity;
+		m_body->SetLinearVelocity(v);
+		std::cout << "Limitando     " << velocity << "  " << v.Length() << endl;
+	}
+}
+
+
 

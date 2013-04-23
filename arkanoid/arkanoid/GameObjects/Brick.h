@@ -17,8 +17,10 @@ public:
 	virtual void tick();
 
 	virtual void startContact(GameObject*, b2Contact*);
-	virtual void onContactStarted(Ball*, b2Contact*);
+	virtual void endContact(GameObject*, b2Contact*);
 
+	virtual void onContactStarted(Ball*, b2Contact*);
+	virtual void onContactEnded(Ball*, b2Contact*);
 
 private:
 	float w, h;

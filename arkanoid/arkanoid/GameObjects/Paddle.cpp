@@ -3,9 +3,10 @@
 #include "Meta\Input.h"
 #include "GL\freeglut.h"
 #include <iostream>
+#include "Ball.h"
 
 Paddle::Paddle(void):
-	w(3),
+	w(5),
 	h(1)
 {
 
@@ -16,7 +17,7 @@ Paddle::Paddle(void):
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_kinematicBody;
+	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(TILES_X / 2, 2.5);
 	m_body = world->CreateBody(&bodyDef);
 
@@ -27,7 +28,7 @@ Paddle::Paddle(void):
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
+	fixtureDef.density = 100.0f;
 	fixtureDef.friction = 0.3f;
 	fixtureDef.filter.categoryBits = PADDLE_FILTER;
 	fixtureDef.filter.maskBits = BALL_FILTER | WALL_FILTER;
@@ -68,7 +69,7 @@ Paddle::~Paddle(void)
 
 void Paddle::tick(){
 
-	float max = 1200 * TIME_STEP;
+	float max = TILES_X;
 
 	bool left, right;
 
@@ -98,7 +99,7 @@ void Paddle::tick(){
 	m_body->SetTransform(pos, 0);
 
 	if(!left && !right){
-		vel *= 0.9f;
+		vel *= 0.5f;
 		m_body->SetLinearVelocity(vel);
 	}
 
@@ -136,4 +137,28 @@ void Paddle::draw(){
 
 void Paddle::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
+}
+
+void Paddle::endContact(GameObject* g, b2Contact* c){
+	g->onContactEnded(this, c);
+}
+
+void Paddle::onContactStarted(Ball* b, b2Contact* c){
+
+	
+}
+
+void Paddle::onContactEnded(Ball* b, b2Contact* c){
+
+	b2Vec2 v = b->getBody()->GetLinearVelocity();
+	
+	b2Vec2 p1 = m_body->GetPosition();
+	b2Vec2 p2 = b->getBody()->GetPosition();
+
+	b2Vec2 p = p2 - p1;
+	p *= v.Length() / p.Length();
+
+	b->getBody()->SetLinearVelocity(p);
+
+
 }

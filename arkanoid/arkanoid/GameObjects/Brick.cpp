@@ -76,6 +76,13 @@ void Brick::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
 }
 
+void Brick::endContact(GameObject* g, b2Contact* c){
+	g->onContactEnded(this, c);
+}
+
+void Brick::onContactEnded(Ball* b, b2Contact* c){
+	this->kill();
+}
 
 void Brick::onContactStarted(Ball* b, b2Contact* c){
 	b2Filter f = m_body->GetFixtureList()->GetFilterData();

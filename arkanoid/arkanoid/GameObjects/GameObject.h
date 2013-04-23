@@ -26,28 +26,28 @@ public:
 	GameObject(void);
 	virtual ~GameObject(void);
 
-	virtual bool isAlive(){ return alive; }
-
-
-	virtual void startContact(GameObject*, b2Contact*){};
-
-	virtual void onContactStarted(Ball*, b2Contact*){};
-	virtual void onContactEnded(Ball*, b2Contact*){};
-
-	
-	virtual void onContactStarted(Paddle*, b2Contact*){};
-	virtual void onContactEnded(Paddle*, b2Contact*){};
-
-	
-	virtual void onContactStarted(Wall*, b2Contact*){};
-	virtual void onContactEnded(Wall*, b2Contact*){};
-
-	
-	virtual void onContactStarted(Brick*, b2Contact*){};
-	virtual void onContactEnded(Brick*, b2Contact*){};
-
-	
+	bool isAlive(){ return alive; }
+	void kill(){ alive = false; }
 	b2Body* getBody(){return m_body;}
+
+	//Colisiones aqui
+
+	virtual void startContact(GameObject*, b2Contact*){}
+	virtual void endContact(GameObject*, b2Contact*){}
+
+	virtual void onContactStarted(Ball*, b2Contact*){}
+	virtual void onContactEnded(Ball*, b2Contact*){}
+	
+	virtual void onContactStarted(Paddle*, b2Contact*){}
+	virtual void onContactEnded(Paddle*, b2Contact*){}
+		
+	virtual void onContactStarted(Wall*, b2Contact*){}
+	virtual void onContactEnded(Wall*, b2Contact*){}
+		
+	virtual void onContactStarted(Brick*, b2Contact*){}
+	virtual void onContactEnded(Brick*, b2Contact*){}
+
+	
 
 protected:
 	b2Body* m_body; //El cuerpo

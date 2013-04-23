@@ -15,14 +15,13 @@ Game::Game(void)
 	m_world = new b2World(b2Vec2(0.0, 0.0));
 	m_world->SetAllowSleeping(false);
 	m_world->SetContactListener(&m_listener);
-	//m_world->SetGravity(b2Vec2(0.0, 0.0));
-	
+	//m_world->SetGravity(b2Vec2(0.0, 0.0));	
 }
 
 
 
 void Game::addGameObject(GameObject* obj){
-	m_gobj.push_back(obj);
+	//m_gobj.push_back(obj);
 	m_obj.push_back(obj);
 }
 
@@ -62,8 +61,15 @@ void Game::tick(){
 		m_world->Step(TIME_STEP, 6, 2);	
 
 		//La lógica extra va aqui
-		for(vector<Object*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
-			(*it)->tick();
+		for(vector<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end();){
+			if((*it)->isAlive()){
+				(*it)->tick();
+				it++;
+			}
+			else{
+				m_world->DestroyBody((*it)->getBody());
+				it = m_obj.erase(it);
+			}
 		}
 
 	}
@@ -73,7 +79,7 @@ void Game::tick(){
 //El render aqui
 void Game::draw(){
 
-	for(vector<Object*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
+	for(vector<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
 		(*it)->draw();
 	}
 }

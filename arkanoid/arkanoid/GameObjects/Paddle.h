@@ -17,7 +17,11 @@ public:
 	virtual void draw();
 	virtual void tick();
 
-	virtual void startContact(GameObject*, b2Contact* c);
+	virtual void startContact(GameObject*, b2Contact*);
+	virtual void endContact(GameObject*, b2Contact*);
+
+	virtual void onContactStarted(Ball*, b2Contact*);
+	virtual void onContactEnded(Ball*, b2Contact*);
 
 private:
 	float w, h;

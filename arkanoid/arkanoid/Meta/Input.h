@@ -15,12 +15,16 @@ public:
 	static bool isKeyDown(unsigned char key);
 	static void keyboardDown(unsigned char key, int x, int y);
 	static void keyboardUp(unsigned char key, int x, int y);
+	static void mouseMoved(int x, int y);
+	static int getMouseX(){return mx;}
+	static int getMouseY(){return my;}
 
 
 private:
 	Input(void);
 	~Input(void);
 	
+	static int mx, my;
 	static bool keys[255];
 };
 

@@ -99,3 +99,7 @@ void Wall::draw(){
 void Wall::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
 }
+
+void Wall::endContact(GameObject* g, b2Contact* c){
+	g->onContactEnded(this, c);
+}
