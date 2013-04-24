@@ -3,7 +3,7 @@
 #include <time.h>
 #include <iostream>
 #include <GL\freeglut.h>
-
+#include "Render.h"
 
 //Variables estaticas
 clock_t t1, t2;
@@ -13,8 +13,19 @@ Game::Game(void)
 {
 	//Mundo sin gravedad
 	m_world = new b2World(b2Vec2(0.0, 0.0));
+	m_draw = new DebugDraw();
+	m_world->SetDebugDraw(m_draw);
 	m_world->SetAllowSleeping(false);
 	m_world->SetContactListener(&m_listener);
+
+	uint32 flags = 0;
+	flags += b2Draw::e_shapeBit;
+	flags += b2Draw::e_jointBit;
+	flags += b2Draw::e_pairBit;
+	//flags += b2Draw::e_aabbBit;
+	flags += b2Draw::e_centerOfMassBit;
+	m_draw->SetFlags(flags);
+
 	//m_world->SetGravity(b2Vec2(0.0, 0.0));	
 }
 
@@ -79,8 +90,9 @@ void Game::tick(){
 //El render aqui
 void Game::draw(){
 
+	m_world->DrawDebugData();
 	for(vector<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
-		(*it)->draw();
+		//(*it)->draw();
 	}
 }
 

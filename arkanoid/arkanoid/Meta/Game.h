@@ -44,10 +44,11 @@ private:
 
 	//Cosas box2d
 	b2World* m_world; //El mundo de box2D donde ocurre la simulacion
+	b2Draw* m_draw;
 	ContactListener m_listener; //Listener para las colisiones
 	b2Vec2 m_gravity; //Gravedad, por ahora es de prueba
 	vector<GameObject*> m_obj; //Objetos Generales
-	//vector<GameObject*> m_gobj; //Objetos simulados
+	
 	
 };
 

@@ -79,6 +79,7 @@
     <ClCompile Include="Meta\Main.cpp" />
     <ClCompile Include="GameObjects\Wall.cpp" />
     <ClCompile Include="GameObjects\Paddle.cpp" />
+    <ClCompile Include="Meta\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\Ball.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="Meta\Object.h" />
     <ClInclude Include="GameObjects\Wall.h" />
     <ClInclude Include="GameObjects\Paddle.h" />
+    <ClInclude Include="Meta\Render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

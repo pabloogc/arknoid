@@ -26,12 +26,14 @@ Ball::Ball(b2Vec2 pos):
 	/*
 	b2CircleShape dynamicBox;
 	dynamicBox.m_radius = m_radius;
-	*/
+	//*/
 
 	// La pelota en version cuadrada
+	//*
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(m_radius /2, m_radius /2);
 	m_body->SetFixedRotation(true);
+	//*/
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;

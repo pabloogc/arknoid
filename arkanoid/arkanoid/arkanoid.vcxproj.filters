@@ -42,6 +42,9 @@
     <ClInclude Include="GameObjects\Ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Meta\Render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObjects\Brick.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Meta\Constants.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Meta\Render.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
