@@ -97,22 +97,6 @@ int main(int argc, char** argv)
 
 	//CODIGO DE TEST
 
-	Game* g = Game::getInstance();
-	g->addGameObject(new Wall(Side::TOP));
-	g->addGameObject(new Wall(Side::BOTTOM));
-	g->addGameObject(new Wall(Side::LEFT));
-	g->addGameObject(new Wall(Side::RIGT));
-	g->addGameObject(new Paddle());
-	g->addGameObject(new Ball(b2Vec2(16, 16)));
-
-	for (int i = 0; i < TILES_X / 2 - 3; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			g->addGameObject(new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 2, 1));
-		}
-	}
-
 	glutIgnoreKeyRepeat(1);
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);

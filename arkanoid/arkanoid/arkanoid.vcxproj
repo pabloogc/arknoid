@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="GameObjects\Ball.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
+    <ClCompile Include="Meta\Level.cpp" />
     <ClCompile Include="Meta\Constants.h" />
     <ClCompile Include="Meta\Input.cpp" />
     <ClCompile Include="Meta\ContactListener.cpp" />
@@ -84,6 +85,7 @@
   <ItemGroup>
     <ClInclude Include="GameObjects\Ball.h" />
     <ClInclude Include="GameObjects\Brick.h" />
+    <ClInclude Include="Meta\Level.h" />
     <ClInclude Include="Meta\Input.h" />
     <ClInclude Include="Meta\ContactListener.h" />
     <ClInclude Include="Meta\Game.h" />

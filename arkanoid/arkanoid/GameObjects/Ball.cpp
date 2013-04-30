@@ -90,9 +90,6 @@ void Ball::draw(){
 
 void Ball::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
-	
-	//limitVelocity();
-
 }
 
 void Ball::endContact(GameObject* g, b2Contact* c){
@@ -119,6 +116,7 @@ void Ball::onContactStarted(Brick* b, b2Contact* c){
 
 void Ball::limitVelocity(){	
 	const float limit = 25;
+	
 	b2Vec2 v = m_body->GetLinearVelocity();
 
 	float velocity = v.Length();

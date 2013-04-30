@@ -9,20 +9,21 @@
 clock_t t1, t2;
 Game* Game::m_game = nullptr;
 
-Game::Game(void)
+Game::Game(void):
+	m_state(SPLASH)
 {
 	//Mundo sin gravedad
-	m_world = new b2World(b2Vec2(0.0, 0.0));
+	curLevel = new Level();
+	nextLevel = new Level();
 	m_draw = new DebugDraw();
-	m_world->SetDebugDraw(m_draw);
-	m_world->SetAllowSleeping(false);
-	m_world->SetContactListener(&m_listener);
+	curLevel->getWorld()->SetDebugDraw(m_draw);
+	curLevel->getWorld()->SetAllowSleeping(false);
+	curLevel->getWorld()->SetContactListener(&m_listener);
 
 	uint32 flags = 0;
 	flags += b2Draw::e_shapeBit;
 	flags += b2Draw::e_jointBit;
 	flags += b2Draw::e_pairBit;
-	//flags += b2Draw::e_aabbBit;
 	flags += b2Draw::e_centerOfMassBit;
 	m_draw->SetFlags(flags);
 
@@ -33,14 +34,26 @@ Game::Game(void)
 
 void Game::addGameObject(GameObject* obj){
 	//m_gobj.push_back(obj);
-	m_obj.push_back(obj);
+	curLevel->addGameObject(obj);
 }
 
+void Game::levelCompleted(){
+	static int l = 0;
+	
+	delete curLevel;
+	curLevel = nextLevel;
+	nextLevel = new Level();
+	nextLevel->loadLevel(l);
+
+	l++;
+}
 
 //Inicializacion del singleton
 void Game::init(){
 	m_game = new Game;
 	t1 = t2 = clock();
+	m_game->curLevel->loadLevel(0);
+
 }
 
 //Limpiar la memoria aqui
@@ -53,7 +66,7 @@ Game* Game::getInstance(){
 }
 
 b2World* Game::getWorld(){
-	return m_world;
+	return curLevel->getWorld();
 }
 
 //La logica del juego va aqui
@@ -69,30 +82,15 @@ void Game::tick(){
 
 	if(diff >= TIME_STEP * 0.7f){
 		t1 = t2;
-		m_world->Step(TIME_STEP, 6, 2);	
-
-		//La lógica extra va aqui
-		for(vector<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end();){
-			if((*it)->isAlive()){
-				(*it)->tick();
-				it++;
-			}
-			else{
-				m_world->DestroyBody((*it)->getBody());
-				it = m_obj.erase(it);
-			}
-		}
-
+		curLevel->tick();
 	}
 
 }
 
 //El render aqui
-void Game::draw(){
-
-	m_world->DrawDebugData();
-	for(vector<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
-		//(*it)->draw();
-	}
+void Game::draw(){	
+	curLevel->draw();	
 }
+
+
 

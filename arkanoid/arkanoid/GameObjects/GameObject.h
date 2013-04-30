@@ -26,8 +26,8 @@ public:
 	GameObject(void);
 	virtual ~GameObject(void);
 
-	bool isAlive(){ return alive; }
-	void kill(){ alive = false; }
+	virtual bool isAlive(){ return alive; }
+	virtual void kill(){ alive = false; }
 	b2Body* getBody(){return m_body;}
 
 	//Colisiones aqui

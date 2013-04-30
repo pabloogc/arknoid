@@ -89,3 +89,4 @@ void Brick::onContactStarted(Ball* b, b2Contact* c){
 	f.maskBits = WALL_FILTER | BRICK_FILTER;
 	m_body->GetFixtureList()->SetFilterData(f);
 }
+
