@@ -11,6 +11,7 @@ git clone https://github.com/pabloogc/arknoid.git
 git add *.cpp<br>
 git add *.h<br>
 git add *<br>
+git add -u<br>
 
 -> Para confirmar todos los cambios que hayas hecho<br>
 git commit -m "Mensaje del cambio obligatorio"
