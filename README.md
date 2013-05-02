@@ -8,8 +8,6 @@ http://lmgtfy.com/?q=instalar+git
 git clone https://github.com/pabloogc/arknoid.git
 
 -> Si creas archivos<br>
-git add *.cpp<br>
-git add *.h<br>
 git add *<br>
 git add -u<br>
 
