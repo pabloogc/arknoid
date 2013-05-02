@@ -10,22 +10,25 @@ clock_t t1, t2;
 Game* Game::m_game = nullptr;
 
 Game::Game(void):
-	m_state(SPLASH)
+	m_state(PLAYING)
 {
+
+	stateFunc[PAUSED] = &Game::pausedState;
+	stateFunc[PLAYING] = &Game::playingState;
+	stateFunc[SWITCHING_LEVELS] = &Game::switchLevelState;
+	stateFunc[WIN] = &Game::gameWonState;
+	stateFunc[GAME_OVER] = &Game::gameOverState;
+	stateFunc[SPLASH] = &Game::splashState;
+	stateFunc[MENU] = &Game::menuState;
+
+
+
 	//Mundo sin gravedad
 	curLevel = new Level();
 	nextLevel = new Level();
-	m_draw = new DebugDraw();
-	curLevel->getWorld()->SetDebugDraw(m_draw);
+	m_listener = new ContactListener();
 	curLevel->getWorld()->SetAllowSleeping(false);
-	curLevel->getWorld()->SetContactListener(&m_listener);
-
-	uint32 flags = 0;
-	flags += b2Draw::e_shapeBit;
-	flags += b2Draw::e_jointBit;
-	flags += b2Draw::e_pairBit;
-	flags += b2Draw::e_centerOfMassBit;
-	m_draw->SetFlags(flags);
+	curLevel->getWorld()->SetContactListener(m_listener);
 
 	//m_world->SetGravity(b2Vec2(0.0, 0.0));	
 }
@@ -39,7 +42,7 @@ void Game::addGameObject(GameObject* obj){
 
 void Game::levelCompleted(){
 	static int l = 0;
-	
+
 	delete curLevel;
 	curLevel = nextLevel;
 	nextLevel = new Level();
@@ -69,9 +72,37 @@ b2World* Game::getWorld(){
 	return curLevel->getWorld();
 }
 
+void Game::update(){
+	(this->*stateFunc[m_state])();
+}
+
 //La logica del juego va aqui
 void Game::tick(){
+}
 
+//El render aqui
+void Game::draw(){	
+}
+
+void Game::menuState()
+{
+
+}
+
+void Game::pausedState()
+{
+
+}
+
+void Game::splashState()
+{
+	cout << "ESTADO : SPLASH -> Pulsa Enter";
+	cin.get();
+	changeState(PLAYING);
+}
+
+void Game::playingState()
+{
 	t2 = clock();
 
 	float diff = ((float)t2 - (float)t1) / 1000.0f;
@@ -83,14 +114,25 @@ void Game::tick(){
 	if(diff >= TIME_STEP * 0.7f){
 		t1 = t2;
 		curLevel->tick();
-	}
-
-}
-
-//El render aqui
-void Game::draw(){	
+		
+	}	
 	curLevel->draw();	
+	Render::drawString(1,TILES_Y + 0.25f,"EXPLOTA O K ASE");
+
 }
 
+void Game::gameOverState()
+{
 
+}
+
+void Game::gameWonState()
+{
+
+}
+
+void Game::switchLevelState()
+{
+
+}
 

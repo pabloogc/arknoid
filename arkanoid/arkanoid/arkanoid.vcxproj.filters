@@ -27,9 +27,6 @@
     <ClInclude Include="Meta\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Meta\Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjects\Wall.h">
       <Filter>Header Files</Filter>
     </ClInclude>

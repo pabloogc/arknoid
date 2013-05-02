@@ -5,7 +5,8 @@
 #include "Wall.h"
 
 GameObject::GameObject(void):
-	alive(true)
+	alive(true),
+	m_color(1,1,1)
 {
 
 }

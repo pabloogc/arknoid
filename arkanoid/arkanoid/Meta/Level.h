@@ -5,7 +5,7 @@
 
 #include <Box2D\Box2D.h>
 #include "GameObjects\GameObject.h" 
-#include <vector>
+#include <list>
 
 class Level
 {
@@ -17,12 +17,12 @@ public:
 	void draw();
 
 	b2World* getWorld();
-	void addGameObject(GameObject*g) {m_obj.push_back(g);}
+	void addGameObject(GameObject*g) {m_obj.push_front(g);}
 	void loadLevel(int code);
 
 private:
 	b2World* m_world;
-	std::vector<GameObject*> m_obj;
+	std::list<GameObject*> m_obj;
 };
 
 #endif

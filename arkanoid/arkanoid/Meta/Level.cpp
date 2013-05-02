@@ -24,9 +24,15 @@ void Level::loadLevel(int code){
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			addGameObject(new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 2, 1));
+			Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8);
+			addGameObject(b);
+			//b->explode();			
 		}
 	}
+
+	Brick* b = new Brick(b2Vec2(16,8), 2, 1);
+	addGameObject(b);
+
 }
 
 b2World* Level::getWorld(){
@@ -44,13 +50,15 @@ void Level::tick(){
 	m_world->Step(TIME_STEP, 6, 2);	
 
 	//La lógica extra va aqui
-	for(std::vector<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end();){
+	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end();){
 		if((*it)->isAlive()){
 			(*it)->tick();
 			it++;
 		}
 		else{
+			(*it)->release();
 			m_world->DestroyBody((*it)->getBody());
+			delete *it;
 			it = m_obj.erase(it);
 		}
 	}
@@ -58,7 +66,7 @@ void Level::tick(){
 
 void Level::draw(){
 
-	for(std::vector<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
+	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
 		(*it)->draw();
 	}
 

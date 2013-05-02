@@ -90,7 +90,6 @@
     <ClInclude Include="Meta\ContactListener.h" />
     <ClInclude Include="Meta\Game.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
-    <ClInclude Include="Meta\Object.h" />
     <ClInclude Include="GameObjects\Wall.h" />
     <ClInclude Include="GameObjects\Paddle.h" />
     <ClInclude Include="Meta\Render.h" />

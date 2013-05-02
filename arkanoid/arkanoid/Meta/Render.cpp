@@ -1,31 +1,14 @@
-/*
-* Copyright (c) 2006-2007 Erin Catto http://www.gphysics.com
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
 
 #include "Render.h"
 
 #include <GL/freeglut.h>
-
 #include <cstdio>
 #include <cstdarg>
-
 #include <cstring>
 
-void DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
+#define _CRT_SECURE_NO_WARNINGS
+
+void Render::drawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_LINE_LOOP);
@@ -36,7 +19,7 @@ void DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2C
 	glEnd();
 }
 
-void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
+void Render::drawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -58,7 +41,7 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
 	glEnd();
 }
 
-void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
+void Render::drawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 {
 	const float32 k_segments = 16.0f;
 	const float32 k_increment = 2.0f * b2_pi / k_segments;
@@ -74,7 +57,7 @@ void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& 
 	glEnd();
 }
 
-void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
+void Render::drawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
 	const float32 k_segments = 16.0f;
 	const float32 k_increment = 2.0f * b2_pi / k_segments;
@@ -110,7 +93,7 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Ve
 	glEnd();
 }
 
-void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
+void Render::drawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_LINES);
@@ -119,26 +102,8 @@ void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& c
 	glEnd();
 }
 
-void DebugDraw::DrawTransform(const b2Transform& xf)
-{
-	b2Vec2 p1 = xf.p, p2;
-	const float32 k_axisScale = 0.4f;
-	glBegin(GL_LINES);
-	
-	//glColor3f(1.0f, 0.0f, 0.0f);
-	//glVertex2f(p1.x, p1.y);
-	//p2 = p1 + k_axisScale * xf.R.col1;
-	//glVertex2f(p2.x, p2.y);
 
-	//glColor3f(0.0f, 1.0f, 0.0f);
-	//glVertex2f(p1.x, p1.y);
-	//p2 = p1 + k_axisScale * xf.R.col2;
-	//glVertex2f(p2.x, p2.y);
-
-	glEnd();
-}
-
-void DebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
+void Render::drawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 {
 	glPointSize(size);
 	glBegin(GL_POINTS);
@@ -148,40 +113,24 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 	glPointSize(1.0f);
 }
 
-void DebugDraw::DrawString(int x, int y, const char *string, ...)
-{
-	char buffer[128];
-
-	va_list arg;
-	va_start(arg, string);
-	vsprintf(buffer, string, arg);
-	va_end(arg);
-
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	int w = glutGet(GLUT_WINDOW_WIDTH);
-	int h = glutGet(GLUT_WINDOW_HEIGHT);
-	gluOrtho2D(0, w, h, 0);
+void Render::drawString(float32 x, float32 y, const char *string)
+{	
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 
-	glColor3f(0.9f, 0.6f, 0.6f);
-	glRasterPos2i(x, y);
-	int32 length = (int32)strlen(buffer);
-	for (int32 i = 0; i < length; ++i)
-	{
-		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, buffer[i]);
-	}
-
+	glColor3f(1, 1, 1);
+	glTranslatef(x,y,0);
+	glLineWidth(2);
+	float32 sx = ABSOLUTE_TILES_X / 2000.0;
+	float32 sy = ABSOLUTE_TILES_Y / 2000.0;
+	glScalef(sx,sy,1);
+	glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char*)string);
+	glLineWidth(1);
 	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
 }
 
-void DebugDraw::DrawAABB(b2AABB* aabb, const b2Color& c)
+void Render::drawAABB(b2AABB* aabb, const b2Color& c)
 {
 	glColor3f(c.r, c.g, c.b);
 	glBegin(GL_LINE_LOOP);

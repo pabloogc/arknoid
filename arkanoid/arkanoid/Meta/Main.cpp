@@ -9,12 +9,8 @@
 #include <iostream>
 #include "Meta\Game.h"
 #include "Meta\Input.h"
-#include "GameObjects\Brick.h"
-#include "GameObjects\Wall.h"
-#include "GameObjects\GameObject.h"
-#include "GameObjects\Paddle.h"
-#include "GameObjects\Ball.h"
 #include "Constants.h"
+#include <time.h>
 
 using namespace std;
 
@@ -23,8 +19,10 @@ int ancho, alto;
 /* Función para inicializar algunos parámetros de OpenGL */
 void init(void)
 {
+	srand(time(NULL));
 	glClearColor(0.0,0.0,0.0,1.0);
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 	ancho = glutGet(GLUT_SCREEN_WIDTH);
 	alto  = glutGet(GLUT_SCREEN_HEIGHT);
 }
@@ -38,7 +36,7 @@ void display ( void )
 	// Aquí se definen los objetos y se colocan en la escena
 	glLoadIdentity();
 	
-	Game::getInstance()->draw();
+	Game::getInstance()->update();
 
 	glutSwapBuffers();
 }
@@ -49,15 +47,10 @@ void reshape(int w, int h)
 	Input::windowReshaped(w, h);
 
 	int x = min(w,h);
-	ancho = w;
-	alto = h;
 	glViewport((w-x) / 2.0, 0, x, x);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, ABSOLUTE_TILES_X, 0, ABSOLUTE_TILES_Y);
-
-	ancho = glutGet(GLUT_SCREEN_WIDTH);
-	alto  = glutGet(GLUT_SCREEN_HEIGHT);
 }
 
 /* Función que controla los eventos de teclado */
@@ -84,7 +77,7 @@ void mouseMoved(int x, int y){
 /* Función que se ejecuta cuando no hay eventos */
 void idle(void)
 {
-	Game::getInstance()->tick();
+	Game::getInstance()->update();
 	glutPostRedisplay();
 }
 
@@ -93,7 +86,7 @@ int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(800, 600);
+	glutInitWindowSize(32 * 24, 32 * 16);
 	glutInitWindowPosition(450, 200);
 	glutCreateWindow("Hola Mundo OpenGL");
 
@@ -107,7 +100,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutPassiveMotionFunc(mouseMoved);
-	glutMouseFunc(mouse);
+	//glutSetCursor(GLUT_CURSOR_NONE); 
 	glutKeyboardFunc(keyboardDown);
 	glutKeyboardUpFunc(keyboardUp);
 

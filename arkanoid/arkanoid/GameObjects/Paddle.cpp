@@ -15,15 +15,18 @@ Paddle::Paddle(void):
 
 	//****************************************************************
 
-	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(TILES_X / 2, 2.5);
 	m_body = world->CreateBody(&bodyDef);
 
-	// Define another box shape for our dynamic body.
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(w/2.0, h/2.0);
+	b2EdgeShape dynamicBox;
+
+	b2Vec2 vert[2] = {
+		b2Vec2(-w/2, h/2), 
+		b2Vec2(w/2, h/2)
+	};
+	dynamicBox.Set(vert[0], vert[1]);
 
 
 	b2FixtureDef fixtureDef;
@@ -122,22 +125,9 @@ void Paddle::draw(){
 	glTranslatef(pos.x, pos.y, 0);
 	glRotatef(angle,0,0,1);
 
-	glColor3f(1,0.3,0);
-	glBegin(GL_QUADS);
-	glVertex2f(-w/2, -h/2);
-	glVertex2f(+w/2, -h/2);
-	glVertex2f(+w/2, +h/2);
-	glVertex2f(-w/2, +h/2);
-	glEnd();
-
-	//float skin = 0.03f;
-
-	//glBegin(GL_LINE_LOOP);
-	//glVertex2f(-w/2 - skin, -h/2 - skin);
-	//glVertex2f(+w/2 + skin, -h/2 - skin);
-	//glVertex2f(+w/2 + skin, +h/2 + skin);
-	//glVertex2f(-w/2 - skin, +h/2 + skin);
-	//glEnd();
+	//b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
+	//Render::drawPolygon(shape->m_vertices, shape->GetVertexCount(), m_color);
+	Render::drawSegment(b2Vec2(-w/2, h/2), b2Vec2(w/2, h/2), m_color);
 
 	glPopMatrix();	
 }
@@ -152,13 +142,12 @@ void Paddle::endContact(GameObject* g, b2Contact* c){
 
 void Paddle::onContactStarted(Ball* b, b2Contact* c){
 
-	
 }
 
 void Paddle::onContactEnded(Ball* b, b2Contact* c){
 
 	b2Vec2 v = b->getBody()->GetLinearVelocity();
-	
+
 	b2Vec2 p1 = m_body->GetPosition();
 	b2Vec2 p2 = b->getBody()->GetPosition();
 
@@ -169,3 +158,10 @@ void Paddle::onContactEnded(Ball* b, b2Contact* c){
 
 
 }
+
+//**************************
+
+
+
+
+

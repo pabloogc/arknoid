@@ -7,7 +7,6 @@
 #include <vector>
 #include "GameObjects\GameObject.h"
 #include "ContactListener.h"
-#include "Object.h"
 #include "Constants.h"
 #include "Level.h"
 
@@ -15,7 +14,7 @@ using namespace std;
 
 enum GameState{
 	PAUSED, PLAYING, SWITCHING_LEVELS,
-	SPLASH, GAVE_OVER, WIN
+	SPLASH, GAME_OVER, WIN, MENU
 };
 
 //Clase singleton responsable de actualizar la simulacion
@@ -29,6 +28,8 @@ public:
 	static void init();
 	static void realese();
 
+	//actualizar
+	void update();
 	//Control de la logica del juego
 	void tick();
 	//Renderizar todo
@@ -37,15 +38,16 @@ public:
 	//El mundo box2D
 	b2World* getWorld();
 
+	//El nivel cargado
 	Level* getCurrentLevel(){return curLevel;}
-
 	//Anyade un objeto al la lista de actualizacion
 	//Hay que crearlo en el mundo tambien!
 	//b2World.createBody(def)
 	void addGameObject(GameObject*);
 	
 	void levelCompleted();
-	void changeState(int newState);
+
+	void changeState(GameState newState){m_state = newState;}
 
 private:
 	static Game* m_game; //Singleton
@@ -55,11 +57,20 @@ private:
 	Level* curLevel;
 	Level* nextLevel;
 
-	b2Draw* m_draw;
-	ContactListener m_listener; //Listener para las colisiones
+	ContactListener* m_listener; //Listener para las colisiones
+	
 	GameState m_state;
 	
-	
+	void menuState();
+	void pausedState();
+	void splashState();
+	void playingState();
+	void gameOverState();
+	void gameWonState();
+	void switchLevelState();
+
+	void (Game::*stateFunc[10])(void);
+
 };
 
 

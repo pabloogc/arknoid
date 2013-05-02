@@ -31,8 +31,8 @@ Ball::Ball(b2Vec2 pos):
 	// La pelota en version cuadrada
 	//*
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(0.1, 0.1);
-	//dynamicBox.SetAsBox(m_radius /2, m_radius /2);
+	//dynamicBox.SetAsBox(0.1, 0.1);
+	dynamicBox.SetAsBox(m_radius /2, m_radius /2);
 	m_body->SetFixedRotation(true);
 	//*/
 
