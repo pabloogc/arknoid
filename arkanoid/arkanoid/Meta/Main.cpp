@@ -46,6 +46,8 @@ void display ( void )
 /* Función que se llamará cada vez que se redimensione la ventana */
 void reshape(int w, int h)
 {
+	Input::windowReshaped(w, h);
+
 	int x = min(w,h);
 	ancho = w;
 	alto = h;
@@ -72,6 +74,10 @@ void keyboardUp(unsigned char key, int x, int y)
 }
 
 void mouse(int x, int y, int s, int t){
+	Input::mouseMoved(s, t);
+}
+
+void mouseMoved(int x, int y){
 	Input::mouseMoved(x, y);
 }
 
@@ -100,9 +106,11 @@ int main(int argc, char** argv)
 	glutIgnoreKeyRepeat(1);
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
+	glutPassiveMotionFunc(mouseMoved);
+	glutMouseFunc(mouse);
 	glutKeyboardFunc(keyboardDown);
 	glutKeyboardUpFunc(keyboardUp);
-	glutMouseFunc(mouse);
+
 	
 	glutIdleFunc(idle);
 

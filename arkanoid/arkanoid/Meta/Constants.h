@@ -6,7 +6,8 @@
 #define ABSOLUTE_TILES_Y 32
 #define TILES_X 32
 #define TILES_Y 28
-#define TO_DEGREE 57.2957795131 
+#define TO_DEGREE 57.2957795131f
+#define TO_RADIANS 0.0174532925f
 
 
 //Cosas relativas a los filtros de colsiones

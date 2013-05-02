@@ -31,7 +31,8 @@ Ball::Ball(b2Vec2 pos):
 	// La pelota en version cuadrada
 	//*
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_radius /2, m_radius /2);
+	dynamicBox.SetAsBox(0.1, 0.1);
+	//dynamicBox.SetAsBox(m_radius /2, m_radius /2);
 	m_body->SetFixedRotation(true);
 	//*/
 
@@ -124,12 +125,12 @@ void Ball::limitVelocity(){
 	if(velocity < limit){
 		v *= limit / velocity;
 		m_body->SetLinearVelocity(v);
-		std::cout << "Incrementando " << velocity << "  " << v.Length() << endl;
+		//std::cout << "Incrementando " << velocity << "  " << v.Length() << endl;
 	}
 	if(velocity > limit){
 		v *= limit / velocity;
 		m_body->SetLinearVelocity(v);
-		std::cout << "Limitando     " << velocity << "  " << v.Length() << endl;
+		//std::cout << "Limitando     " << velocity << "  " << v.Length() << endl;
 	}
 }
 

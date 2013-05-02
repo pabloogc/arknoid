@@ -25,6 +25,7 @@ public:
 
 private:
 	float w, h;
+	float mx, mx_last;
 
 };
 

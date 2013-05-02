@@ -70,11 +70,14 @@ Paddle::~Paddle(void)
 void Paddle::tick(){
 
 	float max = TILES_X;
-
 	bool left, right;
 
+	b2Vec2 vel = m_body->GetLinearVelocity();
+	b2Vec2 pos = m_body->GetPosition();
+
 	left = Input::isKeyDown('a');
-	right = Input::isKeyDown('d');
+	right = Input::isKeyDown('d');	
+	mx = Input::getMouseX();
 
 	b2Vec2 speed(max, 0);
 
@@ -84,31 +87,35 @@ void Paddle::tick(){
 	if (left)
 		m_body->SetLinearVelocity(-speed);
 
-	b2Vec2 vel = m_body->GetLinearVelocity();
 
-	//Seguir al raton!!!
 
-	b2Vec2 pos = m_body->GetPosition();
+	//Seguir al raton
+	if(abs(mx - mx_last) > 0.10){
+		mx_last = mx;
+		pos.x = mx;
+		m_body->SetTransform(pos, 0);
+	}
 
+
+	//Ajustarlo a la pantalla
 	if(pos.x - w/2< 1)
 		pos.x = 1 + w/2;
-
 	if(pos.x + w/2 > TILES_X - 1)
 		pos.x = TILES_X - w/2 - 1;
-
 	m_body->SetTransform(pos, 0);
-
 	if(!left && !right){
 		vel *= 0.5f;
 		m_body->SetLinearVelocity(vel);
 	}
+
+	//cout << Input::getMouseX() << endl;
 
 
 }
 
 void Paddle::draw(){
 	b2Vec2 pos = m_body->GetPosition();
-	float angle = m_body->GetAngle() * 57.2957795131;
+	float angle = m_body->GetAngle() * TO_DEGREE;
 
 	glPushMatrix();
 

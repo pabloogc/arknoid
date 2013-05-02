@@ -3,6 +3,8 @@
 bool Input::keys[255];
 int Input::mx = 0;
 int Input::my = 0;
+int Input::wx = 0;
+int Input::wy = 0;
 
 Input::Input(void)
 {
