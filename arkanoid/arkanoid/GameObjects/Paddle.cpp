@@ -10,8 +10,7 @@ Paddle::Paddle(void):
 	h(1),
 	sticky(true)
 {
-
-
+	
 	b2World* world = Game::getInstance()->getWorld();
 
 	//****************************************************************
@@ -21,17 +20,17 @@ Paddle::Paddle(void):
 	bodyDef.position.Set(TILES_X / 2, 2.5);
 	m_body = world->CreateBody(&bodyDef);
 
-	b2EdgeShape dynamicBox;
+	b2EdgeShape paddleShape;
 
 	b2Vec2 vert[2] = {
 		b2Vec2(-w/2, h/2), 
 		b2Vec2(w/2, h/2)
-	};
-	dynamicBox.Set(vert[0], vert[1]);
-
-
+	}
+	;
+	paddleShape.Set(vert[0], vert[1]);
+	
 	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
+	fixtureDef.shape = &paddleShape;
 	fixtureDef.density = 100.0f;
 	fixtureDef.friction = 0.3f;
 	fixtureDef.filter.categoryBits = PADDLE_FILTER;
@@ -45,25 +44,21 @@ Paddle::Paddle(void):
 
 	//****************************************************************
 
+	//El eje de la barra
+
 	b2BodyDef body2Def;
 	bodyDef.position.Set(TILES_X / 2, 0);
 	b2Body* body2 =  world->CreateBody(&body2Def);
 	body2->CreateFixture(&fixtureDef);
 
-	//****************************************************************
-
 
 	b2PrismaticJointDef jointDef;
 	b2Vec2 worldAxis(1.0f, 0.0f);
 	jointDef.Initialize(m_body, body2, m_body->GetWorldCenter(), worldAxis);
-	//jointDef.maxMotorForce = 50.0f;
-	//jointDef.motorSpeed = 50.0f;
-	//jointDef.enableMotor = true;
-
-	//m_body->ApplyForceToCenter(b2Vec2(5000,0));
-
+	
 	world->CreateJoint(&jointDef);
 
+	//****************************************************************
 
 }
 
@@ -75,7 +70,7 @@ Paddle::~Paddle(void)
 void Paddle::tick(){
 
 	float max = TILES_X;
-	bool left, right, s;
+	bool left, right, space;
 
 	b2Vec2 vel = m_body->GetLinearVelocity();
 	b2Vec2 pos = m_body->GetPosition();
@@ -84,8 +79,8 @@ void Paddle::tick(){
 		| Input::isSpecialKeyDown(GLUT_KEY_LEFT);
 	right = Input::isKeyDown('d') | Input::isKeyDown('D')
 		| Input::isSpecialKeyDown(GLUT_KEY_RIGHT);
-	s = Input::isKeyDown('s') | Input::isKeyDown('S') 
-		| Input::isKeyDown(' ');
+	space = Input::isKeyDown('s') | Input::isKeyDown('S') 
+		| Input::isKeyDown(' ') | Input::isKeyDown(GLUT_LEFT_BUTTON);
 
 	mx = Input::getMouseX();
 
@@ -119,7 +114,7 @@ void Paddle::tick(){
 	m_body->SetTransform(pos, 0);
 
 	//Lanzar la bola si esta pegada
-	if(s)
+	if(space)
 		sticky = false;
 
 	if(sticky){

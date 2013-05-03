@@ -78,8 +78,14 @@ void keyboardUp(unsigned char key, int x, int y)
 	glutPostRedisplay();
 }
 
-void mouse(int x, int y, int s, int t){
-	Input::mouseMoved(s, t);
+void mouse(int button, int state, int x, int y){
+	if(state == GLUT_DOWN)
+		Input::keyboardDown(button, x, y);
+
+	if(state == GLUT_UP)
+		Input::keyboardUp(button, x, y);
+
+	glutPostRedisplay();
 }
 
 void mouseMoved(int x, int y){
@@ -112,6 +118,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 	glutPassiveMotionFunc(mouseMoved);
+	glutMouseFunc(mouse);
 	//glutSetCursor(GLUT_CURSOR_NONE); 
 	glutKeyboardFunc(keyboardDown);
 	glutKeyboardUpFunc(keyboardUp);
