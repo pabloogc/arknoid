@@ -34,7 +34,7 @@ Brick::Brick(b2Vec2 pos, float _w, float _h):
 
 Brick::~Brick(void)
 {
-	//explode();
+
 }
 
 void Brick::tick(){
@@ -81,16 +81,14 @@ float random(float min, float max){
 void Brick::explode(){
 
 	const int divx = random(3,6), divy = random(3,6);
-	float dx =(w / (divx - 1));
-	float dy =(h / (divy - 1));
+	const float dx =(w / (divx - 1));
+	const float dy =(h / (divy - 1));
 	const float hdx = (dx / 2) - (dx / 2) * 0.55;
 	const float hdy = (dy / 2) - (dy / 2) * 0.55;
 	b2Vec2 v[4], pos;
 
 	std::vector<std::vector<b2Vec2>> mat;
 	mat.resize(divx);
-
-	//b2Vec2 mat[divx][divy];
 
 	for(int i = 0; i < divx; i++){
 		mat[i].resize(divy);

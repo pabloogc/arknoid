@@ -2,7 +2,11 @@
 #define RENDER_H_
 
 #include <Box2D\Box2D.h>
+#include <GL/freeglut.h>
+#include <IL/ilut.h> 
 #include "Constants.h"
+#include <string>
+#include <iostream>
 
 
 // This class implements debug drawing callbacks that are invoked
@@ -20,5 +24,22 @@ public:
 	static void drawAABB(b2AABB* aabb, const b2Color& color);
 };
 
+
+
+#define MAX 50
+
+class Texture{
+public:
+	static void init();
+	static void add(std::string, const char*);
+	static void bind(std::string);
+	static void disable();
+private:
+	std::string name_list[MAX];
+	GLuint id_list[MAX];
+	int last;
+	static Texture* texture;
+	Texture();
+};
 
 #endif

@@ -1,6 +1,5 @@
 
 #include "Render.h"
-
 #include <GL/freeglut.h>
 #include <cstdio>
 #include <cstdarg>
@@ -140,3 +139,64 @@ void Render::drawAABB(b2AABB* aabb, const b2Color& c)
 	glVertex2f(aabb->lowerBound.x, aabb->upperBound.y);
 	glEnd();
 }
+
+
+
+Texture* Texture::texture = nullptr;
+
+Texture::Texture(){
+	ilInit();
+	iluInit();
+	ilutRenderer(ILUT_OPENGL);
+	last = 0;
+}
+
+void Texture::init(){
+	texture = new Texture;
+}
+
+void Texture::add(std::string tex_name, const char* file_path){
+	texture->name_list[texture->last] = tex_name;
+
+	ILuint texid;
+	ilGenImages(1, &texid);
+	ilBindImage(texid);
+	ilLoadImage(file_path);
+	ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+	int w = ilGetInteger(IL_IMAGE_WIDTH);
+	int h = ilGetInteger(IL_IMAGE_HEIGHT);
+	ILubyte* pdata;
+	pdata = ilGetData();
+
+	GLuint textureID;
+	glGenTextures(1, &textureID);
+	texture->id_list[texture->last] = textureID;
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pdata);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
+
+	ilDeleteImages(1, &texid);
+
+	std::cout << "anadida textura con nombre " << texture->name_list[texture->last] << " y id " << texture->id_list[texture->last] << "\n";
+	texture->last++;
+}
+
+void Texture::bind(std::string tex_name){
+	int tex_id = -1;
+	for(int i=0; i< texture->last; i++){
+		if(texture->name_list[i] == tex_name){
+			tex_id = texture->id_list[i];
+		}
+	}
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, tex_id);
+}
+
+void Texture::disable(){
+	glDisable(GL_TEXTURE_2D);
+}
+

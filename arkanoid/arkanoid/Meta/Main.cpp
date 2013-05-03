@@ -79,6 +79,10 @@ void keyboardUp(unsigned char key, int x, int y)
 }
 
 void mouse(int button, int state, int x, int y){
+
+	//El estado del raton se guarda en el array del
+	//teclado normal porque no se usan (0x00, 0x01, etc)
+
 	if(state == GLUT_DOWN)
 		Input::keyboardDown(button, x, y);
 
