@@ -11,6 +11,9 @@ class Paddle :
 	public GameObject
 {
 public:
+
+	void setBall(Ball* b){m_ball = b;}
+
 	Paddle(void);
 	~Paddle(void);
 
@@ -26,6 +29,8 @@ public:
 private:
 	float w, h;
 	float mx, mx_last;
+	Ball* m_ball;
+	bool sticky;
 
 };
 

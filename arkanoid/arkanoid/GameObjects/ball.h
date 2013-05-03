@@ -11,6 +11,9 @@ class Ball :
 	public GameObject
 {
 public:
+
+	float getRadius(){return m_radius;}
+
 	Ball(b2Vec2 pos);
 	virtual ~Ball(void);
 

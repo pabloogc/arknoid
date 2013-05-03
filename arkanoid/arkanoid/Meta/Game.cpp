@@ -76,14 +76,6 @@ void Game::update(){
 	(this->*stateFunc[m_state])();
 }
 
-//La logica del juego va aqui
-void Game::tick(){
-}
-
-//El render aqui
-void Game::draw(){	
-}
-
 void Game::menuState()
 {
 
@@ -104,19 +96,18 @@ void Game::splashState()
 void Game::playingState()
 {
 	t2 = clock();
-
 	float diff = ((float)t2 - (float)t1) / 1000.0f;
 
 	//Cuando haya pasado el tiempo suficiente se hace step del mundo
 	//Esta forma de calcular el tiempo es muy poco precisa, por eso el 0.7
 	//así se ve más fluido.
-
 	if(diff >= TIME_STEP * 0.7f){
 		t1 = t2;
 		curLevel->tick();
 		
 	}	
 	curLevel->draw();	
+	
 	Render::drawString(1,TILES_Y + 0.25f,"EXPLOTA O K ASE");
 
 }

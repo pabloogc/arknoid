@@ -17,8 +17,16 @@ void Level::loadLevel(int code){
 	addGameObject(new Wall(Side::BOTTOM));
 	addGameObject(new Wall(Side::LEFT));
 	addGameObject(new Wall(Side::RIGT));
-	addGameObject(new Paddle());
-	addGameObject(new Ball(b2Vec2(16, 16)));
+
+	Paddle* p = new Paddle();
+	m_paddle = p;
+	addGameObject(p);
+
+	Ball* ball = new Ball(b2Vec2(16, 4));
+	m_ball = ball;
+	addGameObject(ball);
+
+	p->setBall(ball);
 
 	for (int i = 0; i < TILES_X / 2 - 3; i++)
 	{
@@ -29,9 +37,6 @@ void Level::loadLevel(int code){
 			//b->explode();			
 		}
 	}
-
-	Brick* b = new Brick(b2Vec2(16,8), 2, 1);
-	addGameObject(b);
 
 }
 

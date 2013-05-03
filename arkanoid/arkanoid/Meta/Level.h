@@ -22,6 +22,8 @@ public:
 
 private:
 	b2World* m_world;
+	Ball* m_ball;
+	Paddle* m_paddle;
 	std::list<GameObject*> m_obj;
 };
 

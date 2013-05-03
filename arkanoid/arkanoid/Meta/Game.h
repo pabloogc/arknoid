@@ -30,16 +30,13 @@ public:
 
 	//actualizar
 	void update();
-	//Control de la logica del juego
-	void tick();
-	//Renderizar todo
-	void draw();
-	
+
 	//El mundo box2D
 	b2World* getWorld();
 
 	//El nivel cargado
 	Level* getCurrentLevel(){return curLevel;}
+	
 	//Anyade un objeto al la lista de actualizacion
 	//Hay que crearlo en el mundo tambien!
 	//b2World.createBody(def)

@@ -7,7 +7,8 @@
 
 Paddle::Paddle(void):
 	w(5),
-	h(1)
+	h(1),
+	sticky(true)
 {
 
 
@@ -73,13 +74,15 @@ Paddle::~Paddle(void)
 void Paddle::tick(){
 
 	float max = TILES_X;
-	bool left, right;
+	bool left, right, s;
 
 	b2Vec2 vel = m_body->GetLinearVelocity();
 	b2Vec2 pos = m_body->GetPosition();
 
-	left = Input::isKeyDown('a');
-	right = Input::isKeyDown('d');	
+	left = Input::isKeyDown('a') | Input::isKeyDown('A') ;
+	right = Input::isKeyDown('d') | Input::isKeyDown('D');
+	s = Input::isKeyDown('s') | Input::isKeyDown('S');
+
 	mx = Input::getMouseX();
 
 	b2Vec2 speed(max, 0);
@@ -90,28 +93,36 @@ void Paddle::tick(){
 	if (left)
 		m_body->SetLinearVelocity(-speed);
 
-
-
 	//Seguir al raton
 	if(abs(mx - mx_last) > 0.10){
 		mx_last = mx;
 		pos.x = mx;
 		m_body->SetTransform(pos, 0);
 	}
-
+		
+	//Control por teclas
+	if(!left && !right){
+		vel *= 0.5f;
+		m_body->SetLinearVelocity(vel);
+	}
 
 	//Ajustarlo a la pantalla
 	if(pos.x - w/2< 1)
 		pos.x = 1 + w/2;
 	if(pos.x + w/2 > TILES_X - 1)
 		pos.x = TILES_X - w/2 - 1;
+	
 	m_body->SetTransform(pos, 0);
-	if(!left && !right){
-		vel *= 0.5f;
-		m_body->SetLinearVelocity(vel);
-	}
 
-	//cout << Input::getMouseX() << endl;
+	//Lanzar la bola si esta pegada
+	if(s)
+		sticky = false;
+
+	if(sticky){
+		m_ball->getBody()->SetTransform(
+			b2Vec2(pos.x, pos.y + h / 2 + m_ball->getRadius()), 
+			0);
+	}
 
 
 }
