@@ -3,6 +3,7 @@
 #include "Meta\Game.h"
 #include <iostream>
 #include "Ball.h"
+#include <vector>
 
 
 Brick::Brick(b2Vec2 pos, float _w, float _h):
@@ -69,9 +70,6 @@ void Brick::onContactEnded(Ball* b, b2Contact* c){
 }
 
 void Brick::onContactStarted(Ball* b, b2Contact* c){
-	b2Filter f = m_body->GetFixtureList()->GetFilterData();
-	f.maskBits = WALL_FILTER | BRICK_FILTER;
-	m_body->GetFixtureList()->SetFilterData(f);
 	ball_vel = b->getBody()->GetLinearVelocity();
 
 }
@@ -83,25 +81,28 @@ float random(float min, float max){
 
 void Brick::explode(){
 
-	const int divx = 4, divy = 4;
+	const int divx = random(3,6), divy = random(3,6);
 	float dx =(w / (divx - 1));
 	float dy =(h / (divy - 1));
 	const float hdx = (dx / 2) - (dx / 2) * 0.55;
 	const float hdy = (dy / 2) - (dy / 2) * 0.55;
 	b2Vec2 v[4], pos;
 
-	b2Vec2 mat[divx][divy];
+	std::vector<std::vector<b2Vec2>> mat;
+	mat.resize(divx);
+
+	//b2Vec2 mat[divx][divy];
 
 	for(int i = 0; i < divx; i++){
+		mat[i].resize(divy);
 		for(int j = 0; j < divy; j++){
 			mat[i][j] = b2Vec2(-w/2 + i * dx, h/2 - j * dy);
 		}
 	}
 
-	for(int i = 1; i < divx - 1; i++){
-		for(int j = 1; j < divy - 1; j++){
+	for(int i = 0; i < divx - 0; i++){
+		for(int j = 0; j < divy - 0; j++){
 			float xr, yr;
-
 			xr = random(-hdx, hdx);
 			yr = random(-hdy, hdy);
 			mat[i][j].x += xr;
@@ -125,7 +126,8 @@ void Brick::explode(){
 			Game::getInstance()->addGameObject(b);
 
 			b->getBody()->ApplyForceToCenter(ball_vel);
-			b->getBody()->ApplyTorque(random(-3,3));
+			b->getBody()->ApplyTorque(random(-500,500));
+			
 		}
 	}
 
@@ -158,17 +160,22 @@ BrickBit::BrickBit(b2Vec2 pos, b2Vec2 vertices[]) :
 	dynamicBox.Set(vertices, 4);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
+	fixtureDef.density = 10.0f;
+	fixtureDef.friction = 0.1f;
+	fixtureDef.restitution = 0.0f;
 	fixtureDef.filter.categoryBits = BRICK_FILTER;
-	fixtureDef.filter.maskBits = WALL_FILTER;
+	fixtureDef.filter.maskBits = BRICK_FILTER;
 	m_body->CreateFixture(&fixtureDef);
 
 	m_body->SetUserData(this);	
 }
 
 void BrickBit::tick(){
-	m_body->ApplyForceToCenter(b2Vec2(0,-10));
+	//b2Vec2 ballpos = Game::getInstance()->getCurrentLevel()->getBall()->getBody()->GetPosition();
+	//b2Vec2 f = m_body->GetPosition() - ballpos;
+	b2Vec2 f(0,50);
+	
+	m_body->ApplyForceToCenter(-f);
 	m_life -= TIME_STEP;
 	if(m_life < 0)
 		this->kill();
@@ -184,7 +191,7 @@ void BrickBit::draw(){
 	glRotatef(angle,0,0,1);
 
 	b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
-	Render::drawPolygon(shape->m_vertices, shape->GetVertexCount(), m_color);
+	Render::drawSolidPolygon(shape->m_vertices, shape->GetVertexCount(), b2Color(0.1,0.1,0.1));
 
 	glEnd();
 	glPopMatrix();	

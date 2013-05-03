@@ -20,6 +20,9 @@ public:
 	void addGameObject(GameObject*g) {m_obj.push_front(g);}
 	void loadLevel(int code);
 
+	Paddle* getPaddle(){return m_paddle;}
+	Ball* getBall(){return m_ball;}
+
 private:
 	b2World* m_world;
 	Ball* m_ball;

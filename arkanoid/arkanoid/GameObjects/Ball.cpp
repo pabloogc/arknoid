@@ -5,11 +5,14 @@
 #include "GL\freeglut.h"
 #include <iostream>
 #include "Brick.h"
+#include "Wall.h"
+#include "Paddle.h"
 
 Ball::Ball(b2Vec2 pos):
 	GameObject(),
 	m_radius(0.4),
-	m_color(255,255,255)
+	m_color(255,255,255),
+	limit(25)
 {
 	
 	b2World* world = Game::getInstance()->getWorld();
@@ -53,7 +56,6 @@ Ball::Ball(b2Vec2 pos):
 }
 
 void Ball::tick(){
-
 	/*std::cout 
 		<< m_body->GetLinearVelocity().Length() << "\t"
 		<< m_body->GetLinearVelocity().x << "\t" 
@@ -100,24 +102,19 @@ void Ball::endContact(GameObject* g, b2Contact* c){
 }
 
 
-
 void Ball::onContactStarted(Brick* b, b2Contact* c){
 
-	b2Vec2 v = m_body->GetLinearVelocity();
-	
-	b2Vec2 v1 = m_body->GetPosition();
-	b2Vec2 v2 = b->getBody()->GetPosition();
-	b2Vec2 v3 = v2 = v1;
+}
 
-	b2Vec2 normal = c->GetManifold()->localNormal;
-
-	v.x *= normal.x;
-	v.y *= normal.y;
+void Ball::onContactStarted(Wall* w, b2Contact* c){
+	if(w->getSide() == Side::BOTTOM){
+		m_body->SetLinearVelocity(b2Vec2(0, limit));
+		Game::getInstance()->getCurrentLevel()->getPaddle()->setSticky(true);
+	}
 }
 
 void Ball::limitVelocity(){	
-	const float limit = 25;
-	
+		
 	b2Vec2 v = m_body->GetLinearVelocity();
 
 	float velocity = v.Length();

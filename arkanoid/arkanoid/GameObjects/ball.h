@@ -24,11 +24,14 @@ public:
 	virtual void endContact(GameObject*, b2Contact*);
 	
 	virtual void onContactStarted(Brick*, b2Contact*);
+	virtual void onContactStarted(Wall*, b2Contact*);
 
 	void limitVelocity();
+	
 
 private:
 	float m_radius;
+	float limit;
 	b2Vec3 m_color;
 };
 #endif

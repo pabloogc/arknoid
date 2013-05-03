@@ -2,7 +2,8 @@
 #include "Meta\Game.h"
 #include "GL\freeglut.h"
 
-Wall::Wall(int side)
+Wall::Wall(Side side) :
+	m_side(side)
 {
 
 	b2World* world = Game::getInstance()->getWorld();
@@ -17,7 +18,7 @@ Wall::Wall(int side)
 	const float ty = TILES_Y / 2.0f;
 	const float dx = 0.5f;
 
-	switch (side)
+	switch (m_side)
 	{
 	case TOP:
 		bodyDef.position.Set(tx, TILES_Y - dx);

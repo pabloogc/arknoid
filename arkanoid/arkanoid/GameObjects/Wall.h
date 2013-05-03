@@ -5,11 +5,18 @@
 
 #include "GameObject.h"
 
+enum Side {
+	TOP,
+	LEFT,
+	RIGT,
+	BOTTOM
+};
+
 class Wall :
 	public GameObject
 {
 public:
-	Wall(int side);
+	Wall(Side side);
 	virtual ~Wall(void);
 
 	virtual void tick();
@@ -18,16 +25,13 @@ public:
 	virtual void startContact(GameObject*, b2Contact*);
 	virtual void endContact(GameObject*, b2Contact*);
 
+	Side getSide(){return m_side;}
+
 private:
 	float w, h;
-
+	Side m_side;
 };
 
-enum Side {
-	TOP,
-	LEFT,
-	RIGT,
-	BOTTOM
-};
+
 
 #endif

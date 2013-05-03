@@ -57,7 +57,6 @@ protected:
 	b2Body* m_body; //El cuerpo
 	bool alive;  //Si debe ser borrado del mundo en la siguiente iteracion
 	b2Color m_color;
-
 	//TODO: mas cosas?
 
 };

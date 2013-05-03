@@ -41,6 +41,7 @@ Paddle::Paddle(void):
 
 	// Set the user data
 	m_body->SetUserData(this);
+	m_color = b2Color(1,1,0);
 
 	//****************************************************************
 
@@ -140,6 +141,10 @@ void Paddle::draw(){
 	//Render::drawPolygon(shape->m_vertices, shape->GetVertexCount(), m_color);
 	Render::drawSegment(b2Vec2(-w/2, h/2), b2Vec2(w/2, h/2), m_color);
 
+	b2PolygonShape s;
+	s.SetAsBox(w/2, h/2);
+	Render::drawSolidPolygon(s.m_vertices, 4, m_color);
+	
 	glPopMatrix();	
 }
 

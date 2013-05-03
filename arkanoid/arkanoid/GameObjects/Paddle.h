@@ -13,6 +13,7 @@ class Paddle :
 public:
 
 	void setBall(Ball* b){m_ball = b;}
+	void setSticky(bool flag){sticky = flag;}
 
 	Paddle(void);
 	~Paddle(void);
