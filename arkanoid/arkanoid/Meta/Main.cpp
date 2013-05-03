@@ -54,6 +54,18 @@ void reshape(int w, int h)
 }
 
 /* Función que controla los eventos de teclado */
+void specialKeyboardDown(int key, int x, int y)
+{
+	Input::skeyboardDown(key, x, y);
+	glutPostRedisplay();
+}
+
+void specialKeyboardUp(int key, int x, int y)
+{
+	Input::skeyboardUp(key, x, y);
+	glutPostRedisplay();
+}
+
 void keyboardDown(unsigned char key, int x, int y)
 {
 	Input::keyboardDown(key, x, y);
@@ -103,6 +115,8 @@ int main(int argc, char** argv)
 	//glutSetCursor(GLUT_CURSOR_NONE); 
 	glutKeyboardFunc(keyboardDown);
 	glutKeyboardUpFunc(keyboardUp);
+	glutSpecialFunc(specialKeyboardDown);
+	glutSpecialUpFunc(specialKeyboardUp);
 
 	
 	glutIdleFunc(idle);

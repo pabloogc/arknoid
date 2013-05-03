@@ -32,7 +32,6 @@ Brick::Brick(b2Vec2 pos, float _w, float _h):
 	m_body->SetUserData(this);
 }
 
-
 Brick::~Brick(void)
 {
 	//explode();

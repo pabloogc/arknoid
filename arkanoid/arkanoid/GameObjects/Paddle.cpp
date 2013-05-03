@@ -80,9 +80,12 @@ void Paddle::tick(){
 	b2Vec2 vel = m_body->GetLinearVelocity();
 	b2Vec2 pos = m_body->GetPosition();
 
-	left = Input::isKeyDown('a') | Input::isKeyDown('A') ;
-	right = Input::isKeyDown('d') | Input::isKeyDown('D');
-	s = Input::isKeyDown('s') | Input::isKeyDown('S');
+	left = Input::isKeyDown('a') | Input::isKeyDown('A')
+		| Input::isSpecialKeyDown(GLUT_KEY_LEFT);
+	right = Input::isKeyDown('d') | Input::isKeyDown('D')
+		| Input::isSpecialKeyDown(GLUT_KEY_RIGHT);
+	s = Input::isKeyDown('s') | Input::isKeyDown('S') 
+		| Input::isKeyDown(' ');
 
 	mx = Input::getMouseX();
 

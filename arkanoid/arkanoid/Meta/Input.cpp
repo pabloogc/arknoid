@@ -1,6 +1,8 @@
 #include "Input.h"
 
-bool Input::keys[255];
+bool Input::keys[256];
+bool Input::skeys[256];
+
 int Input::mx = 0;
 int Input::my = 0;
 int Input::wx = 0;
@@ -8,26 +10,12 @@ int Input::wy = 0;
 
 Input::Input(void)
 {
-	for(int i = 0; i < 255; i++)
+	for(int i = 0; i < 256; i++){
 		keys[i] = false;
+		skeys[i] = false;
+	}
 }
 
-
-Input::~Input(void)
-{
-}
-
-bool Input::isKeyDown(unsigned char key){
-	return keys[key];
-}
-
-void Input::keyboardUp(unsigned char key, int x, int y){
-	keys[key] = false;
-}
-
-void Input::keyboardDown(unsigned char key, int x, int y){
-	keys[key] = true;
-}
 
 void Input::mouseMoved(int x, int y){
 	mx = x;

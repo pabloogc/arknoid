@@ -14,10 +14,8 @@ Ball::Ball(b2Vec2 pos):
 	m_color(255,255,255),
 	limit(25)
 {
-	
 	b2World* world = Game::getInstance()->getWorld();
 
-	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = pos;
@@ -51,7 +49,7 @@ Ball::Ball(b2Vec2 pos):
 
 
 	m_body->CreateFixture(&fixtureDef);
-	m_body->SetLinearVelocity(b2Vec2(0,20));
+	m_body->SetLinearVelocity(b2Vec2(0,limit));
 	m_body->SetUserData(this);
 }
 

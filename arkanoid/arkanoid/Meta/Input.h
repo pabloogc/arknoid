@@ -14,9 +14,15 @@ class Input
 {
 public:
 
-	static bool isKeyDown(unsigned char key);
-	static void keyboardDown(unsigned char key, int x, int y);
-	static void keyboardUp(unsigned char key, int x, int y);
+	static bool isKeyDown(unsigned char key){return keys[key];}
+	static bool isSpecialKeyDown(int key){return skeys[key];}
+
+	static void keyboardDown(int key, int x, int y){keys[key] = true;}
+	static void keyboardUp(int key, int x, int y){keys[key] = false;}
+
+	static void skeyboardDown(int key, int x, int y){skeys[key] = true;}
+	static void skeyboardUp(int key, int x, int y){skeys[key] = false;}
+
 	static void mouseMoved(int x, int y);
 	static void windowReshaped(int w, int h){wx = w; wy = h;}
 	//coordenadas del raton en 0-32
@@ -31,10 +37,10 @@ public:
 
 private:
 	Input(void);
-	~Input(void);
 
 	static int mx, my, wx, wy;
-	static bool keys[255];
+	static bool keys[];
+	static bool skeys[];
 };
 
 #endif
