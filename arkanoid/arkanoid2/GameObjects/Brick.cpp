@@ -42,10 +42,10 @@ Brick::~Brick(void)
 void Brick::tick(){
 	float dist = b2Distance(m_body->GetPosition(), initial_pos);
 	float ang = m_body->GetAngle();
-	if(dist > h / 8){
+	if(dist > h / 16){
 		if(abs(ang) > 0.05)
 			m_body->SetAngularVelocity(-ang);
-		m_body->ApplyForceToCenter(-5*dist*(m_body->GetPosition() - initial_pos));
+		m_body->ApplyForceToCenter(-32*dist*(m_body->GetPosition() - initial_pos));
 	}
 }
 
