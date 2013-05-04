@@ -16,18 +16,19 @@ Paddle::Paddle(void):
 	//****************************************************************
 
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
+	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set(TILES_X / 2, 2.5);
 	m_body = world->CreateBody(&bodyDef);
 
-	b2EdgeShape paddleShape;
+	b2ChainShape paddleShape;
 
-	b2Vec2 vert[2] = {
+	b2Vec2 vert[] = {
 		b2Vec2(-w/2, h/2), 
+		b2Vec2(0, 3.1*(h/2)),
 		b2Vec2(w/2, h/2)
-	}
-	;
-	paddleShape.Set(vert[0], vert[1]);
+	};
+
+	paddleShape.CreateChain(vert, 3);
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &paddleShape;
@@ -119,8 +120,7 @@ void Paddle::tick(){
 
 	if(sticky){
 		m_ball->getBody()->SetTransform(
-			b2Vec2(pos.x, pos.y + h / 2 + m_ball->getRadius()), 
-			0);
+			b2Vec2(pos.x, pos.y + 3.1*(h / 2) + m_ball->getRadius()),	0);
 	}
 
 
@@ -135,13 +135,12 @@ void Paddle::draw(){
 	glTranslatef(pos.x, pos.y, 0);
 	glRotatef(angle,0,0,1);
 
-	//b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
-	//Render::drawPolygon(shape->m_vertices, shape->GetVertexCount(), m_color);
-	Render::drawSegment(b2Vec2(-w/2, h/2), b2Vec2(w/2, h/2), m_color);
+	b2ChainShape *shape = (b2ChainShape*) m_body->GetFixtureList()->GetShape();
+	Render::drawPolygon(shape->m_vertices, 3, b2Color(1,1,1));
 
-	b2PolygonShape s;
-	s.SetAsBox(w/2, h/2);
-	Render::drawSolidPolygon(s.m_vertices, 4, m_color);
+	//b2PolygonShape s;
+	//s.SetAsBox(w/2, h/2);
+	//Render::drawSolidPolygon(s.m_vertices, 4, m_color);
 	
 	glPopMatrix();	
 }
@@ -160,17 +159,15 @@ void Paddle::onContactStarted(Ball* b, b2Contact* c){
 
 void Paddle::onContactEnded(Ball* b, b2Contact* c){
 
-	b2Vec2 v = b->getBody()->GetLinearVelocity();
+	//b2Vec2 v = b->getBody()->GetLinearVelocity();
 
-	b2Vec2 p1 = m_body->GetPosition();
-	b2Vec2 p2 = b->getBody()->GetPosition();
+	//b2Vec2 p1 = m_body->GetPosition();
+	//b2Vec2 p2 = b->getBody()->GetPosition();
 
-	b2Vec2 p = p2 - p1;
-	p *= v.Length() / p.Length();
+	//b2Vec2 p = p2 - p1;
+	//p *= v.Length() / p.Length();
 
-	b->getBody()->SetLinearVelocity(p);
-
-
+	//b->getBody()->SetLinearVelocity(p);
 }
 
 //**************************

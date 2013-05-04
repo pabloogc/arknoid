@@ -28,6 +28,7 @@ private:
 	Ball* m_ball;
 	Paddle* m_paddle;
 	std::list<GameObject*> m_obj;
+	Texture m_background;
 };
 
 #endif

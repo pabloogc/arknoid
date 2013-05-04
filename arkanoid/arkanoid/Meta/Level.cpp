@@ -9,6 +9,7 @@
 Level::Level(void)
 {
 	m_world = new b2World(b2Vec2(0,0));	
+	m_background = Texture::getTexture("fondo");
 }
 
 void Level::loadLevel(int code){
@@ -69,6 +70,21 @@ void Level::tick(){
 }
 
 void Level::draw(){
+
+	glPushMatrix();
+
+	m_background.bind();
+
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex2f(0, 0);
+	glTexCoord2f(ABSOLUTE_TILES_X, 0); glVertex2f(ABSOLUTE_TILES_X, 0);
+	glTexCoord2f(ABSOLUTE_TILES_X, ABSOLUTE_TILES_Y); glVertex2f(ABSOLUTE_TILES_X, ABSOLUTE_TILES_Y);
+	glTexCoord2f(0, ABSOLUTE_TILES_Y); glVertex2f(0, ABSOLUTE_TILES_Y);
+	glEnd();
+	m_background.disable();
+
+	glEnd();
+	glPopMatrix();	
 
 	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
 		(*it)->draw();

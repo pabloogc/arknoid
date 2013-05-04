@@ -88,5 +88,8 @@
     <Image Include="ladrillo.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="fondo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

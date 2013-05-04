@@ -51,6 +51,7 @@ void Brick::draw(){
 	glRotatef(angle + 180, 0,0,1);
 
 	m_texture.bind();
+
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex2f(-w/2, -h/2);
 	glTexCoord2f(1.0, 0.0); glVertex2f(+w/2, -h/2);

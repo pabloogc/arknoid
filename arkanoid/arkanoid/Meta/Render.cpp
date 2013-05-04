@@ -153,6 +153,8 @@ void Texture::init(){
 	ilutRenderer(ILUT_OPENGL);
 	last = 0;
 	Texture::add("ladrillo", "ladrillo.png");
+	Texture::add("fondo", "fondo.png");
+
 }
 
 void Texture::add(std::string tex_name, const char* file_path){
@@ -173,10 +175,11 @@ void Texture::add(std::string tex_name, const char* file_path){
 	Texture::id_list[Texture::last] = textureID;
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pdata);
-	//glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_CLAMP);
-	//glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
 
 	ilDeleteImages(1, &texid);
