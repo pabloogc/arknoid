@@ -197,13 +197,14 @@ Texture Texture::getTexture(string tex_name){
 }
 
 void Texture::bind(){
-
+	glEnable(GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, id);
 }
 
 void Texture::disable(){
+	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
-
 }
 
