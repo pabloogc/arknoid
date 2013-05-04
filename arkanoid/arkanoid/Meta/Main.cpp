@@ -106,6 +106,7 @@ void idle(void)
 /* Función principal */
 int main(int argc, char** argv)
 {
+	
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(32 * 24, 32 * 16);

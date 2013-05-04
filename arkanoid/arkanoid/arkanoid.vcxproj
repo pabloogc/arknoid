@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="GameObjects\Ball.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="Meta\Level.cpp" />
@@ -83,6 +84,7 @@
     <ClCompile Include="Meta\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="GameObjects\Ball.h" />
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="Meta\Level.h" />

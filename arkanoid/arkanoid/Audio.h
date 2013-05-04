@@ -7,10 +7,10 @@
 class Audio
 {
 public:
-	Audio;
 	static void reproducirM(Mix_Music *);
 	static void reproducirS(Mix_Chunk *);
 	static void detener();
 };
 
 #endif _AUDIO_H_
+
