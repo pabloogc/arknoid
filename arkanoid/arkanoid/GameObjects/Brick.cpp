@@ -30,6 +30,7 @@ Brick::Brick(b2Vec2 pos, float _w, float _h):
 	m_body->CreateFixture(&fixtureDef);
 
 	m_body->SetUserData(this);
+	m_texture = Texture::getTexture("ladrillo");
 }
 
 Brick::~Brick(void)
@@ -47,10 +48,16 @@ void Brick::draw(){
 	glPushMatrix();
 
 	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(angle,0,0,1);
+	glRotatef(angle + 180, 0,0,1);
 
-	b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
-	Render::drawSolidPolygon(shape->m_vertices, shape->GetVertexCount(), b2Color(0.8,0.33,0.41));
+	m_texture.bind();
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex2f(-w/2, -h/2);
+	glTexCoord2f(1.0, 0.0); glVertex2f(+w/2, -h/2);
+	glTexCoord2f(1.0, 1.0); glVertex2f(+w/2, +h/2);
+	glTexCoord2f(0.0, 1.0); glVertex2f(-w/2, +h/2);
+	glEnd();
+	m_texture.disable();
 
 	glEnd();
 	glPopMatrix();	
@@ -124,7 +131,7 @@ void Brick::explode(){
 
 			b->getBody()->ApplyForceToCenter(ball_vel);
 			b->getBody()->ApplyTorque(random(-500,500));
-			
+
 		}
 	}
 
@@ -171,7 +178,7 @@ void BrickBit::tick(){
 	//b2Vec2 ballpos = Game::getInstance()->getCurrentLevel()->getBall()->getBody()->GetPosition();
 	//b2Vec2 f = m_body->GetPosition() - ballpos;
 	b2Vec2 f(0,50);
-	
+
 	m_body->ApplyForceToCenter(-f);
 	m_life -= TIME_STEP;
 	if(m_life < 0)

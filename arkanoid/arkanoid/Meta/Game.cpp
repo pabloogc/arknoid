@@ -20,8 +20,7 @@ Game::Game(void):
 	stateFunc[GAME_OVER] = &Game::gameOverState;
 	stateFunc[SPLASH] = &Game::splashState;
 	stateFunc[MENU] = &Game::menuState;
-
-
+	
 
 	//Mundo sin gravedad
 	curLevel = new Level();
@@ -53,10 +52,10 @@ void Game::levelCompleted(){
 
 //Inicializacion del singleton
 void Game::init(){
+	Texture::init();
 	m_game = new Game;
-	t1 = t2 = clock();
 	m_game->curLevel->loadLevel(0);
-
+	t1 = t2 = clock();
 }
 
 //Limpiar la memoria aqui

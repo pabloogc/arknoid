@@ -34,7 +34,6 @@ void Level::loadLevel(int code){
 		{
 			Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8);
 			addGameObject(b);
-			//b->explode();			
 		}
 	}
 

@@ -76,7 +76,7 @@ void Wall::tick(){
 
 void Wall::draw(){
 	b2Vec2 pos = m_body->GetPosition();
-	float angle = m_body->GetAngle() * 57.2957795131;
+	float angle = m_body->GetAngle() * TO_DEGREE;
 
 	//cout << pos.x << pos.y << endl;
 

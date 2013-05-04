@@ -25,21 +25,28 @@ public:
 };
 
 
-
-#define MAX 50
+#define MAX_TEXTURES 50
+using namespace std;
 
 class Texture{
 public:
+	Texture(){id = -1;}
+	Texture(int _id){id = _id;}
 	static void init();
 	static void add(std::string, const char*);
-	static void bind(std::string);
-	static void disable();
+	static Texture getTexture(string);
+	
+	void bind();
+	void disable();
+
 private:
-	std::string name_list[MAX];
-	GLuint id_list[MAX];
-	int last;
-	static Texture* texture;
-	Texture();
+	
+	GLuint id;
+	
+	static string name_list[MAX_TEXTURES];
+	static GLuint id_list[MAX_TEXTURES];
+	static int last;
+
 };
 
 #endif

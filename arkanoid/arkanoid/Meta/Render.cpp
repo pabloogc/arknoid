@@ -121,8 +121,8 @@ void Render::drawString(float32 x, float32 y, const char *string)
 	glColor3f(1, 1, 1);
 	glTranslatef(x,y,0);
 	glLineWidth(2);
-	float32 sx = ABSOLUTE_TILES_X / 2000.0;
-	float32 sy = ABSOLUTE_TILES_Y / 2000.0;
+	float32 sx = ABSOLUTE_TILES_X / 2000.0f;
+	float32 sy = ABSOLUTE_TILES_Y / 2000.0f;
 	glScalef(sx,sy,1);
 	glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char*)string);
 	glLineWidth(1);
@@ -140,23 +140,23 @@ void Render::drawAABB(b2AABB* aabb, const b2Color& c)
 	glEnd();
 }
 
+//****************************************************************
 
 
-Texture* Texture::texture = nullptr;
+string Texture::name_list[MAX_TEXTURES];
+GLuint Texture::id_list[MAX_TEXTURES];
+int Texture::last;
 
-Texture::Texture(){
+void Texture::init(){
 	ilInit();
 	iluInit();
 	ilutRenderer(ILUT_OPENGL);
 	last = 0;
-}
-
-void Texture::init(){
-	texture = new Texture;
+	Texture::add("ladrillo", "ladrillo.png");
 }
 
 void Texture::add(std::string tex_name, const char* file_path){
-	texture->name_list[texture->last] = tex_name;
+	Texture::name_list[Texture::last] = tex_name;
 
 	ILuint texid;
 	ilGenImages(1, &texid);
@@ -170,33 +170,40 @@ void Texture::add(std::string tex_name, const char* file_path){
 
 	GLuint textureID;
 	glGenTextures(1, &textureID);
-	texture->id_list[texture->last] = textureID;
+	Texture::id_list[Texture::last] = textureID;
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pdata);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_CLAMP);
+	//glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
 
 	ilDeleteImages(1, &texid);
 
-	std::cout << "anadida textura con nombre " << texture->name_list[texture->last] << " y id " << texture->id_list[texture->last] << "\n";
-	texture->last++;
+	std::cout << "anadida textura con nombre " << Texture::name_list[Texture::last] << " y id " << Texture::id_list[Texture::last] << "\n";
+	Texture::last++;
 }
 
-void Texture::bind(std::string tex_name){
+Texture Texture::getTexture(string tex_name){
 	int tex_id = -1;
-	for(int i=0; i< texture->last; i++){
-		if(texture->name_list[i] == tex_name){
-			tex_id = texture->id_list[i];
+	for(int i=0; i< Texture::last; i++){
+		if(Texture::name_list[i] == tex_name){
+			tex_id = Texture::id_list[i];
 		}
 	}
+	
+	return Texture(tex_id);
+}
+
+void Texture::bind(){
+
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex_id);
+	glBindTexture(GL_TEXTURE_2D, id);
 }
 
 void Texture::disable(){
 	glDisable(GL_TEXTURE_2D);
+
 }
 
