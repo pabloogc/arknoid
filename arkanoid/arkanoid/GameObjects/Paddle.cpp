@@ -6,7 +6,7 @@
 #include "Ball.h"
 
 Paddle::Paddle(void):
-	w(5),
+	w(7),
 	h(1),
 	sticky(true)
 {
@@ -28,7 +28,8 @@ Paddle::Paddle(void):
 		b2Vec2(w/2, h/2)
 	};
 
-	paddleShape.CreateChain(vert, 3);
+	
+	paddleShape.CreateLoop(vert, 3);
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &paddleShape;
