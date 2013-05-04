@@ -11,6 +11,7 @@
 #include "Meta\Input.h"
 #include "Constants.h"
 #include <time.h>
+#include <SDL/SDL.h>
 
 using namespace std;
 
@@ -19,7 +20,7 @@ int ancho, alto;
 /* Función para inicializar algunos parámetros de OpenGL */
 void init(void)
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	glClearColor(0.0,0.0,0.0,1.0);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -47,7 +48,7 @@ void reshape(int w, int h)
 	Input::windowReshaped(w, h);
 
 	int x = min(w,h);
-	glViewport((w-x) / 2.0, 0, x, x);
+	glViewport((w-x) / 2, 0, x, x);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, ABSOLUTE_TILES_X, 0, ABSOLUTE_TILES_Y);
@@ -104,7 +105,7 @@ void idle(void)
 }
 
 /* Función principal */
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);

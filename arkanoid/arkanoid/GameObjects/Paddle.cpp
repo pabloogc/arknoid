@@ -28,7 +28,6 @@ Paddle::Paddle(void):
 		b2Vec2(w/2, h/2)
 	};
 
-	
 	paddleShape.CreateLoop(vert, 3);
 	
 	b2FixtureDef fixtureDef;

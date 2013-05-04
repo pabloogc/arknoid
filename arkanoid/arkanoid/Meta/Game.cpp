@@ -53,6 +53,8 @@ void Game::levelCompleted(){
 //Inicializacion del singleton
 void Game::init(){
 	Texture::init();
+	Audio::init();
+	Audio::playMusic(Audio::Music::MAIN_MUSIC);
 	m_game = new Game;
 	m_game->curLevel->loadLevel(0);
 	t1 = t2 = clock();

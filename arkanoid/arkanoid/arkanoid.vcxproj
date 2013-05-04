@@ -49,7 +49,8 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>./lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libDevIL.a;box2d.lib;libilu.a;libilut.a;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libDevIL.a;box2d.lib;libilu.a;libilut.a;libSDLmain.lib;libSDL.dll.a;libSDL_mixer.a;SDL_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -69,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Meta\Audio.cpp" />
     <ClCompile Include="GameObjects\Ball.cpp" />
     <ClCompile Include="GameObjects\Brick.cpp" />
     <ClCompile Include="Meta\Level.cpp" />
@@ -83,6 +85,7 @@
     <ClCompile Include="Meta\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Meta\Audio.h" />
     <ClInclude Include="GameObjects\Ball.h" />
     <ClInclude Include="GameObjects\Brick.h" />
     <ClInclude Include="Meta\Level.h" />
