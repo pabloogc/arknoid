@@ -65,16 +65,6 @@ void Level::tick(){
 }
 
 void Level::draw(){
-	glPushMatrix();
-	m_background.bind();
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0); glVertex2f(0, 0);
-	glTexCoord2f(ABSOLUTE_TILES_X, 0); glVertex2f(ABSOLUTE_TILES_X, 0);
-	glTexCoord2f(ABSOLUTE_TILES_X, ABSOLUTE_TILES_Y); glVertex2f(ABSOLUTE_TILES_X, ABSOLUTE_TILES_Y);
-	glTexCoord2f(0, ABSOLUTE_TILES_Y); glVertex2f(0, ABSOLUTE_TILES_Y);
-	glEnd();
-	m_background.disable();	
-	glPopMatrix();
 
 	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
 		(*it)->draw();

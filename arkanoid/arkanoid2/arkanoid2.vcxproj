@@ -114,9 +114,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="fondo.png" />
+    <Image Include="barra.png" />
     <Image Include="fondo_general.png" />
     <Image Include="ladrillo.png" />
+    <Image Include="muro.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="getlucky.wav" />

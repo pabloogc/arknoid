@@ -201,7 +201,7 @@ void BrickBit::draw(){
 	glRotatef(angle,0,0,1);
 
 	b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
-	Render::drawSolidPolygon(shape->m_vertices, shape->GetVertexCount(), b2Color(0.1,0.1,0.1));
+	Render::drawSolidPolygon(shape->m_vertices, shape->GetVertexCount(), b2Color(0.9,0.9,0.9));
 
 	glEnd();
 	glPopMatrix();

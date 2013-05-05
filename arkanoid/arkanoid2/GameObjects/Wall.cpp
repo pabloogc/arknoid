@@ -60,6 +60,7 @@ Wall::Wall(Side side) :
 	m_body->CreateFixture(&fixtureDef);
 
 	m_body->SetUserData(this);
+	m_texture = Texture::getTexture("muro");
 }
 
 Wall::~Wall(){
@@ -77,17 +78,19 @@ void Wall::draw(){
 	glPushMatrix();
 
 	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(angle,0,0,1);
+	glRotatef(angle + 180,0,0,1);
+	
+	//glColor3b(115,115,115);
+	
+	m_texture.bind();
 	glBegin(GL_QUADS);
-
-	glColor3b(115,115,115);
-
-	glVertex2f(-w/2, -h/2);
-	glVertex2f(+w/2, -h/2);
-	glVertex2f(+w/2, +h/2);
-	glVertex2f(-w/2, +h/2);
-
+	glTexCoord2f(0.0, 0.0); glVertex2f(-w/2, -h/2);
+	glTexCoord2f(w, 0.0); glVertex2f(+w/2, -h/2);
+	glTexCoord2f(w, h); glVertex2f(+w/2, +h/2);
+	glTexCoord2f(0.0, h); glVertex2f(-w/2, +h/2);
 	glEnd();
+	m_texture.disable();
+
 	glPopMatrix();
 }
 

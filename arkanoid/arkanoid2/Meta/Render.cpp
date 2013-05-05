@@ -147,8 +147,8 @@ void Texture::init(){
 	ilutRenderer(ILUT_OPENGL);
 	last = 0;
 	Texture::add("ladrillo", "ladrillo.png");
-	Texture::add("fondo", "fondo.png");
 	Texture::add("fondo_general", "fondo_general.png");
+	Texture::add("muro", "muro.png");
 }
 
 void Texture::add(std::string tex_name, std::string file_path){
