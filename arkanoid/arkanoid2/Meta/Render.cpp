@@ -115,7 +115,7 @@ void Render::drawString(float32 x, float32 y, const char *string)
 
 	glColor3f(0.9, 0.9, 0.9);
 	glTranslatef(x,y,0);
-	glLineWidth(4);
+	glLineWidth(3);
 	float32 sx = ABSOLUTE_TILES_X / 2000.0f;
 	float32 sy = ABSOLUTE_TILES_Y / 2000.0f;
 	glScalef(sx,sy,1);

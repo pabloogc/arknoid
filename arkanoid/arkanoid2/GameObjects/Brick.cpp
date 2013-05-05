@@ -9,7 +9,7 @@ Brick::Brick(b2Vec2 pos, float _w, float _h, int live):
 	w(_w),
 	h(_h),
 	m_lives(live),
-	m_score(live * 1000),
+	m_score(live * 10),
 	initial_pos(pos)
 {
 	b2World* world = Game::getInstance()->getWorld();
@@ -98,9 +98,11 @@ void Brick::onContactEnded(Ball* b, b2Contact* c){
 	if(m_lives == 0){
 		this->kill();
 		Game::getInstance()->addScore(m_score);
+		Game::getInstance()->getCurrentLevel()->brickDestroyed();
 	}
 	else if(m_lives > 0){
 		changeTexture();
+		Game::getInstance()->addScore(random(0,5));
 	}
 }
 
@@ -108,7 +110,7 @@ void Brick::onContactStarted(Ball* b, b2Contact* c){
 	ball_vel = b->getBody()->GetLinearVelocity();
 }
 
-float random(float min, float max){
+float Brick::random(float min, float max){
 	float dif = max - min;
 	return ((rand() % 1000) / 1000.0f) * dif + min;
 }
@@ -172,7 +174,7 @@ void BrickBit::endContact(GameObject* g, b2Contact* c){
 }
 
 BrickBit::BrickBit(b2Vec2 pos, b2Vec2 vertices[]) :
-	m_life(random(1, 4))
+	m_life(Brick::random(1, 4))
 {
 	b2World* world = Game::getInstance()->getWorld();
 

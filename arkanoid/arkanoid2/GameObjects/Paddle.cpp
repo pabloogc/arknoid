@@ -120,7 +120,7 @@ void Paddle::tick(){
 
 	if(sticky){
 		m_ball->getBody()->SetTransform(
-			b2Vec2(pos.x, pos.y + 1.5*(h / 2) + m_ball->getRadius()),	0);
+			b2Vec2(pos.x, pos.y + 1.8*(h / 2) + m_ball->getRadius()),	0);
 	}
 }
 

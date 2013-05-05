@@ -46,6 +46,7 @@ public:
 	void levelCompleted();
 	void changeState(GameState newState){m_state = newState;}
 	void addScore(int score){m_score += score;}
+
 	void addLives(int amount){
 		m_lives += amount;
 		if(m_lives < 0)
@@ -57,7 +58,8 @@ private:
 	static Game* m_game; //Singleton
 	Game();
 
-	
+	int level;
+	float timer;
 	Level* curLevel;
 	Level* nextLevel;
 	ContactListener* m_listener; //Listener para las colisiones
@@ -70,6 +72,7 @@ private:
 	void gameOverState();
 	void gameWonState();
 	void switchLevelState();
+	void displayScore();
 
 	void (Game::*stateFunc[10])(void);
 	

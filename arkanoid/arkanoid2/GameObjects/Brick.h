@@ -23,6 +23,7 @@ public:
 	virtual void onContactEnded(Ball*, b2Contact*);
 
 	void explode();
+	static float random(float, float);
 
 private:
 	//golpes que aguanta el ladrillo

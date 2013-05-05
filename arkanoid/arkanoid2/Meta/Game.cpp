@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "Render.h"
+#include "GameObjects\Paddle.h"
+#include "Input.h"
 
 //Variables estaticas
 clock_t t1, t2;
@@ -9,7 +11,8 @@ Game* Game::m_game = nullptr;
 Game::Game(void):
 	m_state(PLAYING),
 	m_score(0),
-	m_lives(3)
+	m_lives(3),
+	level(0)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
 	stateFunc[PLAYING] = &Game::playingState;
@@ -19,30 +22,24 @@ Game::Game(void):
 	stateFunc[SPLASH] = &Game::splashState;
 	stateFunc[MENU] = &Game::menuState;
 
-	//Mundo sin gravedad
+
 	curLevel = new Level();
 	nextLevel = new Level();
 	m_listener = new ContactListener();
-	curLevel->getWorld()->SetAllowSleeping(false);
 	curLevel->getWorld()->SetContactListener(m_listener);
 
-	//m_world->SetGravity(b2Vec2(0.0, 0.0));
 }
 
-void Game::addGameObject(GameObject* obj){
+void Game::addGameObject(GameObject* obj)
+{
 	//m_gobj.push_back(obj);
 	curLevel->addGameObject(obj);
 }
 
-void Game::levelCompleted(){
-	static int l = 0;
-
-	delete curLevel;
-	curLevel = nextLevel;
-	nextLevel = new Level();
-	nextLevel->loadLevel(l);
-
-	l++;
+void Game::levelCompleted()
+{	
+	timer = 3;
+	changeState(SWITCHING_LEVELS);
 }
 
 //Inicializacion del singleton
@@ -100,15 +97,46 @@ void Game::playingState()
 		curLevel->tick();
 	}
 	curLevel->draw();
+	displayScore();
 
+}
+
+void Game::displayScore()
+{
 	stringstream ss;
+	ss << "Pts-";
 	ss << m_score;
-
 	Render::drawString(1,TILES_Y + 0.25f, ss.str().c_str());
+	ss.clear();
+	ss.str(std::string());
+	ss << "Vidas-";
+	ss << m_lives > 0 ? m_lives : 0;
+	Render::drawString(TILES_X - 13 ,TILES_Y + 0.25f, ss.str().c_str());
 }
 
 void Game::gameOverState()
 {
+	Render::drawString(3,20, "Has perdido :(");
+	Render::drawString(3,16, "Jugar (y/n)");
+	curLevel->draw();
+	displayScore();
+
+	if(Input::isKeyDown('y')){
+		m_score = 0;
+		level = 0;
+		m_lives = 3;
+		delete curLevel;
+		curLevel = new Level();
+		curLevel->loadLevel(level);
+		curLevel->getWorld()->SetContactListener(m_listener);
+		curLevel->tick();
+		curLevel->draw();
+		changeState(PLAYING);
+	}
+	else if (Input::isKeyDown('n')){
+		exit(0);
+	}	
+
 }
 
 void Game::gameWonState()
@@ -117,4 +145,23 @@ void Game::gameWonState()
 
 void Game::switchLevelState()
 {
+	if(timer > 0) {
+		timer -= TIME_STEP;
+		Render::drawString(3,16, "Siguiente nivel!");
+		curLevel->getPaddle()->tick();
+		curLevel->draw();
+		displayScore();
+
+	}
+	else {
+		level++;
+		delete curLevel;
+		curLevel = new Level();
+		curLevel->loadLevel(level);
+		curLevel->getWorld()->SetContactListener(m_listener);
+		curLevel->tick();
+		curLevel->draw();
+		changeState(PLAYING);
+	}
+
 }

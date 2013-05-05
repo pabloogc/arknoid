@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Level.h"
-
+#include "Game.h"
 #include "GameObjects\Ball.h"
 #include "GameObjects\Brick.h"
 #include "GameObjects\Paddle.h"
@@ -9,10 +9,18 @@
 Level::Level(void)
 {
 	m_world = new b2World(b2Vec2(0,0));
-	m_background = Texture::getTexture("fondo");
+	m_world->SetAllowSleeping(false);
+	num_bricks = 1;
+}
+
+void Level::brickDestroyed(){
+	num_bricks--;
 }
 
 void Level::loadLevel(int code){
+
+	num_bricks = 1 + code;
+
 	addGameObject(new Wall(Side::TOP));
 	addGameObject(new Wall(Side::BOTTOM));
 	addGameObject(new Wall(Side::LEFT));
@@ -28,11 +36,11 @@ void Level::loadLevel(int code){
 
 	p->setBall(ball);
 
-	for (int i = 0; i < TILES_X / 2 - 3; i++)
+	for (int i = 0; i < 1; i++)
 	{
-		for (int j = 0; j < 8; j++)
+		for (int j = 0; j < code + 1; j++)
 		{
-			Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 2);
+			Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 1);
 			addGameObject(b);
 		}
 	}
@@ -44,6 +52,16 @@ b2World* Level::getWorld(){
 
 Level::~Level(void)
 {
+	clear();
+	delete m_world;
+}
+
+void Level::clear(){
+	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end();){
+		m_world->DestroyBody((*it)->getBody());
+		delete *it;
+		it = m_obj.erase(it);	
+	}
 }
 
 void Level::tick(){
@@ -62,6 +80,9 @@ void Level::tick(){
 			it = m_obj.erase(it);
 		}
 	}
+
+	if(num_bricks == 0)
+		Game::getInstance()->levelCompleted();
 }
 
 void Level::draw(){
