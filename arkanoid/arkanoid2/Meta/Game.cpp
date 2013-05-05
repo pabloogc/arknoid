@@ -7,7 +7,9 @@ clock_t t1, t2;
 Game* Game::m_game = nullptr;
 
 Game::Game(void):
-	m_state(PLAYING)
+	m_state(PLAYING),
+	m_score(0),
+	m_lives(3)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
 	stateFunc[PLAYING] = &Game::playingState;
@@ -99,7 +101,10 @@ void Game::playingState()
 	}
 	curLevel->draw();
 
-	Render::drawString(1,TILES_Y + 0.25f,"EXPLOTA O K ASE");
+	stringstream ss;
+	ss << m_score;
+
+	Render::drawString(1,TILES_Y + 0.25f, ss.str().c_str());
 }
 
 void Game::gameOverState()

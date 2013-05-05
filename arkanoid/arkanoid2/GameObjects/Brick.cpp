@@ -9,6 +9,7 @@ Brick::Brick(b2Vec2 pos, float _w, float _h, int live):
 	w(_w),
 	h(_h),
 	m_lives(live),
+	m_score(live * 1000),
 	initial_pos(pos)
 {
 	b2World* world = Game::getInstance()->getWorld();
@@ -30,8 +31,8 @@ Brick::Brick(b2Vec2 pos, float _w, float _h, int live):
 		BALL_FILTER |
 		PADDLE_FILTER;
 	m_body->CreateFixture(&fixtureDef);
-
 	m_body->SetUserData(this);
+
 	changeTexture();
 }
 
@@ -94,8 +95,10 @@ void Brick::endContact(GameObject* g, b2Contact* c){
 
 void Brick::onContactEnded(Ball* b, b2Contact* c){
 	m_lives--;
-	if(m_lives == 0)
+	if(m_lives == 0){
 		this->kill();
+		Game::getInstance()->addScore(m_score);
+	}
 	else if(m_lives > 0){
 		changeTexture();
 	}

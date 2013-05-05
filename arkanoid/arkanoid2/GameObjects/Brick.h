@@ -27,6 +27,8 @@ public:
 private:
 	//golpes que aguanta el ladrillo
 	int m_lives;
+	float m_score;
+
 	float w, h;
 	b2Vec2 ball_vel;
 	b2Vec2 initial_pos;
@@ -48,7 +50,6 @@ public:
 	virtual void onContactStarted(Wall*, b2Contact*){}
 
 private:
-
 	float m_life;
 };
 

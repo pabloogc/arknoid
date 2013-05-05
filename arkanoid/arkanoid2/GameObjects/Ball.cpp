@@ -100,6 +100,7 @@ void Ball::onContactStarted(Wall* w, b2Contact* c){
 	if(w->getSide() == Side::BOTTOM){
 		m_body->SetLinearVelocity(b2Vec2(0, limit));
 		Game::getInstance()->getCurrentLevel()->getPaddle()->setSticky(true);
+		Game::getInstance()->addLives(-1);
 	}
 }
 

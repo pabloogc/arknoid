@@ -44,19 +44,23 @@ public:
 	void addGameObject(GameObject*);
 
 	void levelCompleted();
-
 	void changeState(GameState newState){m_state = newState;}
+	void addScore(int score){m_score += score;}
+	void addLives(int amount){
+		m_lives += amount;
+		if(m_lives < 0)
+			changeState(GAME_OVER);
+	}
+
 
 private:
 	static Game* m_game; //Singleton
 	Game();
 
-	//Cosas box2d
+	
 	Level* curLevel;
 	Level* nextLevel;
-
 	ContactListener* m_listener; //Listener para las colisiones
-
 	GameState m_state;
 
 	void menuState();
@@ -68,6 +72,9 @@ private:
 	void switchLevelState();
 
 	void (Game::*stateFunc[10])(void);
+	
+	int m_score;
+	int m_lives;
 };
 
 #endif
