@@ -149,6 +149,9 @@ void Texture::init(){
 	Texture::add("ladrillo", "ladrillo.png");
 	Texture::add("fondo_general", "fondo_general.png");
 	Texture::add("muro", "muro.png");
+	Texture::add("barra", "barra.png");
+	Texture::add("bola", "bola.png");
+
 }
 
 void Texture::add(std::string tex_name, std::string file_path){
@@ -176,6 +179,7 @@ void Texture::add(std::string tex_name, std::string file_path){
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	ilDeleteImages(1, &texid);
 

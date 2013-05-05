@@ -5,7 +5,7 @@
 #include "Ball.h"
 
 Paddle::Paddle(void):
-	w(7),
+	w(5),
 	h(1),
 	sticky(true)
 {
@@ -22,11 +22,11 @@ Paddle::Paddle(void):
 	b2PolygonShape paddleShape;
 
 	b2Vec2 vert[] = {
-		b2Vec2(-w/2, h/2),
-		b2Vec2(-w/2, -h),
-		b2Vec2(w/2, -h),
-		b2Vec2(w/2, h/2),
-		b2Vec2(0, 3.1*(h/2))
+		b2Vec2(-w/2, 0),
+		b2Vec2(-w/2 + 1, -h),
+		b2Vec2(w/2 - 1, -h),
+		b2Vec2(w/2, 0),
+		b2Vec2(0, 1.1*(h/2))
 	};
 
 	paddleShape.Set(vert, 5);
@@ -45,7 +45,7 @@ Paddle::Paddle(void):
 
 	// Set the user data
 	m_body->SetUserData(this);
-	m_color = b2Color(1,1,0);
+	m_texture = Texture::getTexture("barra");
 
 	//****************************************************************
 
@@ -120,7 +120,7 @@ void Paddle::tick(){
 
 	if(sticky){
 		m_ball->getBody()->SetTransform(
-			b2Vec2(pos.x, pos.y + 3.1*(h / 2) + m_ball->getRadius()),	0);
+			b2Vec2(pos.x, pos.y + 1.5*(h / 2) + m_ball->getRadius()),	0);
 	}
 }
 
@@ -131,14 +131,27 @@ void Paddle::draw(){
 	glPushMatrix();
 
 	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(angle,0,0,1);
 
-	b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
-	Render::drawSolidPolygon(shape->m_vertices, shape->GetVertexCount(), b2Color(0.9,0.9,0.9));
+	//b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
+	//Render::drawSolidPolygon(shape->m_vertices, shape->GetVertexCount(), b2Color(0.9,0.9,0.9));
 
 	//b2PolygonShape s;
 	//s.SetAsBox(w/2, h/2);
 	//Render::drawSolidPolygon(s.m_vertices, 4, m_color);
+
+	glRotatef(angle + 180,0,0,1);
+	m_texture.bind();
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 0); glVertex2f(-w/2, -h/2);
+	glTexCoord2f(1, 0); glVertex2f(+w/2, -h/2);
+	glTexCoord2f(1, 1); glVertex2f(+w/2, +h/2);
+	glTexCoord2f(0, 1); glVertex2f(-w/2, +h/2);
+	glEnd();
+	m_texture.disable();
+
 
 	glPopMatrix();
 }

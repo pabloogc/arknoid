@@ -44,7 +44,7 @@ void Brick::tick(){
 	float ang = m_body->GetAngle();
 	if(dist > h / 16){
 		if(abs(ang) > 0.05)
-			m_body->SetAngularVelocity(-ang);
+			m_body->SetAngularVelocity(-ang*0.5f);
 		m_body->ApplyForceToCenter(-32*dist*(m_body->GetPosition() - initial_pos));
 	}
 }

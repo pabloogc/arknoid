@@ -8,7 +8,7 @@
 
 Ball::Ball(b2Vec2 pos):
 	GameObject(),
-	m_radius(0.4),
+	m_radius(1),
 	m_color(255,255,255),
 	limit(25)
 {
@@ -47,6 +47,7 @@ Ball::Ball(b2Vec2 pos):
 	m_body->CreateFixture(&fixtureDef);
 	m_body->SetLinearVelocity(b2Vec2(0,limit));
 	m_body->SetUserData(this);
+	m_texture = Texture::getTexture("bola");
 }
 
 void Ball::tick(){
@@ -67,19 +68,16 @@ void Ball::draw(){
 	glPushMatrix();
 
 	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(angle,0,0,1);
+	glRotatef(angle + 180,0,0,1);
 
-	glBegin(GL_POLYGON);
-
-	int i = 1;
-	int j = 0;
-	for(float a=0; a<2 * PI; a+= PI/8){
-		glColor3f(m_color.x,m_color.y, m_color.z);
-		glVertex2f(m_radius*cos(a),m_radius*sin(a));
-		if(j % 2)
-			i = (i * 37) % 255;
-		j++;
-	}
+	m_texture.bind();
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex2f(-1, -1);
+	glTexCoord2f(1.0, 0.0); glVertex2f(+1, -1);
+	glTexCoord2f(1.0, 1.0); glVertex2f(+1, +1);
+	glTexCoord2f(0.0, 1.0); glVertex2f(-1, +1);
+	glEnd();
+	m_texture.disable();
 
 	glEnd();
 	glPopMatrix();
