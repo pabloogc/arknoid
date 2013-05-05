@@ -146,7 +146,9 @@ void Texture::init(){
 	iluInit();
 	ilutRenderer(ILUT_OPENGL);
 	last = 0;
-	Texture::add("ladrillo", "ladrillo.png");
+	Texture::add("ladrillo1", "ladrillo1.png");
+	Texture::add("ladrillo2", "ladrillo2.png");
+	Texture::add("ladrillo3", "ladrillo3.png");
 	Texture::add("fondo_general", "fondo_general.png");
 	Texture::add("muro", "muro.png");
 	Texture::add("barra", "barra.png");

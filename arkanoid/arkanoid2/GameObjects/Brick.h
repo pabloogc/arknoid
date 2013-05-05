@@ -30,6 +30,7 @@ private:
 	float w, h;
 	b2Vec2 ball_vel;
 	b2Vec2 initial_pos;
+	void changeTexture();
 };
 
 class BrickBit :

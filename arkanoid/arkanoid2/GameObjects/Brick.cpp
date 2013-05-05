@@ -32,11 +32,24 @@ Brick::Brick(b2Vec2 pos, float _w, float _h, int live):
 	m_body->CreateFixture(&fixtureDef);
 
 	m_body->SetUserData(this);
-	m_texture = Texture::getTexture("ladrillo");
+	changeTexture();
 }
 
 Brick::~Brick(void)
 {
+}
+
+void Brick::changeTexture(){
+	std::string s = "ladrillo0";
+
+	if(m_lives == 1)
+		s = "ladrillo1";
+	if(m_lives == 2)
+		s = "ladrillo2";
+	if(m_lives == 3)
+		s = "ladrillo3";
+
+	m_texture = Texture::getTexture(s);
 }
 
 void Brick::tick(){
@@ -84,7 +97,7 @@ void Brick::onContactEnded(Ball* b, b2Contact* c){
 	if(m_lives == 0)
 		this->kill();
 	else if(m_lives > 0){
-		//Cambiar la textura?
+		changeTexture();
 	}
 }
 
