@@ -108,6 +108,20 @@ void idle(void)
 	glutPostRedisplay();
 }
 
+void controlamusica ( unsigned char key, int x, int y ){
+    switch ( key )
+    {
+        case 'p':
+        case 'P':Audio::pause();
+                  break;
+        case 'w':
+        case 'W': Audio::playMusic(Audio::Music::MAIN_MUSIC);
+                  break;
+    }
+
+    glutPostRedisplay();
+}
+
 /* Función principal */
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -115,13 +129,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(32 * 24, 32 * 16);
 	glutInitWindowPosition(450, 200);
-	glutCreateWindow("Hola Mundo OpenGL");
+	glutCreateWindow("Arkanoid V1.0");
 
 	init();
 
 
 	glutIgnoreKeyRepeat(1);
 	glutDisplayFunc(display);
+	glutKeyboardFunc(controlamusica);
 	glutReshapeFunc(reshape);
 	glutPassiveMotionFunc(mouseMoved);
 	glutMouseFunc(mouse);

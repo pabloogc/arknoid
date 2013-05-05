@@ -46,7 +46,7 @@ void Game::levelCompleted()
 void Game::init(){
 	Texture::init();
 	Audio::init();
-	//Audio::playMusic(Audio::Music::MAIN_MUSIC);
+	Audio::playMusic(Audio::Music::MAIN_MUSIC);
 	m_game = new Game;
 	m_game->curLevel->loadLevel(0);
 	t1 = t2 = clock();
@@ -119,7 +119,7 @@ void Game::gameOverState()
 	Render::drawString(3,20, "Has perdido :(");
 	Render::drawString(3,16, "Jugar (y/n)");
 	curLevel->draw();
-	displayScore();
+	
 
 	if(Input::isKeyDown('y')){
 		m_score = 0;
@@ -136,7 +136,7 @@ void Game::gameOverState()
 	else if (Input::isKeyDown('n')){
 		exit(0);
 	}	
-
+	displayScore();
 }
 
 void Game::gameWonState()

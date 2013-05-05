@@ -14,7 +14,7 @@ public:
 	};
 
 	enum Music{
-		MAIN_MUSIC, MENU_MUSIC, MUSIC_MAX
+		MAIN_MUSIC, MENU_MUSIC, LOSE_MUSIC, MUSIC_MAX
 	};
 
 	static Mix_Chunk *sounds[];

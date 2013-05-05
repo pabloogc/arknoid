@@ -115,16 +115,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="barra.png" />
-    <Image Include="bola.png" />
     <Image Include="fondo_general.png" />
     <Image Include="ladrillo.png" />
-    <Image Include="ladrillo1.png" />
-    <Image Include="ladrillo2.png" />
-    <Image Include="ladrillo3.png" />
     <Image Include="muro.png" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="getlucky.wav" />
+    <Media Include="Game Over.wav" />
+    <Media Include="Musica.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
