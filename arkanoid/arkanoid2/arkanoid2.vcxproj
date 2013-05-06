@@ -121,11 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="acierto.wav" />
-    <Media Include="explosion-02.wav" />
+    <Media Include="explosion.wav" />
     <Media Include="g.wav" />
     <Media Include="GAME_OVER.wav" />
     <Media Include="GOLPEO.wav" />
     <Media Include="MUSIC.wav" />
+    <Media Include="paredes.wav" />
     <Media Include="PAUSE.wav" />
     <Media Include="victoria.wav" />
   </ItemGroup>

@@ -40,11 +40,7 @@ void Level::loadLevel(int code){
 	{
 
 	case 0 :
-<<<<<<< HEAD
-
 		num_bricks = 1;
-=======
-		num_bricks = 10;
 
 		addGameObject(new Brick(b2Vec2(16,14), 4, 4, 3));
 		addGameObject(new Brick(b2Vec2(19,17), 2, 2, 2));
@@ -56,7 +52,6 @@ void Level::loadLevel(int code){
 		addGameObject(new Brick(b2Vec2(11,19), 2, 2, 1));
 		addGameObject(new Brick(b2Vec2(11,21), 2, 2, 1));
 		addGameObject(new Brick(b2Vec2(11,23), 2, 2, 1));
->>>>>>> 67d357d19a2923e255a001c4a6a32d6f10292f84
 		
 		break;
 
