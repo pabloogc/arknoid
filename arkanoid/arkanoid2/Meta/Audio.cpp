@@ -17,7 +17,6 @@ void Audio::init(){
 	//Cargar el resto de la musica
 	sounds[Sound::BRICK_BROKEN] = Mix_LoadWAV("explosion.wav");
 	sounds[Sound::LEVEL_WON] = Mix_LoadWAV("acierto.wav");
-	sounds[Sound::PAUSE] = Mix_LoadWAV("PAUSE.wav");//SOLO UN SEGUNDO DE SILENCIO
 	sounds[Sound::GAME_OVER] = Mix_LoadWAV("GAME_OVER.wav");
 	musics[Music::MAIN_MUSIC] = Mix_LoadMUS("MUSIC.wav");
 	sounds[Sound::GAME_WON] = Mix_LoadWAV("victoria.wav");

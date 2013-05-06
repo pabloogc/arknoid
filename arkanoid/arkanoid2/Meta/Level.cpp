@@ -40,7 +40,7 @@ void Level::loadLevel(int code){
 	{
 
 	case 0 :
-		num_bricks = 1;
+		num_bricks = 10;
 
 		addGameObject(new Brick(b2Vec2(16,14), 4, 4, 3));
 		addGameObject(new Brick(b2Vec2(19,17), 2, 2, 2));

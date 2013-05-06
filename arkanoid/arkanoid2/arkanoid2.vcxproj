@@ -127,7 +127,6 @@
     <Media Include="GOLPEO.wav" />
     <Media Include="MUSIC.wav" />
     <Media Include="paredes.wav" />
-    <Media Include="PAUSE.wav" />
     <Media Include="victoria.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
