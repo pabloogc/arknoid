@@ -15,6 +15,7 @@ void init(void)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	main_background = Texture::getTexture("fondo_general");
+//	glutFullScreen();
 }
 
 /* Función que se llamará cada vez que se dibuje en pantalla */
@@ -130,6 +131,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	glutInitWindowSize(32 * 24, 32 * 16);
 	glutInitWindowPosition(450, 200);
 	glutCreateWindow("Arkanoid V1.0");
+
 
 	init();
 

@@ -38,12 +38,15 @@ public:
 	//El nivel cargado
 	Level* getCurrentLevel(){return curLevel;}
 
+
+
 	//Anyade un objeto al la lista de actualizacion
 	//Hay que crearlo en el mundo tambien!
 	//b2World.createBody(def)
 	void addGameObject(GameObject*);
 
 	void levelCompleted();
+	GameState getState(){return m_state;}
 	void changeState(GameState newState){m_state = newState;}
 	void addScore(int score){m_score += score;}
 
@@ -59,6 +62,7 @@ private:
 	Game();
 
 	int level;
+	int levelsCompleted;
 	float timer;
 	Level* curLevel;
 	Level* nextLevel;

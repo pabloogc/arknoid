@@ -5,6 +5,7 @@
 #include "GameObjects\Brick.h"
 #include "GameObjects\Paddle.h"
 #include "GameObjects\Wall.h"
+#include "Input.h"
 
 Level::Level(void)
 {
@@ -19,7 +20,7 @@ void Level::brickDestroyed(){
 
 void Level::loadLevel(int code){
 
-	num_bricks = 1 + code;
+
 
 	addGameObject(new Wall(Side::TOP));
 	addGameObject(new Wall(Side::BOTTOM));
@@ -35,15 +36,86 @@ void Level::loadLevel(int code){
 	addGameObject(ball);
 
 	p->setBall(ball);
-
-	for (int i = 0; i < 1; i++)
+	switch (code)
 	{
-		for (int j = 0; j < code + 1; j++)
+
+	case 0 :
+
+		num_bricks = 1;
+
+		for (int i = 0; i < 14; i++)
 		{
-			Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 1);
-			addGameObject(b);
+			for (int j = 0; j < 7; j++)
+			{
+				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 1);
+				addGameObject(b);
+			}
 		}
+
+		break;
+
+	case 1 : 
+
+		num_bricks = 1;
+
+		for (int i = 0; i < 14; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j- 4), 1.8, 0.8, 1);
+				addGameObject(b);
+			}
+		}
+
+
+		for (int i=0; i < 14; i++)
+		{
+			for (int j=2; j < 6; j++)
+			{
+				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 2);
+				addGameObject(b);
+			}
+		}
+
+		break;
+
+	case 2 :
+
+		num_bricks = 1;
+
+		for (int i = 0; i < 14; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j- 4), 1.8, 0.8, 1);
+				addGameObject(b);
+			}
+		}
+
+
+		for (int i=0; i < 14; i++)
+		{
+			for (int j=1; j < 5; j++)
+			{
+				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 2);
+				addGameObject(b);
+			}
+		}
+
+
+		for (int i=0; i < 14; i++)
+		{
+			for (int j=4; j < 8; j++)
+			{
+				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 3);
+				addGameObject(b);
+			}
+		}
+
+		break;
+
 	}
+
 }
 
 b2World* Level::getWorld(){
@@ -65,6 +137,10 @@ void Level::clear(){
 }
 
 void Level::tick(){
+	
+	if(Input::isKeyDown('p'))
+		Game::getInstance()->changeState(PAUSED);
+
 	m_world->Step(TIME_STEP, 6, 2);
 
 	//La lógica extra va aqui
@@ -81,7 +157,7 @@ void Level::tick(){
 		}
 	}
 
-	if(num_bricks == 0)
+	if(num_bricks <= 0)
 		Game::getInstance()->levelCompleted();
 }
 

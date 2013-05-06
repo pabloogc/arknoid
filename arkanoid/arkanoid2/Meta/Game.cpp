@@ -11,8 +11,9 @@ Game* Game::m_game = nullptr;
 Game::Game(void):
 	m_state(PLAYING),
 	m_score(0),
-	m_lives(1),
-	level(0)
+	m_lives(3),
+	level(0),
+	levelsCompleted(0)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
 	stateFunc[PLAYING] = &Game::playingState;
@@ -39,7 +40,11 @@ void Game::addGameObject(GameObject* obj)
 void Game::levelCompleted()
 {	
 	timer = 3;
+
+	levelsCompleted++;
+	if(levelsCompleted<3)
 	changeState(SWITCHING_LEVELS);
+	else changeState(WIN);
 }
 
 //Inicializacion del singleton
@@ -61,6 +66,7 @@ Game* Game::getInstance(){
 	return m_game;
 }
 
+
 b2World* Game::getWorld(){
 	return curLevel->getWorld();
 }
@@ -75,6 +81,13 @@ void Game::menuState()
 
 void Game::pausedState()
 {
+
+	Render::drawString(3,20, "Juego Pausado");
+	curLevel->draw();
+	displayScore();
+	if(Input::isKeyDown('p'))
+		changeState(PLAYING);
+	
 }
 
 void Game::splashState()
@@ -146,6 +159,28 @@ void Game::gameOverState()
 
 void Game::gameWonState()
 {
+	Render::drawString(3,20, "Ganaste!");
+	Render::drawString(3,16, "Jugar (y/n)");
+	curLevel->draw();
+	displayScore();
+
+	if(Input::isKeyDown('y')){
+		m_score = 0;
+		level = 0;
+		m_lives = 3;
+		levelsCompleted=0;
+		delete curLevel;
+		curLevel = new Level();
+		curLevel->loadLevel(level);
+		curLevel->getWorld()->SetContactListener(m_listener);
+		curLevel->tick();
+		curLevel->draw();
+		changeState(PLAYING);
+	}
+	else if (Input::isKeyDown('n')){
+		exit(0);
+	}	
+
 }
 
 void Game::switchLevelState()
