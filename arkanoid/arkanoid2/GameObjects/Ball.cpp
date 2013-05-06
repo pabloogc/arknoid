@@ -8,7 +8,7 @@
 
 Ball::Ball(b2Vec2 pos):
 	GameObject(),
-	m_radius(1),
+	m_radius(0.3),
 	m_color(255,255,255),
 	limit(25)
 {

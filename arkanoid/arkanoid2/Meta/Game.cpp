@@ -15,7 +15,10 @@ Game::Game(void):
 	level(0),
 	levelsCompleted(0),
 	TimesSoundGameOver(1),
-	TimesSoundVictory(1)
+	TimesSoundVictory(1),
+	playingMusic(true),
+	pausedCount(60),
+	musicPausedCount(60)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
 	stateFunc[PLAYING] = &Game::playingState;
@@ -89,9 +92,14 @@ void Game::pausedState()
 	displayScore();
 	Audio::pause();
 
-	if(Input::isKeyDown('p')){
-		changeState(PLAYING);
-		Audio::playMusic(Audio::Music::MAIN_MUSIC);
+	if(pausedCount>0) pausedCount--;
+	else{
+
+		if(Input::isKeyDown('p')){
+			changeState(PLAYING);
+			Audio::playMusic(Audio::Music::MAIN_MUSIC);
+			pausedCount= 60;
+		}
 	}
 
 }
@@ -105,6 +113,27 @@ void Game::splashState()
 
 void Game::playingState()
 {
+
+	if(musicPausedCount>0) musicPausedCount--;
+	else{
+		if(Input::isKeyDown('m')){
+
+			if(playingMusic)
+			{   
+				Audio::pause();
+				playingMusic=false;
+			}
+			else {
+				Audio::haltMusic();
+				Audio::playMusic(Audio::Music::MAIN_MUSIC);
+				playingMusic=true;
+			}
+
+			musicPausedCount=60;
+		}
+	}
+
+
 	t2 = clock();
 	float diff = ((float)t2 - (float)t1) / 1000.0f;
 
@@ -184,6 +213,8 @@ void Game::gameWonState()
 	displayScore();
 
 	if(Input::isKeyDown('y')){
+		Audio::haltSound();
+		Audio::playMusic(Audio::Music::MAIN_MUSIC);
 		m_score = 0;
 		level = 0;
 		m_lives = 3;
@@ -197,6 +228,7 @@ void Game::gameWonState()
 		curLevel->tick();
 		curLevel->draw();
 		changeState(PLAYING);
+
 	}
 	else if (Input::isKeyDown('n')){
 		exit(0);

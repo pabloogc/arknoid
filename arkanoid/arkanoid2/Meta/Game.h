@@ -29,6 +29,9 @@ public:
 	static void init();
 	static void realese();
 
+	int pausedCount;
+	int musicPausedCount;
+
 	//actualizar
 	void update();
 
@@ -52,7 +55,7 @@ public:
 
 	void addLives(int amount){
 		m_lives += amount;
-		if(m_lives < 0)
+		if(m_lives <= 0)
 			changeState(GAME_OVER);
 	}
 
@@ -84,6 +87,8 @@ private:
 	int m_lives;
 	int TimesSoundGameOver;
 	int TimesSoundVictory;
+	bool playingMusic;
+
 };
 
 #endif

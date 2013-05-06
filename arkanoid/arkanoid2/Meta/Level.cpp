@@ -41,9 +41,9 @@ void Level::loadLevel(int code){
 
 	case 0 :
 
-		num_bricks = 1;
+		num_bricks = 91;
 
-		for (int i = 0; i < 14; i++)
+		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 7; j++)
 			{
@@ -56,9 +56,9 @@ void Level::loadLevel(int code){
 
 	case 1 : 
 
-		num_bricks = 1;
+		num_bricks = 91;
 
-		for (int i = 0; i < 14; i++)
+		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 3; j++)
 			{
@@ -68,7 +68,7 @@ void Level::loadLevel(int code){
 		}
 
 
-		for (int i=0; i < 14; i++)
+		for (int i=0; i < 13; i++)
 		{
 			for (int j=2; j < 6; j++)
 			{
@@ -81,9 +81,8 @@ void Level::loadLevel(int code){
 
 	case 2 :
 
-		num_bricks = 1;
-
-		for (int i = 0; i < 14; i++)
+		num_bricks = 130;
+		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 2; j++)
 			{
@@ -93,7 +92,7 @@ void Level::loadLevel(int code){
 		}
 
 
-		for (int i=0; i < 14; i++)
+		for (int i=0; i < 13; i++)
 		{
 			for (int j=1; j < 5; j++)
 			{
@@ -103,7 +102,7 @@ void Level::loadLevel(int code){
 		}
 
 
-		for (int i=0; i < 14; i++)
+		for (int i=0; i < 13; i++)
 		{
 			for (int j=4; j < 8; j++)
 			{
@@ -137,9 +136,16 @@ void Level::clear(){
 }
 
 void Level::tick(){
-	
-	if(Input::isKeyDown('p'))
-		Game::getInstance()->changeState(PAUSED);
+
+
+	if(Game::getInstance()->pausedCount>0) Game::getInstance()->pausedCount--;
+	else{
+		if(Input::isKeyDown('p')){
+			Game::getInstance()->changeState(PAUSED);
+			Game::getInstance()->pausedCount= 60;
+		}
+	}
+
 
 	m_world->Step(TIME_STEP, 6, 2);
 
