@@ -21,7 +21,6 @@ public:
 	virtual void startContact(GameObject*, b2Contact*);
 	virtual void endContact(GameObject*, b2Contact*);
 
-	virtual void onContactStarted(Brick*, b2Contact*);
 	virtual void onContactStarted(Wall*, b2Contact*);
 
 	void limitVelocity();

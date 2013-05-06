@@ -51,14 +51,9 @@ Ball::Ball(b2Vec2 pos):
 }
 
 void Ball::tick(){
-	/*std::cout
-	<< m_body->GetLinearVelocity().Length() << "\t"
-	<< m_body->GetLinearVelocity().x << "\t"
-	<< m_body->GetLinearVelocity().y << std::endl;*/
 }
 
-Ball::~Ball(void)
-{
+Ball::~Ball(void){
 }
 
 void Ball::draw(){
@@ -68,7 +63,7 @@ void Ball::draw(){
 	glPushMatrix();
 
 	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(angle + 180,0,0,1);
+	glRotatef(angle,0,0,1);
 
 	m_texture.bind();
 	glBegin(GL_QUADS);
@@ -89,12 +84,9 @@ void Ball::startContact(GameObject* g, b2Contact* c){
 
 void Ball::endContact(GameObject* g, b2Contact* c){
 	g->onContactEnded(this, c);
-
 	limitVelocity();
 }
 
-void Ball::onContactStarted(Brick* b, b2Contact* c){
-}
 
 void Ball::onContactStarted(Wall* w, b2Contact* c){
 	if(w->getSide() == Side::BOTTOM){
@@ -106,17 +98,14 @@ void Ball::onContactStarted(Wall* w, b2Contact* c){
 
 void Ball::limitVelocity(){
 	b2Vec2 v = m_body->GetLinearVelocity();
-
 	float velocity = v.Length();
 
 	if(velocity < limit){
 		v *= limit / velocity;
 		m_body->SetLinearVelocity(v);
-		//std::cout << "Incrementando " << velocity << "  " << v.Length() << endl;
 	}
 	if(velocity > limit){
 		v *= limit / velocity;
 		m_body->SetLinearVelocity(v);
-		//std::cout << "Limitando     " << velocity << "  " << v.Length() << endl;
 	}
 }

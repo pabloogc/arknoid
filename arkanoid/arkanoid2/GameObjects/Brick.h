@@ -26,7 +26,7 @@ public:
 	static float random(float, float);
 
 private:
-	//golpes que aguanta el ladrillo
+	
 	int m_lives;
 	float m_score;
 

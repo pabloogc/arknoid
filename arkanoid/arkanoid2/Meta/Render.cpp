@@ -3,6 +3,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+//Sin uso, perder el tiempo por aplazar las texturas = priceless
 void Render::drawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
 	glColor3f(color.r, color.g, color.b);
@@ -36,6 +37,7 @@ void Render::drawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b
 	glEnd();
 }
 
+//Sin uso, perder el tiempo por aplazar las texturas = priceless
 void Render::drawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 {
 	const float32 k_segments = 16.0f;
@@ -52,6 +54,7 @@ void Render::drawCircle(const b2Vec2& center, float32 radius, const b2Color& col
 	glEnd();
 }
 
+//Sin uso, perder el tiempo por aplazar las texturas = priceless
 void Render::drawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
 	const float32 k_segments = 16.0f;
@@ -88,6 +91,7 @@ void Render::drawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2&
 	glEnd();
 }
 
+//Sin uso, perder el tiempo por aplazar las texturas = priceless
 void Render::drawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
 	glColor3f(color.r, color.g, color.b);
@@ -97,6 +101,7 @@ void Render::drawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& colo
 	glEnd();
 }
 
+//Sin uso, perder el tiempo por aplazar las texturas = priceless
 void Render::drawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 {
 	glPointSize(size);
@@ -107,6 +112,9 @@ void Render::drawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 	glPointSize(1.0f);
 }
 
+//Cuidado con el tamaño de la fuente, se ve muy mal con
+//bitmaps, el StrokeString es la alternativa que tampoco
+//es mucho mejor.
 void Render::drawString(float32 x, float32 y, const char *string)
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -124,17 +132,9 @@ void Render::drawString(float32 x, float32 y, const char *string)
 	glPopMatrix();
 }
 
-void Render::drawAABB(b2AABB* aabb, const b2Color& c)
-{
-	glColor3f(c.r, c.g, c.b);
-	glBegin(GL_LINE_LOOP);
-	glVertex2f(aabb->lowerBound.x, aabb->lowerBound.y);
-	glVertex2f(aabb->upperBound.x, aabb->lowerBound.y);
-	glVertex2f(aabb->upperBound.x, aabb->upperBound.y);
-	glVertex2f(aabb->lowerBound.x, aabb->upperBound.y);
-	glEnd();
-}
 
+//****************************************************************
+//                         TEXTURE
 //****************************************************************
 
 string Texture::name_list[MAX_TEXTURES];
@@ -154,7 +154,6 @@ void Texture::init(){
 	Texture::add("barra", "barra.png");
 	Texture::add("bola", "bola.png");
 	Texture::add("s","s.png");
-
 }
 
 void Texture::add(std::string tex_name, std::string file_path){
@@ -180,8 +179,8 @@ void Texture::add(std::string tex_name, std::string file_path){
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
 	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_DECAL);
+	//Para hacer el png transparente
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	ilDeleteImages(1, &texid);

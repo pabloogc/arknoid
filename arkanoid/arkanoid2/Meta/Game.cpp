@@ -30,14 +30,9 @@ Game::Game(void):
 	stateFunc[MENU] = &Game::menuState;
 
 	m_splashTexture = Texture::getTexture("s");
-
 	curLevel = new Level();
-	nextLevel = new Level();
 	m_listener = new ContactListener();
 	curLevel->getWorld()->SetContactListener(m_listener);
-
-
-
 }
 
 void Game::addGameObject(GameObject* obj)
@@ -47,7 +42,7 @@ void Game::addGameObject(GameObject* obj)
 }
 
 void Game::levelCompleted()
-{	
+{
 	timer = 3;
 
 	levelsCompleted++;
@@ -75,7 +70,6 @@ Game* Game::getInstance(){
 	return m_game;
 }
 
-
 b2World* Game::getWorld(){
 	return curLevel->getWorld();
 }
@@ -89,8 +83,7 @@ void Game::menuState()
 {
 }
 
-void Game::pausedState()
-{
+void Game::pausedState(){
 
 	Render::drawString(3,13, "Juego Pausado");
 	curLevel->draw();
@@ -99,18 +92,16 @@ void Game::pausedState()
 
 	if(pausedCount>0) pausedCount--;
 	else{
-
 		if(Input::isKeyDown('p')){
 			changeState(PLAYING);
 			Audio::playMusic(Audio::Music::MAIN_MUSIC);
 			pausedCount= 60;
 		}
 	}
-
 }
 
-void Game::splashState()
-{
+void Game::splashState(){
+
 	m_splashTexture.bind();
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex2f(0, 0);
@@ -119,20 +110,18 @@ void Game::splashState()
 	glTexCoord2f(0.0, 1.0); glVertex2f(0, ABSOLUTE_TILES_Y);
 	glEnd();
 	m_splashTexture.disable();
-	
+
 	timer--;
 	if(timer<0)	changeState(PLAYING);
 }
 
-void Game::playingState()
-{
+void Game::playingState(){
 
 	if(musicPausedCount>0) musicPausedCount--;
 	else{
 		if(Input::isKeyDown('m')){
-
 			if(playingMusic)
-			{   
+			{
 				Audio::pause();
 				playingMusic=false;
 			}
@@ -150,7 +139,7 @@ void Game::playingState()
 	float diff = ((float)t2 - (float)t1) / 1000.0f;
 
 	//Cuando haya pasado el tiempo suficiente se hace step del mundo
-	//Esta forma de calcular el tiempo es muy poco precisa, por eso el 0.7
+	//Esta forma de calcular el tiempo es muy poco precisa (glut era peor), por eso el 0.7
 	//así se ve más fluido.
 	if(diff >= TIME_STEP * 0.7f){
 		t1 = t2;
@@ -158,11 +147,10 @@ void Game::playingState()
 	}
 	curLevel->draw();
 	displayScore();
-
 }
 
-void Game::displayScore()
-{
+void Game::displayScore(){
+
 	stringstream ss;
 	ss << "Puntos:";
 	ss << m_score;
@@ -178,11 +166,10 @@ void Game::displayScore()
 	ss << "Nivel:";
 	ss << level+1;
 	Render::drawString(TILES_X - 21,TILES_Y + 0.25f, ss.str().c_str());
-
 }
 
-void Game::gameOverState()
-{
+void Game::gameOverState(){
+
 	Audio::haltMusic();
 
 	if(TimesSoundGameOver>0){
@@ -193,7 +180,6 @@ void Game::gameOverState()
 	Render::drawString(3,13, "Has perdido :(");
 	Render::drawString(3,9, "Jugar (y/n)");
 	curLevel->draw();
-
 
 	if(Input::isKeyDown('y')){
 		Audio::haltSound();
@@ -207,18 +193,20 @@ void Game::gameOverState()
 		curLevel = new Level();
 		curLevel->loadLevel(level);
 		curLevel->getWorld()->SetContactListener(m_listener);
+		//Para evitar que la barra se "teletransporte" al raton
+		//desapareciendo en un frame
 		curLevel->tick();
 		curLevel->draw();
 		changeState(PLAYING);
 	}
 	else if (Input::isKeyDown('n')){
 		exit(0);
-	}	
+	}
 	displayScore();
 }
 
-void Game::gameWonState()
-{
+void Game::gameWonState(){
+
 	Audio::haltMusic();
 
 	if(TimesSoundVictory>0){
@@ -247,23 +235,20 @@ void Game::gameWonState()
 		curLevel->tick();
 		curLevel->draw();
 		changeState(PLAYING);
-
 	}
 	else if (Input::isKeyDown('n')){
 		exit(0);
-	}	
-
+	}
 }
 
-void Game::switchLevelState()
-{
+void Game::switchLevelState(){
+
 	if(timer > 0) {
 		timer -= TIME_STEP;
 		curLevel->getPaddle()->tick();
 		curLevel->draw();
 		displayScore();
 		Render::drawString(3,13, "Siguiente nivel!");
-		
 	}
 	else {
 		Audio::playSound(Audio::Sound::LEVEL_WON);
@@ -276,5 +261,4 @@ void Game::switchLevelState()
 		curLevel->draw();
 		changeState(PLAYING);
 	}
-
 }

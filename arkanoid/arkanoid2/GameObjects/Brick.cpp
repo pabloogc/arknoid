@@ -92,14 +92,13 @@ void Brick::startContact(GameObject* g, b2Contact* c){
 
 void Brick::endContact(GameObject* g, b2Contact* c){
 	g->onContactEnded(this, c);
-	
 }
 
 void Brick::onContactEnded(Ball* b, b2Contact* c){
 	m_lives--;
 	if(m_lives == 0){
 		this->kill();
-		
+
 		Game::getInstance()->addScore(m_score);
 		Game::getInstance()->getCurrentLevel()->brickDestroyed();
 	}
@@ -119,13 +118,12 @@ float Brick::random(float min, float max){
 }
 
 void Brick::release(){
-explode();
-Audio::playSound(Audio::Sound::BRICK_BROKEN);
+	explode();
+	Audio::playSound(Audio::Sound::BRICK_BROKEN);
 }
 
 void Brick::explode(){
-
-	const int divx = (int)random(3,5), divy = (int)random(3,5);
+	const int divx = (int)random(2*w+1,2*w+4), divy = (int)random(2*h+2,2*h+4);
 	const float dx =(w / (divx - 1));
 	const float dy =(h / (divy - 1));
 	const float hdx = (dx / 2) - (dx / 2) * 0.55f;
@@ -158,6 +156,7 @@ void Brick::explode(){
 		for(int j = 0; j < divy - 1; j++){
 			pos = b2Vec2(-w/2 + i * dx + dx / 2,
 				h/2 - j * dy - dy / 2);
+
 			v[0] = mat[i][j] - pos;
 			v[1] = mat[i][j + 1] - pos;
 			v[2] = mat[i + 1][j + 1] - pos;
@@ -207,15 +206,11 @@ BrickBit::BrickBit(b2Vec2 pos, b2Vec2 vertices[]) :
 }
 
 void BrickBit::tick(){
-	//b2Vec2 ballpos = Game::getInstance()->getCurrentLevel()->getBall()->getBody()->GetPosition();
-	//b2Vec2 f = m_body->GetPosition() - ballpos;
 	b2Vec2 f(0,50);
-
 	m_body->ApplyForceToCenter(-f);
 	m_life -= TIME_STEP;
 	if(m_life < 0)
 		this->kill();
-
 }
 
 void BrickBit::draw(){

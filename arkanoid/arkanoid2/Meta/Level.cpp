@@ -18,9 +18,8 @@ void Level::brickDestroyed(){
 	num_bricks--;
 }
 
+//Los niveles están en código, leer de fichero no parece necesario por ahora.
 void Level::loadLevel(int code){
-
-
 
 	addGameObject(new Wall(Side::TOP));
 	addGameObject(new Wall(Side::BOTTOM));
@@ -38,11 +37,9 @@ void Level::loadLevel(int code){
 	p->setBall(ball);
 	switch (code)
 	{
-
 	case 0 :
-		num_bricks = 1;
+		num_bricks = 9;
 
-		addGameObject(new Brick(b2Vec2(16,14), 4, 4, 3));
 		addGameObject(new Brick(b2Vec2(19,17), 2, 2, 2));
 		addGameObject(new Brick(b2Vec2(21,19), 2, 2, 1));
 		addGameObject(new Brick(b2Vec2(21,21), 2, 2, 1));
@@ -52,14 +49,13 @@ void Level::loadLevel(int code){
 		addGameObject(new Brick(b2Vec2(11,19), 2, 2, 1));
 		addGameObject(new Brick(b2Vec2(11,21), 2, 2, 1));
 		addGameObject(new Brick(b2Vec2(11,23), 2, 2, 1));
-		
+
 		break;
 
-	case 1 : 
+	case 1 :
 
 		num_bricks = 13 * 2 + 13 * 4;
-		
-	
+
 		for (int i = 0; i < 13; i++)
 		{
 			for (int j = 0; j < 2; j++)
@@ -68,7 +64,6 @@ void Level::loadLevel(int code){
 				addGameObject(b);
 			}
 		}
-
 
 		for (int i=0; i < 13; i++)
 		{
@@ -95,7 +90,6 @@ void Level::loadLevel(int code){
 			}
 		}
 
-
 		for (int i=0; i < 13; i++)
 		{
 			for (int j=1; j < 5; j++)
@@ -104,7 +98,6 @@ void Level::loadLevel(int code){
 				addGameObject(b);
 			}
 		}
-
 
 		for (int i=0; i < 13; i++)
 		{
@@ -116,9 +109,7 @@ void Level::loadLevel(int code){
 		}
 
 		break;
-
 	}
-
 }
 
 b2World* Level::getWorld(){
@@ -135,13 +126,11 @@ void Level::clear(){
 	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end();){
 		m_world->DestroyBody((*it)->getBody());
 		delete *it;
-		it = m_obj.erase(it);	
+		it = m_obj.erase(it);
 	}
 }
 
 void Level::tick(){
-
-
 	if(Game::getInstance()->pausedCount>0) Game::getInstance()->pausedCount--;
 	else{
 		if(Input::isKeyDown('p')){
@@ -150,10 +139,8 @@ void Level::tick(){
 		}
 	}
 
-
 	m_world->Step(TIME_STEP, 6, 2);
 
-	//La lógica extra va aqui
 	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end();){
 		if((*it)->isAlive()){
 			(*it)->tick();
@@ -172,7 +159,6 @@ void Level::tick(){
 }
 
 void Level::draw(){
-
 	for(std::list<GameObject*>::iterator it = m_obj.begin(); it != m_obj.end(); it++){
 		(*it)->draw();
 	}

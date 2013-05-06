@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "Meta\Render.h"
 
+//Declaraciones previas para poder hacer inclusion recursiva
 class Ball;
 class Paddle;
 class Wall;
@@ -16,7 +17,7 @@ class BrickBit;
 //En esta clase se tiene que definir toda la interfaz
 //comun a los objetos.
 //A partir del m_body se puede obtener la referencia
-//a su objeto con getUserData()
+//a nuestro objeto con getUserData()
 
 class GameObject
 {
@@ -32,7 +33,9 @@ public:
 	virtual void kill(){ alive = false; }
 	b2Body* getBody(){return m_body;}
 
-	//Colisiones aqui
+	//Colisiones de nuevos cuerpos aqui
+	//con definir esto basta para crear un nuevo objeto.
+	//y que entre en los callbacks.
 
 	virtual void startContact(GameObject*, b2Contact*){}
 	virtual void endContact(GameObject*, b2Contact*){}
@@ -55,9 +58,8 @@ public:
 protected:
 	b2Body* m_body; //El cuerpo
 	bool alive;  //Si debe ser borrado del mundo en la siguiente iteracion
-	b2Color m_color;
-	Texture m_texture;
-	//TODO: mas cosas?
+	b2Color m_color; //Color (actualmente sin uso)
+	Texture m_texture; //Textura
 };
 
 #endif

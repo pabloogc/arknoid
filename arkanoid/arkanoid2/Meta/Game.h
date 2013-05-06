@@ -41,8 +41,6 @@ public:
 	//El nivel cargado
 	Level* getCurrentLevel(){return curLevel;}
 
-
-
 	//Anyade un objeto al la lista de actualizacion
 	//Hay que crearlo en el mundo tambien!
 	//b2World.createBody(def)
@@ -59,18 +57,22 @@ public:
 			changeState(GAME_OVER);
 	}
 
-
 private:
 	static Game* m_game; //Singleton
 	Game();
 
-	int level;
-	int levelsCompleted;
-	float timer;
-	Level* curLevel;
-	Level* nextLevel;
+	int level; //niveles totales
+	int levelsCompleted; //niveles completados
+	float timer; //un timer
+	Level* curLevel; //el nivel
 	ContactListener* m_listener; //Listener para las colisiones
-	GameState m_state;
+	GameState m_state; //estado del juego	
+	int m_score; //puntos
+	int m_lives; //vidas
+	Texture m_splashTexture; //textura de splash
+	int TimesSoundGameOver;
+	int TimesSoundVictory;
+	bool playingMusic;
 
 	void menuState();
 	void pausedState();
@@ -81,15 +83,7 @@ private:
 	void switchLevelState();
 	void displayScore();
 
-	void (Game::*stateFunc[10])(void);
-	
-	int m_score;
-	int m_lives;
-	Texture m_splashTexture;
-	int TimesSoundGameOver;
-	int TimesSoundVictory;
-	bool playingMusic;
-
+	void (Game::*stateFunc[10])(void); //un array con las funciones de antes
 };
 
 #endif

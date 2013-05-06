@@ -20,14 +20,20 @@ Paddle::Paddle(void):
 	bodyDef.position.Set(TILES_X / 2, 2.5);
 	m_body = world->CreateBody(&bodyDef);
 
-	b2PolygonShape paddleShape;
 
+	b2PolygonShape paddleShape;
+	//Los vertices tienen una forma rara y no es un
+	//simple rectángulo
+	//para hacer que dependiendo del punto de golpe
+	//rebote en otra dirección.
+	//La opción por código no quedaba natural, la simulación
+	//lo hace más realista.
 	b2Vec2 vert[] = {
 		b2Vec2(-w/2, 0),
 		b2Vec2(-w/2 + 1, -h),
 		b2Vec2(w/2 - 1, -h),
 		b2Vec2(w/2, 0),
-		b2Vec2(0, 1.1*(h/2))
+		b2Vec2(0, 1.5*(h/2))
 	};
 
 	paddleShape.Set(vert, 5);
@@ -37,20 +43,22 @@ Paddle::Paddle(void):
 	fixtureDef.density = 100.0f;
 	fixtureDef.friction = 0.3f;
 	fixtureDef.filter.categoryBits = PADDLE_FILTER;
-	fixtureDef.filter.maskBits = 
+	fixtureDef.filter.maskBits =
 		BALL_FILTER |
 		WALL_FILTER |
 		BRICK_FILTER;
 
 	m_body->CreateFixture(&fixtureDef);
 
-	// Set the user data
+
 	m_body->SetUserData(this);
 	m_texture = Texture::getTexture("barra");
 
 	//****************************************************************
 
-	//El eje de la barra
+	//El eje horizontal de la barra es un joint de box2d
+	//Podemos haber hecho cosas "raras" como que su eje sea circular
+	//al nivel
 
 	b2BodyDef body2Def;
 	bodyDef.position.Set(TILES_X / 2, 0);
@@ -132,16 +140,10 @@ void Paddle::draw(){
 	glPushMatrix();
 
 	glTranslatef(pos.x, pos.y, 0);
-
-	//b2PolygonShape *shape = (b2PolygonShape*) m_body->GetFixtureList()->GetShape();
-	//Render::drawSolidPolygon(shape->m_vertices, shape->GetVertexCount(), b2Color(0.9,0.9,0.9));
-
-	//b2PolygonShape s;
-	//s.SetAsBox(w/2, h/2);
-	//Render::drawSolidPolygon(s.m_vertices, 4, m_color);
-
 	glRotatef(angle + 180,0,0,1);
 	m_texture.bind();
+	//por qué no ajusta a la barra y se repite
+	//fix usando GL_CLAMP
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_CLAMP);
 
@@ -152,7 +154,6 @@ void Paddle::draw(){
 	glTexCoord2f(0, 1); glVertex2f(-w/2, +h/2);
 	glEnd();
 	m_texture.disable();
-
 
 	glPopMatrix();
 }
@@ -170,15 +171,19 @@ void Paddle::onContactStarted(Ball* b, b2Contact* c){
 }
 
 void Paddle::onContactEnded(Ball* b, b2Contact* c){
-	//b2Vec2 v = b->getBody()->GetLinearVelocity();
 
-	//b2Vec2 p1 = m_body->GetPosition();
-	//b2Vec2 p2 = b->getBody()->GetPosition();
+	//Rebote por código, no queda bien.
 
-	//b2Vec2 p = p2 - p1;
-	//p *= v.Length() / p.Length();
+	/*
+	b2Vec2 v = b->getBody()->GetLinearVelocity();
 
-	//b->getBody()->SetLinearVelocity(p);
+	b2Vec2 p1 = m_body->GetPosition();
+	b2Vec2 p2 = b->getBody()->GetPosition();
+
+	b2Vec2 p = p2 - p1;
+	p *= v.Length() / p.Length();
+
+	b->getBody()->SetLinearVelocity(p);
+	*/
 }
 
-//**************************

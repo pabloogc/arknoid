@@ -26,10 +26,10 @@ public:
 	virtual void onContactEnded(Ball*, b2Contact*);
 
 private:
-	float w, h;
-	float mx, mx_last;
-	Ball* m_ball;
-	bool sticky;
+	float w, h; //ancho y alto
+	float mx, mx_last; //ultima posicion del raton
+	Ball* m_ball; //una referencia a la bola
+	bool sticky; //si tiene la bola pegada
 };
 
 #endif

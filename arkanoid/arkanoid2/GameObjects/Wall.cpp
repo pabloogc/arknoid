@@ -9,7 +9,7 @@ Wall::Wall(Side side) :
 
 	// Define the ground body.
 	b2BodyDef bodyDef;
-	b2PolygonShape dynamicBox;
+	b2PolygonShape wallShape;
 
 	const float tx = TILES_X / 2.0f;
 	const float ty = TILES_Y / 2.0f;
@@ -41,13 +41,13 @@ Wall::Wall(Side side) :
 		break;
 	}
 
-	dynamicBox.SetAsBox(w, h);
+	wallShape.SetAsBox(w, h);
 
 	w *= 2.0f;
 	h *= 2.0f;
 
 	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
+	fixtureDef.shape = &wallShape;
 
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
@@ -79,9 +79,9 @@ void Wall::draw(){
 
 	glTranslatef(pos.x, pos.y, 0);
 	glRotatef(angle + 180,0,0,1);
-	
+
 	//glColor3b(115,115,115);
-	
+
 	m_texture.bind();
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex2f(-w/2, -h/2);

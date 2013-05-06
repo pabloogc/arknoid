@@ -28,8 +28,8 @@ public:
 	Side getSide(){return m_side;}
 
 private:
-	float w, h;
-	Side m_side;
+	float w, h; //ancho y alto
+	Side m_side; //que lado es
 };
 
 #endif

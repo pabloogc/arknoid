@@ -11,7 +11,7 @@
 #define PI 3.14159265359f
 
 //Cosas relativas a los filtros de colsiones
-
+//Tienen que ser potencias de 2!
 #define BALL_FILTER 1
 #define BRICK_FILTER 2
 #define WALL_FILTER 4

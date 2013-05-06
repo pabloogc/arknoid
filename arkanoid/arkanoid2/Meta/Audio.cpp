@@ -24,44 +24,38 @@ void Audio::init(){
 	sounds[Sound::BRICK_HIT]= Mix_LoadWAV("g.wav");
 	sounds[Sound::WALL_HIT]= Mix_LoadWAV("paredes.wav");
 	sounds[Sound::PADDLE_HIT]= Mix_LoadWAV("GOLPEO.wav");
-
 }
 
-void Audio::playSound(Sound s)
-{
+void Audio::playSound(Sound s){
 	curr_sound = sounds[s];
 	Mix_PlayChannel(-1, curr_sound, 0);//Con un 1 en el ultimo parametro de esta funcion
 	//se repetian doblemente todos los sonidos
 }
 
-void Audio::playMusic(Music m)
-{
+void Audio::playMusic(Music m){
 	curr_music = musics[m];
 	Mix_PlayMusic(curr_music, -1);
 }
 
-void Audio::pause()
-{
+void Audio::pause(){
 	Mix_PauseMusic();
 }
 
-void Audio::resume()
-{
+void Audio::resume(){
 	Mix_ResumeMusic();
 }
 
-void Audio::haltMusic()
-{
+void Audio::haltMusic(){
 	Mix_HaltMusic();
 }
 
-void Audio::haltSound()
-{
+void Audio::haltSound(){
 	Mix_HaltChannel(0);
 }
 
-void Audio::release()
-{
+void Audio::release(){
+	//Creo que este metodo no tiene mucho sentido porque en realidad
+	//no controlamos la limpieza al salir de l programa
 	for(int i = 0; i < Sound::SOUND_MAX; i++)
 		Mix_FreeChunk(sounds[i]);
 
@@ -71,8 +65,7 @@ void Audio::release()
 	SDL_Quit();
 }
 
-void Audio::volumenMusic(int volumen)
-{
+void Audio::volumenMusic(int volumen){
 	if (volumen > MIX_MAX_VOLUME)
 		volumen = MIX_MAX_VOLUME;
 

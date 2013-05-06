@@ -11,6 +11,10 @@ ContactListener::~ContactListener(void)
 }
 
 void ContactListener::BeginContact(b2Contact* contact){
+	//Lo de static cast es para el compilador, tendría
+	//impacto en el rendimiento
+	//aunque ahora no se note nada
+
 	GameObject* bodyUserDataA = static_cast<GameObject*>
 		(contact->GetFixtureA()->GetBody()->GetUserData());
 	GameObject* bodyUserDataB = static_cast<GameObject*>
