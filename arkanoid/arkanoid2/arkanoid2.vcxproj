@@ -52,6 +52,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_UNICODE</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./;./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -59,6 +60,9 @@
       <AdditionalLibraryDirectories>./lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libDevIL.a;box2d.lib;libilu.a;libilut.a;libSDLmain.lib;libSDL.dll.a;libSDL_mixer.a;SDL_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
