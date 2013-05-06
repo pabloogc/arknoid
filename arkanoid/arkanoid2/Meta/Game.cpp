@@ -11,7 +11,7 @@ Game* Game::m_game = nullptr;
 Game::Game(void):
 	m_state(SPLASH),
 	m_score(0),
-	m_lives(3),
+	m_lives(5),
 	level(0),
 	levelsCompleted(0),
 	TimesSoundGameOver(1),
