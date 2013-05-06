@@ -153,6 +153,7 @@ void Texture::init(){
 	Texture::add("muro", "muro.png");
 	Texture::add("barra", "barra.png");
 	Texture::add("bola", "bola.png");
+	Texture::add("s","s.png");
 
 }
 

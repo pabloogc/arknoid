@@ -9,7 +9,7 @@ clock_t t1, t2;
 Game* Game::m_game = nullptr;
 
 Game::Game(void):
-	m_state(PLAYING),
+	m_state(SPLASH),
 	m_score(0),
 	m_lives(3),
 	level(0),
@@ -18,7 +18,8 @@ Game::Game(void):
 	TimesSoundVictory(1),
 	playingMusic(true),
 	pausedCount(0),
-	musicPausedCount(0)
+	musicPausedCount(0),
+	timer(120)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
 	stateFunc[PLAYING] = &Game::playingState;
@@ -28,11 +29,14 @@ Game::Game(void):
 	stateFunc[SPLASH] = &Game::splashState;
 	stateFunc[MENU] = &Game::menuState;
 
+	m_splashTexture = Texture::getTexture("s");
 
 	curLevel = new Level();
 	nextLevel = new Level();
 	m_listener = new ContactListener();
 	curLevel->getWorld()->SetContactListener(m_listener);
+
+
 
 }
 
@@ -58,8 +62,7 @@ void Game::init(){
 	Audio::init();
 	Audio::playMusic(Audio::Music::MAIN_MUSIC);
 	m_game = new Game;
-	m_game->curLevel->loadLevel(2
-		);
+	m_game->curLevel->loadLevel(0);
 	t1 = t2 = clock();
 }
 
@@ -108,9 +111,17 @@ void Game::pausedState()
 
 void Game::splashState()
 {
-	cout << "ESTADO : SPLASH -> Pulsa Enter";
-	cin.get();
-	changeState(PLAYING);
+	m_splashTexture.bind();
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex2f(0, 0);
+	glTexCoord2f(1.0, 0.0); glVertex2f(ABSOLUTE_TILES_X,0);
+	glTexCoord2f(1.0, 1.0); glVertex2f(ABSOLUTE_TILES_X, ABSOLUTE_TILES_Y);
+	glTexCoord2f(0.0, 1.0); glVertex2f(0, ABSOLUTE_TILES_Y);
+	glEnd();
+	m_splashTexture.disable();
+	
+	timer--;
+	if(timer<0)	changeState(PLAYING);
 }
 
 void Game::playingState()
@@ -248,11 +259,11 @@ void Game::switchLevelState()
 {
 	if(timer > 0) {
 		timer -= TIME_STEP;
-		Render::drawString(3,13, "Siguiente nivel!");
 		curLevel->getPaddle()->tick();
 		curLevel->draw();
 		displayScore();
-
+		Render::drawString(3,13, "Siguiente nivel!");
+		
 	}
 	else {
 		Audio::playSound(Audio::Sound::LEVEL_WON);

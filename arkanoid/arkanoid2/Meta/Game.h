@@ -85,6 +85,7 @@ private:
 	
 	int m_score;
 	int m_lives;
+	Texture m_splashTexture;
 	int TimesSoundGameOver;
 	int TimesSoundVictory;
 	bool playingMusic;

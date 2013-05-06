@@ -40,29 +40,36 @@ void Level::loadLevel(int code){
 	{
 
 	case 0 :
+<<<<<<< HEAD
 
 		num_bricks = 1;
-		
-		for (int i = 0; i < 13; i++)
-		{
-			for (int j = 0; j < 7; j++)
-			{
-				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 1);
-				addGameObject(b);
-			}
-		}
+=======
+		num_bricks = 10;
 
+		addGameObject(new Brick(b2Vec2(16,14), 4, 4, 3));
+		addGameObject(new Brick(b2Vec2(19,17), 2, 2, 2));
+		addGameObject(new Brick(b2Vec2(21,19), 2, 2, 1));
+		addGameObject(new Brick(b2Vec2(21,21), 2, 2, 1));
+		addGameObject(new Brick(b2Vec2(21,23), 2, 2, 1));
+		addGameObject(new Brick(b2Vec2(16,14), 4, 4, 3));
+		addGameObject(new Brick(b2Vec2(13,17), 2, 2, 2));
+		addGameObject(new Brick(b2Vec2(11,19), 2, 2, 1));
+		addGameObject(new Brick(b2Vec2(11,21), 2, 2, 1));
+		addGameObject(new Brick(b2Vec2(11,23), 2, 2, 1));
+>>>>>>> 67d357d19a2923e255a001c4a6a32d6f10292f84
+		
 		break;
 
 	case 1 : 
 
-		num_bricks = 91;
+		num_bricks = 13 * 2 + 13 * 4;
+		
 	
 		for (int i = 0; i < 13; i++)
 		{
-			for (int j = 0; j < 3; j++)
+			for (int j = 0; j < 2; j++)
 			{
-				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j- 4), 1.8, 0.8, 1);
+				Brick* b = new Brick(b2Vec2(2 * i + 4, TILES_Y - j - 4), 1.8, 0.8, 1);
 				addGameObject(b);
 			}
 		}
@@ -81,7 +88,8 @@ void Level::loadLevel(int code){
 
 	case 2 :
 
-		num_bricks = 130;
+		//num_bricks = 130;
+		num_bricks = 1;
 
 		for (int i = 0; i < 13; i++)
 		{
