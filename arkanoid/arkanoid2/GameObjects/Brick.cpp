@@ -87,7 +87,7 @@ void Brick::draw(){
 
 void Brick::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
-	Audio::playSound(Audio::Sound::BRICK_HIT);
+	
 }
 
 void Brick::endContact(GameObject* g, b2Contact* c){
@@ -105,6 +105,7 @@ void Brick::onContactEnded(Ball* b, b2Contact* c){
 	}
 	else if(m_lives > 0){
 		changeTexture();
+		Audio::playSound(Audio::Sound::BRICK_HIT);
 		Game::getInstance()->addScore(random(0,5));
 	}
 }
