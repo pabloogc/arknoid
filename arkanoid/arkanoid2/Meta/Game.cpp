@@ -255,6 +255,7 @@ void Game::switchLevelState()
 
 	}
 	else {
+		Audio::playSound(Audio::Sound::LEVEL_WON);
 		level++;
 		delete curLevel;
 		curLevel = new Level();

@@ -41,7 +41,7 @@ void Level::loadLevel(int code){
 
 	case 0 :
 
-		num_bricks = 91;
+		num_bricks = 1;
 		
 		for (int i = 0; i < 13; i++)
 		{

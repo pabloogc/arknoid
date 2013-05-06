@@ -12,15 +12,16 @@ Mix_Music *Audio::curr_music;
 
 void Audio::init(){
 	SDL_Init(SDL_INIT_AUDIO);
-	Mix_OpenAudio(22050, AUDIO_U8, 1, 1024);
+	Mix_OpenAudio(22050, AUDIO_U8, 2, 1024);
 
 	//Cargar el resto de la musica
 	sounds[Sound::BRICK_BROKEN] = Mix_LoadWAV("explosion-02.wav");
+	sounds[Sound::LEVEL_WON] = Mix_LoadWAV("acierto.wav");
 	sounds[Sound::PAUSE] = Mix_LoadWAV("PAUSE.wav");//SOLO UN SEGUNDO DE SILENCIO
 	sounds[Sound::GAME_OVER] = Mix_LoadWAV("GAME_OVER.wav");
 	musics[Music::MAIN_MUSIC] = Mix_LoadMUS("MUSIC.wav");
 	sounds[Sound::GAME_WON] = Mix_LoadWAV("victoria.wav");
-	sounds[Sound::BRICK_HIT]= Mix_LoadWAV("GOLPEO.wav");
+	sounds[Sound::BRICK_HIT]= Mix_LoadWAV("g.wav");
 	sounds[Sound::WALL_HIT]= Mix_LoadWAV("GOLPEO.wav");
 	sounds[Sound::PADDLE_HIT]= Mix_LoadWAV("GOLPEO.wav");
 

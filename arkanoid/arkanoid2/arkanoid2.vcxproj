@@ -120,7 +120,9 @@
     <Image Include="muro.png" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="acierto.wav" />
     <Media Include="explosion-02.wav" />
+    <Media Include="g.wav" />
     <Media Include="GAME_OVER.wav" />
     <Media Include="GOLPEO.wav" />
     <Media Include="MUSIC.wav" />
