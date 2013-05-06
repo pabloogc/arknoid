@@ -3,6 +3,7 @@
 #include "Meta\Game.h"
 #include "Meta\Input.h"
 #include "Ball.h"
+#include "Meta\Audio.h"
 
 Paddle::Paddle(void):
 	w(5),
@@ -158,6 +159,7 @@ void Paddle::draw(){
 
 void Paddle::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
+	Audio::playSound(Audio::Sound::PADDLE_HIT);
 }
 
 void Paddle::endContact(GameObject* g, b2Contact* c){

@@ -15,16 +15,21 @@ void Audio::init(){
 	Mix_OpenAudio(22050, AUDIO_U8, 1, 1024);
 
 	//Cargar el resto de la musica
-	sounds[Sound::BRICK_BROKEN] = Mix_LoadWAV("ladrillo_roto.wav");
+	sounds[Sound::BRICK_BROKEN] = Mix_LoadWAV("explosion-02.wav");
 	sounds[Sound::PAUSE] = Mix_LoadWAV("PAUSE.wav");//SOLO UN SEGUNDO DE SILENCIO
 	sounds[Sound::GAME_OVER] = Mix_LoadWAV("GAME_OVER.wav");
 	musics[Music::MAIN_MUSIC] = Mix_LoadMUS("MUSIC.wav");
+	sounds[Sound::GAME_WON] = Mix_LoadWAV("victoria.wav");
+	sounds[Sound::BRICK_HIT]= Mix_LoadWAV("GOLPEO.wav");
+	sounds[Sound::WALL_HIT]= Mix_LoadWAV("GOLPEO.wav");
+	sounds[Sound::PADDLE_HIT]= Mix_LoadWAV("GOLPEO.wav");
+
 }
 
 void Audio::playSound(Sound s)
 {
 	curr_sound = sounds[s];
-	Mix_PlayChannel(-1, curr_sound, 1);
+	Mix_PlayChannel(-1, curr_sound, 0);
 }
 
 void Audio::playMusic(Music m)

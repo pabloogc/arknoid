@@ -14,7 +14,7 @@ public:
 
 	virtual void draw();
 	virtual void tick();
-	virtual void release(){explode();}
+	virtual void release();
 
 	virtual void startContact(GameObject*, b2Contact*);
 	virtual void endContact(GameObject*, b2Contact*);

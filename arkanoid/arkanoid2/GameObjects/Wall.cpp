@@ -96,6 +96,7 @@ void Wall::draw(){
 
 void Wall::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
+	if(m_side!=BOTTOM)Audio::playSound(Audio::Sound::BRICK_HIT);
 }
 
 void Wall::endContact(GameObject* g, b2Contact* c){

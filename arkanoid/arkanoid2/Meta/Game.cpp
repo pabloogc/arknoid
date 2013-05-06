@@ -13,7 +13,9 @@ Game::Game(void):
 	m_score(0),
 	m_lives(3),
 	level(0),
-	levelsCompleted(0)
+	levelsCompleted(0),
+	TimesSoundGameOver(1),
+	TimesSoundVictory(1)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
 	stateFunc[PLAYING] = &Game::playingState;
@@ -43,7 +45,7 @@ void Game::levelCompleted()
 
 	levelsCompleted++;
 	if(levelsCompleted<3)
-	changeState(SWITCHING_LEVELS);
+		changeState(SWITCHING_LEVELS);
 	else changeState(WIN);
 }
 
@@ -85,9 +87,13 @@ void Game::pausedState()
 	Render::drawString(3,20, "Juego Pausado");
 	curLevel->draw();
 	displayScore();
-	if(Input::isKeyDown('p'))
+	Audio::pause();
+
+	if(Input::isKeyDown('p')){
 		changeState(PLAYING);
-	
+		Audio::playMusic(Audio::Music::MAIN_MUSIC);
+	}
+
 }
 
 void Game::splashState()
@@ -130,12 +136,16 @@ void Game::displayScore()
 void Game::gameOverState()
 {
 	Audio::haltMusic();
-	Audio::playSound(Audio::Sound::GAME_OVER);
+
+	if(TimesSoundGameOver>0){
+		Audio::playSound(Audio::Sound::GAME_OVER);
+		TimesSoundGameOver--;
+	}
 
 	Render::drawString(3,20, "Has perdido :(");
 	Render::drawString(3,16, "Jugar (y/n)");
 	curLevel->draw();
-	
+
 
 	if(Input::isKeyDown('y')){
 		Audio::haltSound();
@@ -143,6 +153,8 @@ void Game::gameOverState()
 		m_score = 0;
 		level = 0;
 		m_lives = 3;
+		TimesSoundGameOver=1;
+		TimesSoundVictory=1;
 		delete curLevel;
 		curLevel = new Level();
 		curLevel->loadLevel(level);
@@ -159,6 +171,13 @@ void Game::gameOverState()
 
 void Game::gameWonState()
 {
+	Audio::haltMusic();
+
+	if(TimesSoundVictory>0){
+		Audio::playSound(Audio::Sound::GAME_WON);
+		TimesSoundVictory--;
+	}
+
 	Render::drawString(3,20, "Ganaste!");
 	Render::drawString(3,16, "Jugar (y/n)");
 	curLevel->draw();
@@ -169,6 +188,8 @@ void Game::gameWonState()
 		level = 0;
 		m_lives = 3;
 		levelsCompleted=0;
+		TimesSoundGameOver=1;
+		TimesSoundVictory=1;
 		delete curLevel;
 		curLevel = new Level();
 		curLevel->loadLevel(level);
@@ -187,7 +208,6 @@ void Game::switchLevelState()
 {
 	if(timer > 0) {
 		timer -= TIME_STEP;
-		Audio::playSound(Audio::Sound::GAME_OVER);
 		Render::drawString(3,16, "Siguiente nivel!");
 		curLevel->getPaddle()->tick();
 		curLevel->draw();

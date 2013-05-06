@@ -82,6 +82,8 @@ private:
 	
 	int m_score;
 	int m_lives;
+	int TimesSoundGameOver;
+	int TimesSoundVictory;
 };
 
 #endif

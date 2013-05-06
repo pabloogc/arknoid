@@ -87,16 +87,19 @@ void Brick::draw(){
 
 void Brick::startContact(GameObject* g, b2Contact* c){
 	g->onContactStarted(this, c);
+	Audio::playSound(Audio::Sound::BRICK_HIT);
 }
 
 void Brick::endContact(GameObject* g, b2Contact* c){
 	g->onContactEnded(this, c);
+	
 }
 
 void Brick::onContactEnded(Ball* b, b2Contact* c){
 	m_lives--;
 	if(m_lives == 0){
 		this->kill();
+		
 		Game::getInstance()->addScore(m_score);
 		Game::getInstance()->getCurrentLevel()->brickDestroyed();
 	}
@@ -115,7 +118,13 @@ float Brick::random(float min, float max){
 	return ((rand() % 1000) / 1000.0f) * dif + min;
 }
 
+void Brick::release(){
+explode();
+Audio::playSound(Audio::Sound::BRICK_BROKEN);
+}
+
 void Brick::explode(){
+
 	const int divx = (int)random(3,6), divy = (int)random(3,6);
 	const float dx =(w / (divx - 1));
 	const float dy =(h / (divy - 1));
