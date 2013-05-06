@@ -117,7 +117,6 @@
     <Image Include="barra.png" />
     <Image Include="bola.png" />
     <Image Include="fondo_general.png" />
-    <Image Include="ladrillo.png" />
     <Image Include="ladrillo1.png" />
     <Image Include="ladrillo2.png" />
     <Image Include="ladrillo3.png" />

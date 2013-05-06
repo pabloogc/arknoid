@@ -20,7 +20,6 @@ public:
 	static void drawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color);
 	static void drawPoint(const b2Vec2& p, float32 size, const b2Color& color);
 	static void drawString(float32 x, float32 y, const char* string);
-	static void drawAABB(b2AABB* aabb, const b2Color& color);
 };
 
 #define MAX_TEXTURES 50

@@ -29,7 +29,6 @@ void display (void)
 	int h = Input::getWindowHeight();
 
 	glViewport(0, 0, w, h);
-
 	glPushMatrix();
 	main_background.bind();
 	glBegin(GL_QUADS);
@@ -41,11 +40,9 @@ void display (void)
 	main_background.disable();
 
 	int x = min(w,h);
-	int y = max(w,h);
 	glViewport((w-x) / 2, 20, x, x);
 
 	Game::getInstance()->update();
-
 	glutSwapBuffers();
 }
 

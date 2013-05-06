@@ -33,7 +33,7 @@ Paddle::Paddle(void):
 		b2Vec2(-w/2 + 1, -h),
 		b2Vec2(w/2 - 1, -h),
 		b2Vec2(w/2, 0),
-		b2Vec2(0, 1.5*(h/2))
+		b2Vec2(0, 1.2*(h/2))
 	};
 
 	paddleShape.Set(vert, 5);

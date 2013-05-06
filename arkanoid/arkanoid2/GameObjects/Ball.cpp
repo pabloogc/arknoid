@@ -93,6 +93,7 @@ void Ball::onContactStarted(Wall* w, b2Contact* c){
 		m_body->SetLinearVelocity(b2Vec2(0, limit));
 		Game::getInstance()->getCurrentLevel()->getPaddle()->setSticky(true);
 		Game::getInstance()->addLives(-1);
+		Audio::playSound(Audio::Sound::LIVE_LOST);
 	}
 }
 
