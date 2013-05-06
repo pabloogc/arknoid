@@ -29,7 +29,8 @@ void Audio::init(){
 void Audio::playSound(Sound s)
 {
 	curr_sound = sounds[s];
-	Mix_PlayChannel(-1, curr_sound, 0);
+	Mix_PlayChannel(-1, curr_sound, 0);//Con un 1 en el ultimo parametro de esta funcion
+	//se repetian doblemente todos los sonidos
 }
 
 void Audio::playMusic(Music m)
