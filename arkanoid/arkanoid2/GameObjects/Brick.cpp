@@ -41,7 +41,7 @@ Brick::~Brick(void)
 }
 
 void Brick::changeTexture(){
-	std::string s = "ladrillo0";
+	std::string s = "ladrillo3";
 
 	if(m_lives == 1)
 		s = "ladrillo1";
@@ -125,7 +125,7 @@ Audio::playSound(Audio::Sound::BRICK_BROKEN);
 
 void Brick::explode(){
 
-	const int divx = (int)random(3,6), divy = (int)random(3,6);
+	const int divx = (int)random(3,5), divy = (int)random(3,5);
 	const float dx =(w / (divx - 1));
 	const float dy =(h / (divy - 1));
 	const float hdx = (dx / 2) - (dx / 2) * 0.55f;

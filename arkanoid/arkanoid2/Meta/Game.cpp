@@ -17,8 +17,8 @@ Game::Game(void):
 	TimesSoundGameOver(1),
 	TimesSoundVictory(1),
 	playingMusic(true),
-	pausedCount(60),
-	musicPausedCount(60)
+	pausedCount(0),
+	musicPausedCount(0)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
 	stateFunc[PLAYING] = &Game::playingState;
@@ -58,7 +58,8 @@ void Game::init(){
 	Audio::init();
 	Audio::playMusic(Audio::Music::MAIN_MUSIC);
 	m_game = new Game;
-	m_game->curLevel->loadLevel(0);
+	m_game->curLevel->loadLevel(2
+		);
 	t1 = t2 = clock();
 }
 
@@ -77,6 +78,7 @@ b2World* Game::getWorld(){
 }
 
 void Game::update(){
+	if(Input::isKeyDown(27)) exit(0);
 	(this->*stateFunc[m_state])();
 }
 
@@ -87,7 +89,7 @@ void Game::menuState()
 void Game::pausedState()
 {
 
-	Render::drawString(3,20, "Juego Pausado");
+	Render::drawString(3,13, "Juego Pausado");
 	curLevel->draw();
 	displayScore();
 	Audio::pause();
@@ -129,10 +131,9 @@ void Game::playingState()
 				playingMusic=true;
 			}
 
-			musicPausedCount=60;
+			musicPausedCount=30;
 		}
 	}
-
 
 	t2 = clock();
 	float diff = ((float)t2 - (float)t1) / 1000.0f;
@@ -152,18 +153,18 @@ void Game::playingState()
 void Game::displayScore()
 {
 	stringstream ss;
-	ss << "Pts-";
+	ss << "Puntos:";
 	ss << m_score;
 	Render::drawString(0,TILES_Y + 0.25f, ss.str().c_str());
 	ss.clear();
 	ss.str(std::string());
-	ss << "Vidas-";
+	ss << "Vidas:";
 	ss << m_lives > 0 ? m_lives : 0;
 	Render::drawString(TILES_X - 12 ,TILES_Y + 0.25f, ss.str().c_str());
 
 	ss.clear();
 	ss.str(std::string());
-	ss << "LVL-";
+	ss << "Nivel:";
 	ss << level+1;
 	Render::drawString(TILES_X - 21,TILES_Y + 0.25f, ss.str().c_str());
 

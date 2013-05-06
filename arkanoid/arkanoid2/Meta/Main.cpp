@@ -15,7 +15,7 @@ void init(void)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	main_background = Texture::getTexture("fondo_general");
-//	glutFullScreen();
+	glutFullScreen();
 }
 
 /* Función que se llamará cada vez que se dibuje en pantalla */
@@ -42,7 +42,8 @@ void display (void)
 	main_background.disable();
 
 	int x = min(w,h);
-	glViewport((w-x) / 2, 0, x, x);
+	int y = max(w,h);
+	glViewport((w-x) / 2, 20, x, x);
 		
 	Game::getInstance()->update();
 	

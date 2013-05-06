@@ -143,7 +143,7 @@ void Level::tick(){
 	else{
 		if(Input::isKeyDown('p')){
 			Game::getInstance()->changeState(PAUSED);
-			Game::getInstance()->pausedCount= 60;
+			Game::getInstance()->pausedCount= 30;
 		}
 	}
 

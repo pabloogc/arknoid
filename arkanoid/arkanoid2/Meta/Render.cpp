@@ -116,8 +116,8 @@ void Render::drawString(float32 x, float32 y, const char *string)
 	glColor3f(0.9, 0.9, 0.9);
 	glTranslatef(x,y,0);
 	glLineWidth(3);
-	float32 sx = ABSOLUTE_TILES_X / 2000.0f;
-	float32 sy = ABSOLUTE_TILES_Y / 2000.0f;
+	float32 sx = ABSOLUTE_TILES_X / 4500.0f;
+	float32 sy = ABSOLUTE_TILES_Y / 4500.0f;
 	glScalef(sx,sy,1);
 	glutStrokeString(GLUT_STROKE_MONO_ROMAN, (const unsigned char*)string);
 	glLineWidth(1);
