@@ -154,12 +154,19 @@ void Game::displayScore()
 	stringstream ss;
 	ss << "Pts-";
 	ss << m_score;
-	Render::drawString(1,TILES_Y + 0.25f, ss.str().c_str());
+	Render::drawString(0,TILES_Y + 0.25f, ss.str().c_str());
 	ss.clear();
 	ss.str(std::string());
 	ss << "Vidas-";
 	ss << m_lives > 0 ? m_lives : 0;
-	Render::drawString(TILES_X - 13 ,TILES_Y + 0.25f, ss.str().c_str());
+	Render::drawString(TILES_X - 12 ,TILES_Y + 0.25f, ss.str().c_str());
+
+	ss.clear();
+	ss.str(std::string());
+	ss << "LVL-";
+	ss << level+1;
+	Render::drawString(TILES_X - 21,TILES_Y + 0.25f, ss.str().c_str());
+
 }
 
 void Game::gameOverState()
@@ -171,8 +178,8 @@ void Game::gameOverState()
 		TimesSoundGameOver--;
 	}
 
-	Render::drawString(3,20, "Has perdido :(");
-	Render::drawString(3,16, "Jugar (y/n)");
+	Render::drawString(3,13, "Has perdido :(");
+	Render::drawString(3,9, "Jugar (y/n)");
 	curLevel->draw();
 
 
@@ -207,8 +214,8 @@ void Game::gameWonState()
 		TimesSoundVictory--;
 	}
 
-	Render::drawString(3,20, "Ganaste!");
-	Render::drawString(3,16, "Jugar (y/n)");
+	Render::drawString(3,13, "Ganaste!");
+	Render::drawString(3,9, "Jugar (y/n)");
 	curLevel->draw();
 	displayScore();
 
@@ -240,7 +247,7 @@ void Game::switchLevelState()
 {
 	if(timer > 0) {
 		timer -= TIME_STEP;
-		Render::drawString(3,16, "Siguiente nivel!");
+		Render::drawString(3,13, "Siguiente nivel!");
 		curLevel->getPaddle()->tick();
 		curLevel->draw();
 		displayScore();
