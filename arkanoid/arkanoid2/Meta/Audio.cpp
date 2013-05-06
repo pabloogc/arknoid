@@ -20,6 +20,7 @@ void Audio::init(){
 	sounds[Sound::GAME_OVER] = Mix_LoadWAV("GAME_OVER.wav");
 	musics[Music::MAIN_MUSIC] = Mix_LoadMUS("MUSIC.wav");
 	sounds[Sound::GAME_WON] = Mix_LoadWAV("victoria.wav");
+	sounds[Sound::LIVE_LOST] = Mix_LoadWAV("lose_life.wav");
 	sounds[Sound::BRICK_HIT]= Mix_LoadWAV("g.wav");
 	sounds[Sound::WALL_HIT]= Mix_LoadWAV("paredes.wav");
 	sounds[Sound::PADDLE_HIT]= Mix_LoadWAV("GOLPEO.wav");
