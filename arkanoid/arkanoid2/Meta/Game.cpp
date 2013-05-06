@@ -11,7 +11,7 @@ Game* Game::m_game = nullptr;
 Game::Game(void):
 	m_state(PLAYING),
 	m_score(0),
-	m_lives(3),
+	m_lives(1),
 	level(0)
 {
 	stateFunc[PAUSED] = &Game::pausedState;
@@ -116,12 +116,17 @@ void Game::displayScore()
 
 void Game::gameOverState()
 {
+	Audio::haltMusic();
+	Audio::playSound(Audio::Sound::GAME_OVER);
+
 	Render::drawString(3,20, "Has perdido :(");
 	Render::drawString(3,16, "Jugar (y/n)");
 	curLevel->draw();
 	
 
 	if(Input::isKeyDown('y')){
+		Audio::haltSound();
+		Audio::playMusic(Audio::Music::MAIN_MUSIC);
 		m_score = 0;
 		level = 0;
 		m_lives = 3;
@@ -147,6 +152,7 @@ void Game::switchLevelState()
 {
 	if(timer > 0) {
 		timer -= TIME_STEP;
+		Audio::playSound(Audio::Sound::GAME_OVER);
 		Render::drawString(3,16, "Siguiente nivel!");
 		curLevel->getPaddle()->tick();
 		curLevel->draw();

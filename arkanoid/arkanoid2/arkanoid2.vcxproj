@@ -120,8 +120,9 @@
     <Image Include="muro.png" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Game Over.wav" />
-    <Media Include="Musica.wav" />
+    <Media Include="GAME_OVER.wav" />
+    <Media Include="MUSIC.wav" />
+    <Media Include="PAUSE.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
